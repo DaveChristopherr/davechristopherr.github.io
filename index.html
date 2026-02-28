@@ -589,6 +589,31 @@ a:hover{
   transform:scale(1.15);
   opacity:0.8;
 }
+
+.profile-header{
+  position:relative;
+  padding:40px 20px 25px;
+  text-align:center;
+  background:#111111;
+  border-bottom:1px solid #1f1f1f;
+}
+
+/* MENU ICON */
+
+.menu-icon{
+  position:absolute;
+  top:20px;
+  right:20px;
+  font-size:26px;
+  cursor:pointer;
+  opacity:0.8;
+  transition:0.2s ease;
+}
+
+.menu-icon:hover{
+  transform:scale(1.2);
+  opacity:1; 
+}
   
   </style>
 </head>
@@ -596,26 +621,26 @@ a:hover{
 <body>
 
 <div class="profile-header">
+
+  <div class="menu-icon" onclick="toggleMenu()">≡</div>
+
   <img src="AlbertCamus.jpg" class="profile-img">
   <h1>Dave Christopher</h1>
 
-<div class="social-icons">
-  <a href="https://www.facebook.com/share/187bLPWYMW/" target="_blank">
-    <i class="fab fa-facebook"></i>
-  </a>
-
-  <a href="https://www.instagram.com/davechristopher_0" target="_blank">
-    <i class="fab fa-instagram"></i>
-  </a>
-
-  <a href="mailto:devxdave1@gmail.com?subject=Hello Dev">
-  <i class="fas fa-envelope"></i>
-</a>
-
- <a href="javascript:void(0);" onclick="toggleSpotify()">
-  <i class="fab fa-spotify"></i>
-</a>
-</div>
+  <div class="profile-social">
+    <a href="https://www.facebook.com/share/187bLPWYMW/" target="_blank">
+      <i class="fab fa-facebook-f"></i>
+    </a>
+    <a href="https://www.instagram.com/davechristopher_0" target="_blank">
+      <i class="fab fa-instagram"></i>
+    </a>
+    <a href="mailto:devxdave1@gmail.com">
+      <i class="fas fa-envelope"></i>
+    </a>
+    <a href="javascript:void(0);" onclick="toggleSpotify()">
+      <i class="fab fa-spotify"></i>
+    </a>
+  </div>
 
 </div>
 
