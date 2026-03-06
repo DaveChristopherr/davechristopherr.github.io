@@ -830,9 +830,10 @@ style="display:none;"
       <img id="bookCover" src="sisyphus.jpg" class="book-img" style="width: 65px; height: 90px; object-fit: cover; border-radius: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.5);">
       
       <div class="book-info" style="flex: 1; display: flex; flex-direction: column;">
-        <div id="bookTitle" class="book-title" style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">Loading...</div>
-        <div id="bookAuthor" class="book-author" style="font-size: 11px; opacity: 0.6; margin-bottom: 8px;">Author</div>
-        <div id="bookRating" class="book-rating" style="color: #ffb400; font-size: 12px;"></div>
+  <div id="bookCount" style="font-size: 9px; opacity: 0.5; margin-bottom: 2px; letter-spacing: 1px;"></div>
+  <div id="bookTitle" class="book-title" style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">Loading...</div>
+  <div id="bookAuthor" class="book-author" style="font-size: 11px; opacity: 0.6; margin-bottom: 8px;">Author</div>
+  <div id="bookRating" class="book-rating" style="color: #ffb400; font-size: 12px;"></div>
       </div>
       <div class="swap-hint" style="position: absolute; bottom: 8px; right: 12px; font-size: 10px; opacity: 0.3;"><i class="fas fa-arrows-alt-h"></i> Swipe</div>
     </div>
@@ -1081,7 +1082,7 @@ const myBooks = [
   {
     title: "The Stranger",
     author: "Albert Camus",
-    cover: "the_stranger.jpg,
+    cover: "the_stranger.jpg",
     rating: 4.9,
     stars: "4.9/5"
   },
