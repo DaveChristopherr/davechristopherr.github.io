@@ -21,10 +21,10 @@
   font-family:'Quicksand', sans-serif;
 }
 
-body{
-  background:#0a0a0a;
-  color:#ffffff;
-  min-height:100vh;
+body {
+  background: #000000; /* Pure Black */
+  color: #ffffff;
+  min-height: 100vh;
 }
 
 /* TOP BAR */
@@ -103,18 +103,31 @@ a:hover{
 }
 
 /* WATCHLIST */
-.watchlist .folder{
-  background:#0f0f0f;
-  border:1px solid #1f1f1f;
-  padding:12px 15px;
-  border-radius:12px;
-  margin-bottom:10px;
-  transition:0.3s ease;
+.watchlist .folder {
+  background: linear-gradient(145deg, #0f0f0f, #1a1a1a); /* Subtle gradient */
+  border: 1px solid #222;
+  padding: 16px 20px;
+  border-radius: 15px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  }
+
+.watchlist .folder::after {
+  content: '\f054'; /* FontAwesome arrow icon */
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  font-size: 12px;
+  opacity: 0.5;
 }
 
-.watchlist .folder:hover{
-  background:#1a1a1a;
-  transform:translateX(6px);
+.watchlist .folder:hover {
+  background: #1f1f1f;
+  transform: translateX(8px) scale(1.02);
+  border-color: #333;
 }
 
 /* MINIMAL DISCORD SPOTIFY */
@@ -549,11 +562,12 @@ a:hover{
   opacity: 0.7;
   }
 
-.profile-header{
-  padding:40px 20px 25px;
-  text-align:center;
-  background:#111111;
-  border-bottom:1px solid #1f1f1f;
+.profile-header {
+  position: relative;
+  padding: 40px 20px 25px;
+  text-align: center;
+  background: #000000; /* Pure Black */
+  border-bottom: 1px solid #1a1a1a; /* Manipis na line para hindi masyadong matingkad */
 }
 
 .profile-img{
