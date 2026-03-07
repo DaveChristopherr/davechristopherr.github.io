@@ -161,6 +161,57 @@ p { font-size: 15px; line-height: 1.7; opacity: 0.85; margin-bottom: 15px; }
 
 .hidden-bio { display: none; }
 
+/* SOCIAL MEDIA ICONS (NASA TAAS) */
+.social-row {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 18px; 
+}
+
+.social-row a {
+  color: #ffffff;
+  font-size: 22px; 
+  opacity: 0.7;
+  transition: 0.3s ease;
+  text-decoration: none;
+}
+
+.social-row a:hover {
+  opacity: 1;
+  transform: translateY(-4px) scale(1.1);
+}
+
+/* CONTACT ME BUTTON (NASA BABA) */
+.btn-contact {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: #ffffff;
+  color: #000000;
+  padding: 16px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-decoration: none;
+  transition: 0.3s ease;
+  margin-top: 25px; /* Nilagyan ng space mula sa Read More button */
+}
+
+.btn-contact:hover {
+  background: #e6e6e6;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+}
+
+.btn-contact i {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
 </style>
 </head>
 
@@ -189,6 +240,15 @@ p { font-size: 15px; line-height: 1.7; opacity: 0.85; margin-bottom: 15px; }
   <div class="header-section">
     <h1>DAVE CHRISTOPHER</h1>
     <div class="subtitle">Aspiring Developer • Philosophy Enthusiast</div>
+    
+    <div class="social-row">
+      <a href="https://www.facebook.com/share/187bLPWYMW/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://www.instagram.com/davechristopher_0" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="#" target="_blank"><i class="fab fa-spotify"></i></a>
+      <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+      <a href="#" target="_blank"><i class="fab fa-reddit-alien"></i></a>
+      <a href="#" target="_blank"><i class="fab fa-discord"></i></a>
+    </div>
   </div>
 
   <div class="tags-row">
@@ -234,8 +294,13 @@ p { font-size: 15px; line-height: 1.7; opacity: 0.85; margin-bottom: 15px; }
     </div>
     
     <button class="btn-toggle" id="toggleBtn" onclick="toggleBio()">Read More</button>
-  </div>
-</div>
+
+    <a href="mailto:philo.davechristopher@gmail.com" class="btn-contact">
+      <i class="fas fa-envelope"></i> Contact Me
+    </a>
+  </div> 
+</div> 
+
 
 <script>
 function toggleSideMenu() {
