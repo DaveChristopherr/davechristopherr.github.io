@@ -98,7 +98,7 @@ body {
 h1 { font-size: 28px; letter-spacing: 2px; font-weight: 600; text-transform: uppercase; }
 .subtitle { font-size: 13px; opacity: 0.5; letter-spacing: 3px; text-transform: uppercase; margin-top: 5px; }
 
-/* TAGS SECTION - Restored Original Tags */
+/* TAGS SECTION */
 .tags-row { 
   display: flex; 
   gap: 10px; 
@@ -161,7 +161,7 @@ p { font-size: 15px; line-height: 1.7; opacity: 0.85; margin-bottom: 15px; }
 
 .hidden-bio { display: none; }
 
-/* SOCIAL MEDIA ICONS (NASA TAAS) */
+/* SOCIAL MEDIA ICONS */
 .social-row {
   display: flex;
   justify-content: center;
@@ -182,7 +182,7 @@ p { font-size: 15px; line-height: 1.7; opacity: 0.85; margin-bottom: 15px; }
   transform: translateY(-4px) scale(1.1);
 }
 
-/* CONTACT ME BUTTON (NASA BABA) */
+/* CONTACT ME BUTTON */
 .btn-contact {
   display: flex;
   align-items: center;
@@ -198,7 +198,7 @@ p { font-size: 15px; line-height: 1.7; opacity: 0.85; margin-bottom: 15px; }
   letter-spacing: 2px;
   text-decoration: none;
   transition: 0.3s ease;
-  margin-top: 25px; /* Nilagyan ng space mula sa Read More button */
+  margin-top: 10px;
 }
 
 .btn-contact:hover {
@@ -291,9 +291,21 @@ p { font-size: 15px; line-height: 1.7; opacity: 0.85; margin-bottom: 15px; }
       <p>Despite everything, I am still here, still thinking, still searching for meaning, and still trying to improve myself.</p>
 
       <p>Nowadays, I have no one to connect with. I focus on philosophy, chess, and programming. I just let others who dislike me, bully me, or avoid me be. Gradually, I am starting to talk to people a little. Now, I study, do philosophy, and programming. That’s it. I did this because I feel exhausted from everything.</p>
-    </div> <button class="btn-toggle" id="toggleBtn" onclick="toggleBio()">Read More</button>
+    </div> 
+    <button class="btn-toggle" id="toggleBtn" onclick="toggleBio()">Read More</button>
+  </div> 
 
-  </div> <a href="mailto:philo.davechristopher@gmail.com" class="btn-contact">
+  <div class="card">
+    <span class="section-label">Why I Became An Atheist</span>
+    <p>My transition to atheism was rooted in a profound realization: despite my deepest efforts and prayers, the universe remained silent. It felt as though no matter what I did or how hard I tried, there was no divine intervention shaping the outcomes of my life.</p>
+    
+    <div id="atheistMore" class="hidden-bio">
+      <p style="margin-bottom: 0;">More importantly, I yearned for genuine personal freedom. I wanted to live authentically and make choices without being weighed down by the fear of a deity I no longer believed to be real. Stepping away from religion allowed me to break free from those invisible constraints, conquer that instilled fear, and take full ownership of my own existence and morality.</p>
+    </div>
+    <button class="btn-toggle" id="toggleAtheistBtn" onclick="toggleAtheist()" style="margin-top: 15px;">Read More</button>
+  </div>
+
+  <a href="mailto:philo.davechristopher@gmail.com" class="btn-contact">
     <i class="fas fa-envelope"></i> Contact Me
   </a>
 
@@ -323,7 +335,20 @@ function toggleBio() {
     btn.innerHTML = "Read More";
   }
 }
+
+// BAGONG FUNCTION PARA SA ATHEIST CARD
+function toggleAtheist() {
+  const bio = document.getElementById("atheistMore");
+  const btn = document.getElementById("toggleAtheistBtn");
+  if (bio.style.display === "none" || bio.style.display === "") {
+    bio.style.display = "block";
+    btn.innerHTML = "Show Less";
+  } else {
+    bio.style.display = "none";
+    btn.innerHTML = "Read More";
+  }
+}
 </script>
 
 </body>
-</html>
+  </html>
