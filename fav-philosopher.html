@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Albert Camus - Biography</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:'Quicksand', sans-serif;
+}
+
+body {
+  background: #000000;
+  color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+/* BACK BUTTON */
+.back-btn {
+  position: absolute;
+  top: 30px;
+  left: 25px;
+  font-size: 18px;
+  cursor: pointer;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  z-index: 10;
+}
+
+.back-btn:hover { color: #fff; }
+
+/* MAIN CONTENT */
+.content {
+  width: 100%;
+  max-width: 750px;
+  margin-top: 80px;
+  padding: 20px 20px 80px;
+}
+
+.wiki-header {
+  border-bottom: 1px solid #1f1f1f;
+  padding-bottom: 10px;
+  margin-bottom: 30px;
+}
+
+h1 { font-size: 32px; font-weight: 600; letter-spacing: 1px; }
+
+/* INFOBOX */
+.infobox {
+  background: rgba(17,17,17,0.8);
+  border: 1px solid #1f1f1f;
+  width: 100%;
+  max-width: 280px;
+  float: right;
+  margin-left: 25px;
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 12px;
+  font-size: 13px;
+}
+
+@media (max-width: 650px) {
+  .infobox { float: none; margin: 0 auto 30px; width: 100%; }
+}
+
+.infobox img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.infobox table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.infobox th {
+  text-align: left;
+  padding: 8px 0;
+  width: 40%;
+  opacity: 0.4;
+  font-weight: 400;
+  vertical-align: top;
+}
+
+.infobox td {
+  padding: 8px 0;
+  font-weight: 600;
+}
+
+/* SECTIONS */
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  border-bottom: 1px solid #1f1f1f;
+  padding-bottom: 5px;
+  margin: 35px 0 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+p {
+  font-size: 15px;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 20px;
+}
+
+b { color: #fff; }
+
+.quote-card {
+  border-left: 3px solid #fff;
+  padding: 15px 20px;
+  background: rgba(255,255,255,0.03);
+  font-style: italic;
+  margin: 20px 0;
+}
+
+.footer { text-align: center; font-size: 11px; opacity: 0.3; margin-top: 60px; letter-spacing: 2px; clear: both; }
+
+</style>
+</head>
+
+<body>
+
+<a href="favorites.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+
+<div class="content">
+  <div class="wiki-header">
+    <h1>Albert Camus</h1>
+  </div>
+
+  <aside class="infobox">
+    <img src="AlbertCamus.jpg" alt="Albert Camus">
+    <table>
+      <tr><th>Born</th><td>November 7, 1913</td></tr>
+      <tr><th>Died</th><td>January 4, 1960 (Age 46)</td></tr>
+      <tr><th>Nationality</th><td>French-Algerian</td></tr>
+      <tr><th>School</th><td>Absurdism</td></tr>
+      <tr><th>Notable Award</th><td>Nobel Prize (1957)</td></tr>
+      <tr><th>Famous Work</th><td>The Stranger, The Plague</td></tr>
+    </table>
+  </aside>
+
+  <p>
+    <b>Albert Camus</b> was a French-Algerian philosopher, author, and journalist. He was one of the most influential figures of the 20th century, best known for his development of the philosophy of <b>Absurdism</b>. In 1957, at the age of 44, he became the second-youngest recipient in history of the Nobel Prize in Literature.
+  </p>
+
+  <div class="section-title">Early Life</div>
+  <p>
+    Camus was born in French Algeria to a poor family. His father died during World War I, and he was raised by his mother in harsh economic conditions. Despite this, his intellectual brilliance led him to study philosophy at the University of Algiers. His background in poverty deeply influenced his views on the human condition and injustice.
+  </p>
+
+  <div class="section-title">Philosophy of the Absurd</div>
+  <p>
+    The core of Camus' work is the "Absurd"—the conflict between the human search for meaning and the "silent," meaningless universe. Unlike nihilists who believe life is not worth living, Camus argued that we should accept the absurd and continue to live defiantly.
+  </p>
+  
+  <div class="quote-card">
+    "The struggle itself toward the heights is enough to fill a man's heart. One must imagine Sisyphus happy."
+  </div>
+
+  <div class="section-title">Personal Connection</div>
+  <p>
+    I admire Camus because his philosophy doesn't offer easy answers; it offers a way to endure. His idea that we should find happiness and purpose despite the lack of inherent meaning in the world is something that resonates with my own worldview. He encourages us to rebel against the void by living as fully and authentically as possible.
+  </p>
+
+</body>
+</html>
