@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Favorite Colors - Palette</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap');
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:'Quicksand', sans-serif;
+}
+
+body {
+  background: #000000;
+  color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+/* BACK BUTTON */
+.back-btn {
+  position: absolute;
+  top: 30px;
+  left: 25px;
+  font-size: 18px;
+  cursor: pointer;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  z-index: 10;
+}
+
+/* MAIN CONTENT */
+.content {
+  width: 100%;
+  max-width: 700px;
+  margin-top: 80px;
+  padding: 20px 20px 80px;
+}
+
+.header {
+  margin-bottom: 40px;
+  text-align: left;
+}
+
+h1 { font-size: 28px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+.desc { font-size: 14px; opacity: 0.5; margin-top: 10px; }
+
+/* COLOR PALETTE DISPLAY */
+.palette-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.color-card {
+  height: 150px;
+  border-radius: 20px;
+  display: flex;
+  align-items: flex-end;
+  padding: 25px;
+  position: relative;
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: transform 0.3s ease;
+}
+
+.color-card:hover { transform: scale(1.02); }
+
+.color-info {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  padding: 10px 20px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+
+.color-name { font-weight: 600; font-size: 16px; letter-spacing: 1px; }
+.color-hex { font-family: 'Fira Code', monospace; font-size: 14px; color: #aaa; }
+
+/* SPECIFIC COLORS */
+.black-card { background-color: #000000; border: 1px solid #333; }
+.darkblue-card { background-color: #001f3f; }
+.midnight-card { background-color: #0a192f; }
+
+/* PHILOSOPHY SECTION */
+.section-title {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+  color: #aaa;
+}
+
+.meaning-box {
+  line-height: 1.8;
+  font-size: 15px;
+  color: rgba(255,255,255,0.8);
+  background: rgba(17,17,17,0.5);
+  padding: 25px;
+  border-radius: 20px;
+  border: 1px solid #1f1f1f;
+}
+
+b { color: #fff; }
+
+.footer { text-align: center; font-size: 11px; opacity: 0.3; margin-top: 60px; letter-spacing: 2px; }
+
+</style>
+</head>
+
+<body>
+
+<a href="favorites.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+
+<div class="content">
+  <div class="header">
+    <h1>Visual Identity</h1>
+    <p class="desc">The colors that define my aesthetic and mindset.</p>
+  </div>
+
+  <div class="palette-container">
+    <div class="color-card black-card">
+      <div class="color-info">
+        <span class="color-name">Pure Black</span>
+        <span class="color-hex">#000000</span>
+      </div>
+    </div>
+
+    <div class="color-card darkblue-card">
+      <div class="color-info">
+        <span class="color-name">Deep Navy</span>
+        <span class="color-hex">#001F3F</span>
+      </div>
+    </div>
+
+    <div class="color-card midnight-card">
+      <div class="color-info">
+        <span class="color-name">Midnight Blue</span>
+        <span class="color-hex">#0A192F</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">Why these colors?</div>
+  <div class="meaning-box">
+    <p>
+      My preference for <b>Black</b> and <b>Dark Blue</b> stems from my love for minimalism and the feeling of the "infinite." 
+      <br><br>
+      <b>Black</b> represents power, elegance, and the void—a blank canvas where everything begins. It is the core of my dark-themed setup and my personal style. 
+      <br><br>
+      <b>Dark Blue</b> or <b>Navy</b> represents the depth of the ocean and the night sky. It brings a sense of calm and focus, which is essential for someone like me who enjoys deep thinking, chess, and coding.
+    </p>
+  </div>
+
+</body>
+</html>
