@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spotify - Dave Christopher</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap');
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body {
+  /* Minimalist Black Background (No Green Gradient) */
+  background-color: #000000;
+  color: #ffffff;
+  font-family: 'Quicksand', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* MENU ICON */
+.menu-icon {
+  position: absolute;
+  top: 30px;
+  right: 25px;
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 1100;
+  color: #fff;
+  transition: 0.3s;
+}
+
+/* SIDE MENU */
+#sideMenu {
+  position: fixed;
+  top: 0;
+  right: -260px;
+  width: 260px;
+  height: 100%;
+  background: #0a0a0a;
+  border-left: 1px solid #1f1f1f;
+  z-index: 1200;
+  transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 60px 25px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  font-size: 15px;
+  color: rgba(255,255,255,0.7);
+  transition: 0.3s;
+  text-decoration: none;
+  margin-bottom: 8px;
+}
+
+.menu-item:hover, .menu-item.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+#menuOverlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  z-index: 1150;
+  backdrop-filter: blur(4px);
+}
+
+/* MAIN CONTENT */
+.content {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 100px 20px 80px;
+}
+
+/* PROFILE HEADER */
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 40px; /* Dinagdagan ang margin dahil wala nang buttons */
+}
+
+.profile-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #1f1f1f;
+}
+
+.profile-info h1 {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-bottom: 5px;
+}
+
+.profile-info p {
+  font-size: 12px;
+  color: #a7a7a7; /* Gray subtitle */
+  line-height: 1.5;
+}
+
+/* PLAYLISTS SECTION */
+h2.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.playlist-list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* GINAWANG ANCHOR TAG ANG PLAYLIST ITEMS PARA CLICKABLE */
+.playlist-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+  text-decoration: none; /* Tanggalin ang underline sa links */
+  color: inherit;
+  border-radius: 8px;
+}
+
+.playlist-item:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+.playlist-cover {
+  width: 65px;
+  height: 65px;
+  border-radius: 4px;
+  object-fit: cover;
+  background-color: #1a1a1a; /* Placeholder dark gray */
+}
+
+.playlist-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: calc(100% - 80px); /* Para hindi lumagpas ang text */
+}
+
+.playlist-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.playlist-saves {
+  font-size: 13px;
+  color: #a7a7a7;
+  font-weight: 400;
+}
+
+</style>
+</head>
+<body>
+
+<div class="menu-icon" onclick="toggleSideMenu()">
+  <i class="fas fa-bars"></i>
+</div>
+
+<div id="menuOverlay" onclick="toggleSideMenu()"></div>
+
+<div id="sideMenu">
+  <div onclick="toggleSideMenu()" style="position:absolute; top:20px; right:20px; font-size:22px; cursor:pointer; opacity:0.5;">
+    <i class="fas fa-times"></i>
+  </div>
+  <nav style="margin-top:20px;">
+    <a href="index.html" class="menu-item"><i class="fas fa-home"></i> Home</a>
+    <a href="aboutme.html" class="menu-item"><i class="fas fa-user"></i> About me</a>
+    <a href="gender.html" class="menu-item"><i class="fas fa-venus-mars"></i> Gender</a>
+    <a href="favorites.html" class="menu-item"><i class="fas fa-heart"></i> Favorites</a>
+    <a href="philosophy.html" class="menu-item"><i class="fas fa-brain"></i> Philosophy</a>
+    <a href="spotify.html" class="menu-item active"><i class="fab fa-spotify"></i> Spotify</a>
+  </nav>
+</div>
+
+<div class="content">
+
+  <div class="profile-header">
+    <img src="profile.jpg" alt="Dave Christopher" class="profile-img">
+    <div class="profile-info">
+      <h1>Dave Christopher</h1>
+      <p>Clicking a playlist will redirect you to Spotify.</p>
+    </div>
+  </div>
+
+  <h2 class="section-title">Playlists</h2>
+  
+  <div class="playlist-list">
+    
+    <a href="LINK_MO_DITO" target="_blank" class="playlist-item">
+      <img src="cover-1.jpg" class="playlist-cover" alt="Playlist Cover">
+      <div class="playlist-details">
+        <span class="playlist-title">Heart that yearns to provide the purest form ...</span>
+        <span class="playlist-saves">1 save</span>
+      </div>
+    </a>
+
+    <a href="LINK_MO_DITO" target="_blank" class="playlist-item">
+      <img src="cover-2.jpg" class="playlist-cover" alt="Playlist Cover">
+      <div class="playlist-details">
+        <span class="playlist-title">I was good. I was really good.</span>
+        <span class="playlist-saves">1 save</span>
+      </div>
+    </a>
+
+    <a href="LINK_MO_DITO" target="_blank" class="playlist-item">
+      <img src="cover-3.jpg" class="playlist-cover" alt="Playlist Cover">
+      <div class="playlist-details">
+        <span class="playlist-title">when u love him sm but u feel like letting him ...</span>
+        <span class="playlist-saves">1 save</span>
+      </div>
+    </a>
+
+    <a href="LINK_MO_DITO" target="_blank" class="playlist-item">
+      <img src="cover-4.jpg" class="playlist-cover" alt="Playlist Cover">
+      <div class="playlist-details">
+        <span class="playlist-title">Smaller artist you need to listen to</span>
+        <span class="playlist-saves">1 save</span>
+      </div>
+    </a>
+
+    <a href="LINK_MO_DITO" target="_blank" class="playlist-item">
+      <img src="cover-5.jpg" class="playlist-cover" alt="Playlist Cover">
+      <div class="playlist-details">
+        <span class="playlist-title">You're all I think about when I'm listening to t...</span>
+        <span class="playlist-saves">1 save</span>
+      </div>
+    </a>
+
+    <a href="LINK_MO_DITO" target="_blank" class="playlist-item">
+      <img src="cover-6.jpg" class="playlist-cover" alt="Playlist Cover">
+      <div class="playlist-details">
+        <span class="playlist-title">I like to think of your silence as the love letter...</span>
+        <span class="playlist-saves">1 save</span>
+      </div>
+    </a>
+
+    <a href="LINK_MO_DITO" target="_blank" class="playlist-item">
+      <img src="cover-7.jpg" class="playlist-cover" alt="Playlist Cover">
+      <div class="playlist-details">
+        <span class="playlist-title">Lyrics that made me wanna suffocate for years</span>
+        <span class="playlist-saves">1 save</span>
+      </div>
+    </a>
+
+    <a href="LINK_MO_DITO" target="_blank" class="playlist-item">
+      <img src="cover-8.jpg" class="playlist-cover" alt="Playlist Cover">
+      <div class="playlist-details">
+        <span class="playlist-title">My only personality trait</span>
+        <span class="playlist-saves">1 save</span>
+      </div>
+    </a>
+
+    <a href="LINK_MO_DITO" target="_blank" class="playlist-item">
+      <img src="cover-9.jpg" class="playlist-cover" alt="Playlist Cover">
+      <div class="playlist-details">
+        <span class="playlist-title">Whimsical ladybug crawling across your palm</span>
+        <span class="playlist-saves">1 save</span>
+      </div>
+    </a>
+
+    <a href="LINK_MO_DITO" target="_blank" class="playlist-item">
+      <img src="cover-10.jpg" class="playlist-cover" alt="Playlist Cover">
+      <div class="playlist-details">
+        <span class="playlist-title">Songs laced with cracks</span>
+        <span class="playlist-saves">1 save</span>
+      </div>
+    </a>
+
+    <a href="LINK_MO_DITO" target="_blank" class="playlist-item">
+      <img src="cover-11.jpg" class="playlist-cover" alt="Playlist Cover">
+      <div class="playlist-details">
+        <span class="playlist-title">Dave</span>
+        <span class="playlist-saves">7 saves</span>
+      </div>
+    </a>
+
+  </div>
+
+</div>
+
+<script>
+function toggleSideMenu() {
+  const menu = document.getElementById("sideMenu");
+  const overlay = document.getElementById("menuOverlay");
+  if (menu.style.right === "0px") {
+    menu.style.right = "-260px";
+    overlay.style.display = "none";
+  } else {
+    menu.style.right = "0px";
+    overlay.style.display = "block";
+  }
+}
+</script>
+
+</body>
+</html>
