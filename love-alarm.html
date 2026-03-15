@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Love Alarm - App by devxdave</title>
+    <style>
+        /* Base Reset & App Full Screen */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            height: 100vh;
+            width: 100vw;
+            background: linear-gradient(to bottom, #00d2ff 0%, #d900ff 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        /* --- SPLASH SCREEN --- */
+        #splash-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(to bottom, #00d2ff 0%, #d900ff 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+        }
+        .splash-logo {
+            width: 100px;
+            height: 100px;
+            fill: white; 
+            animation: heart-beat 1.5s infinite;
+        }
+        .splash-text {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+            letter-spacing: 2px;
+        }
+
+        @keyframes heart-beat {
+            0% { transform: scale(1); }
+            15% { transform: scale(1.15); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.15); }
+            60% { transform: scale(1); }
+        }
+
+        /* --- TOP MENU ICON --- */
+        .menu-btn {
+            position: absolute;
+            top: 30px;
+            left: 20px;
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 50;
+            transition: background 0.3s;
+        }
+        .menu-btn:active { background: rgba(255, 255, 255, 0.4); }
+        .menu-btn svg { width: 24px; height: 24px; fill: white; }
+
+        /* --- ABOUT MODAL --- */
+        #about-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        #about-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .about-box {
+            background: white;
+            color: #333;
+            width: 85%;
+            max-width: 350px;
+            border-radius: 24px;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+        #about-modal.show .about-box { transform: translateY(0); }
+        
+        .about-box h2 { color: #ff0055; margin-bottom: 15px; font-size: 22px; }
+        .about-box p { font-size: 14px; line-height: 1.6; margin-bottom: 15px; color: #555; }
+        
+        /* Highlighted Disclaimer Box */
+        .disclaimer-box {
+            background: #fff0f5;
+            border-left: 4px solid #ff0055;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            color: #d80048;
+            text-align: left;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .close-btn {
+            background: #ff0055;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+        
+        .developer-credit {
+            margin-top: 20px;
+            font-size: 13px;
+            color: #aaa;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        /* --- MAIN APP UI --- */
+        .status-text {
+            margin-top: 100px;
+            font-size: 24px;
+            font-weight: 500;
+            text-align: center;
+            width: 85%;
+            min-height: 60px;
+            line-height: 1.3;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: opacity 0.3s ease;
+        }
+
+        /* --- RADAR & HEART --- */
+        .radar-area {
+            margin-top: 50px;
+            position: relative;
+            width: 250px;
+            height: 250px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .sonar-wave {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            opacity: 0;
+        }
+
+        .ring-state-0 {
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            border-radius: 50%;
+            border: 22px solid rgba(255, 255, 255, 0.4);
+            transition: all 0.5s ease;
+        }
+
+        .ring-state-1 {
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            border-radius: 50%;
+            border: 3px solid #ff0055;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.4);
+        }
+        .ring-state-1::after {
+            content: '';
+            position: absolute;
+            top: -12px; left: -12px; right: -12px; bottom: -12px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 0, 85, 0.3);
+        }
+
+        .heart-svg {
+            width: 90px;
+            height: 90px;
+            position: absolute;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10;
+        }
+        .heart-outline { fill: none; stroke: white; stroke-width: 2.5; opacity: 1; }
+        .heart-filled { fill: #ff0055; opacity: 0; transform: scale(0.5); }
+
+        .number-display {
+            margin-top: 60px;
+            font-size: 85px;
+            font-weight: 300;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: opacity 0.3s;
+        }
+
+        /* --- ANIMATION CLASSES --- */
+        .scanning .sonar-wave:nth-child(1) { animation: sonar 1.5s infinite linear; }
+        .scanning .sonar-wave:nth-child(2) { animation: sonar 1.5s infinite linear 0.75s; }
+        
+        @keyframes sonar {
+            0% { transform: scale(0.5); opacity: 1; border-width: 4px; }
+            100% { transform: scale(1.5); opacity: 0; border-width: 1px; }
+        }
+
+        .active-state .ring-state-0 { opacity: 0; transform: scale(1.2); }
+        .active-state .ring-state-1 { opacity: 1; transform: scale(1); }
+        .active-state .heart-outline { opacity: 0; transform: scale(1.3); }
+        .active-state .heart-filled { opacity: 1; transform: scale(1); }
+    </style>
+</head>
+<body>
+
+    <div id="splash-screen">
+        <svg class="splash-logo" viewBox="0 0 24 24">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+        <div class="splash-text">LOVE ALARM</div>
+    </div>
+
+    <div id="about-modal">
+        <div class="about-box">
+            <h2>About Love Alarm</h2>
+            <p><strong>How to Use:</strong> Tap the large heart in the center to turn on the radar. It will scan to see if someone loves you within a 10-meter radius.</p>
+            
+            <div class="disclaimer-box">
+                <strong>Disclaimer:</strong> This app is just an example simulation and not a fully functional radar. The heart numbers generated are completely random and are meant purely for fun and entertainment!
+            </div>
+
+            <button class="close-btn" onclick="toggleAbout()">Close</button>
+            <div class="developer-credit">developer devxdave</div>
+        </div>
+    </div>
+
+    <div class="menu-btn" onclick="toggleAbout()">
+        <svg viewBox="0 0 24 24">
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+    </div>
+
+    <div class="status-text" id="statusText">Tap the heart to turn on Love Alarm</div>
+
+    <div class="radar-area" id="radar">
+        <div class="sonar-wave"></div>
+        <div class="sonar-wave"></div>
+        
+        <div class="ring-state-0"></div>
+        <div class="ring-state-1"></div>
+        
+        <svg class="heart-svg heart-outline" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        <svg class="heart-svg heart-filled" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    </div>
+
+    <div class="number-display" id="count">0</div>
+
+    <script>
+        // --- SPLASH SCREEN LOGIC ---
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                splash.style.visibility = 'hidden';
+            }, 2000); 
+        });
+
+        // --- ABOUT MODAL LOGIC ---
+        const aboutModal = document.getElementById('about-modal');
+        function toggleAbout() {
+            aboutModal.classList.toggle('show');
+        }
+
+        // --- CORE APP LOGIC ---
+        const radar = document.getElementById('radar');
+        const statusText = document.getElementById('statusText');
+        const countDisplay = document.getElementById('count');
+        let isScanning = false;
+
+        radar.addEventListener('click', () => {
+            if (isScanning) return;
+            isScanning = true;
+
+            radar.classList.remove('active-state');
+            radar.classList.add('scanning');
+            
+            statusText.style.opacity = '0';
+            countDisplay.style.opacity = '0';
+
+            setTimeout(() => {
+                statusText.innerText = 'Syncing radar...';
+                statusText.style.opacity = '1';
+                countDisplay.innerText = '-';
+                countDisplay.style.opacity = '0.5';
+            }, 300);
+
+            setTimeout(() => {
+                radar.classList.remove('scanning');
+                
+                const isFound = Math.random() > 0.4; 
+                const randomCount = isFound ? Math.floor(Math.random() * 15) + 1 : 0;
+                
+                statusText.style.opacity = '0';
+                countDisplay.style.opacity = '0';
+
+                setTimeout(() => {
+                    countDisplay.innerText = randomCount;
+                    countDisplay.style.opacity = '1';
+
+                    if (randomCount === 0) {
+                        statusText.innerText = 'No One within a 10m radius loves you';
+                    } else {
+                        radar.classList.add('active-state');
+                        statusText.innerText = 'Someone within a 10m radius loves you';
+                        
+                        if (navigator.vibrate) {
+                            navigator.vibrate([200, 100, 200]);
+                        }
+                    }
+                    statusText.style.opacity = '1';
+                    isScanning = false;
+                }, 300);
+
+            }, 2500);
+        });
+    </script>
+</body>
+</html>
