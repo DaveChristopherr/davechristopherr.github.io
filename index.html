@@ -168,14 +168,14 @@ a:hover{
 
 /* MENU ICON */
 .menu-icon {
-  position: absolute;
+  position: fixed; 
   top: 20px;    
   right: 25px;  
   font-size: 22px; 
   cursor: pointer;
   opacity: 0.8;
   transition: 0.2s ease;
-  z-index: 10;  
+  z-index: 90;  
 }
 
 .menu-icon:hover {
@@ -433,10 +433,10 @@ a:hover{
   </div>
 
   <div style="flex: 1;">
-    <h2>Quote</h2>
+    <h2>The Absurd</h2>
     <div class="quote-card">
       <p id="dailyQuote">"The only way to deal with an unfree world is to become so absolutely free."</p>
-      <span class="quote-author">— Albert Camus</span>
+      <span id="quoteAuthor" class="quote-author">— Albert Camus</span>
     </div>
   </div>
 
@@ -605,24 +605,62 @@ const bookCard = document.getElementById('bookCard');
 bookCard.addEventListener('touchstart', e => { touchstartX = e.changedTouches[0].screenX; });
 bookCard.addEventListener('touchend', e => { touchendX = e.changedTouches[0].screenX; handleGesture(); });
 
-/* ===== ALBERT CAMUS QUOTES SCRIPT (10 Quotes) ===== */
-const camusQuotes = [
-  "In the midst of winter, I found there was, within me, an invincible summer.",
-  "The only way to deal with an unfree world is to become so absolutely free that your very existence is an act of rebellion.",
-  "Man is the only creature who refuses to be what he is.",
-  "To be happy, we must not be too concerned with others.",
-  "Autumn is a second spring when every leaf is a flower.",
-  "Real nobility is based on scorn, courage, and profound indifference.",
-  "You will never be happy if you continue to search for what happiness consists of.",
-  "Nobody realizes that some people expend tremendous energy merely to be normal.",
-  "Fiction is the lie through which we tell the truth.",
-  "Always go too far, because that's where you'll find the truth."
+/* ===== PHILOSOPHY QUOTES SCRIPT ===== */
+const philosophyQuotes = [
+  // Albert Camus
+  { text: "The only way to deal with an unfree world is to become so absolutely free that your very existence is an act of rebellion.", author: "Albert Camus" },
+  { text: "In the midst of winter, I found there was, within me, an invincible summer.", author: "Albert Camus" },
+  { text: "Man is the only creature who refuses to be what he is.", author: "Albert Camus" },
+  { text: "There is but one truly serious philosophical problem, and that is suicide.", author: "Albert Camus" },
+  { text: "I rebel; therefore I exist.", author: "Albert Camus" },
+  { text: "You will never live if you are looking for the meaning of life.", author: "Albert Camus" },
+  { text: "To be happy, we must not be too concerned with others.", author: "Albert Camus" },
+  { text: "The absurd is the essential concept and the first truth.", author: "Albert Camus" },
+  { text: "Nobody realizes that some people expend tremendous energy merely to be normal.", author: "Albert Camus" },
+  
+  // Friedrich Nietzsche
+  { text: "God is dead. God remains dead. And we have killed him.", author: "Friedrich Nietzsche" },
+  { text: "He who has a why to live for can bear almost any how.", author: "Friedrich Nietzsche" },
+  { text: "To live is to suffer, to survive is to find some meaning in the suffering.", author: "Friedrich Nietzsche" },
+  { text: "Sometimes people don't want to hear the truth because they don't want their illusions destroyed.", author: "Friedrich Nietzsche" },
+  { text: "There are no facts, only interpretations.", author: "Friedrich Nietzsche" },
+  { text: "Hope in reality is the worst of all evils because it prolongs the torments of man.", author: "Friedrich Nietzsche" },
+  
+  // Jean-Paul Sartre
+  { text: "Man is condemned to be free; because once thrown into the world, he is responsible for everything he does.", author: "Jean-Paul Sartre" },
+  { text: "Hell is other people.", author: "Jean-Paul Sartre" },
+  { text: "Life has no meaning a priori... It is up to you to give it a meaning.", author: "Jean-Paul Sartre" },
+  { text: "Freedom is what you do with what's been done to you.", author: "Jean-Paul Sartre" },
+  
+  // Arthur Schopenhauer
+  { text: "Man can do what he wills but he cannot will what he wills.", author: "Arthur Schopenhauer" },
+  { text: "Life is a constant process of dying.", author: "Arthur Schopenhauer" },
+  { text: "Every man takes the limits of his own field of vision for the limits of the world.", author: "Arthur Schopenhauer" },
+  
+  // Emil Cioran
+  { text: "It is not worth the bother of killing yourself, since you always kill yourself too late.", author: "Emil Cioran" },
+  { text: "A book should open old wounds, even inflict new ones. A book should be a danger.", author: "Emil Cioran" },
+  
+  // Søren Kierkegaard
+  { text: "Anxiety is the dizziness of freedom.", author: "Søren Kierkegaard" },
+  { text: "Life can only be understood backwards; but it must be lived forwards.", author: "Søren Kierkegaard" },
+  
+  // Franz Kafka
+  { text: "I am free and that is why I am lost.", author: "Franz Kafka" },
+  { text: "Meaninglessness is the actual reality of our lives.", author: "Franz Kafka" },
+  
+  // Epicurus
+  { text: "Is God willing to prevent evil, but not able? Then he is not omnipotent...", author: "Epicurus" },
+  { text: "Death does not concern us, because as long as we exist, death is not here. And when it does come, we no longer exist.", author: "Epicurus" }
 ];
 
 document.addEventListener("DOMContentLoaded", () => {
-  updateBookDisplay(0);
-  const randomQuote = camusQuotes[Math.floor(Math.random() * camusQuotes.length)];
-  document.getElementById("dailyQuote").textContent = `"${randomQuote}"`;
+  updateBookDisplay(0); 
+  
+  // Random Quote Generator
+  const randomQuote = philosophyQuotes[Math.floor(Math.random() * philosophyQuotes.length)];
+  document.getElementById("dailyQuote").textContent = `"${randomQuote.text}"`;
+  document.getElementById("quoteAuthor").textContent = `— ${randomQuote.author}`;
 });
 </script>
   
