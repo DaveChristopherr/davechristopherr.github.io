@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
   
 *{
   box-sizing:border-box;
@@ -146,19 +146,73 @@ a:hover{
 /* HEADER INFO */
 .profile-header {
   position: relative;
-  padding: 40px 20px 25px;
+  padding: 80px 20px 25px; /* Dinagdagan yung top padding para may space yung bubble */
   text-align: center;
   background: #000000;
   border-bottom: 1px solid #1a1a1a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.profile-img{
-  width:110px;
-  height:110px;
-  border-radius:50%;
-  border:3px solid #1f1f1f;
-  object-fit:cover;
-  margin-bottom:12px;
+/* PROFILE & BUBBLE WRAPPER */
+.profile-pic-container {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.profile-img {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  border: 3px solid #1f1f1f;
+  object-fit: cover;
+  display: block; 
+}
+
+/* MESSENGER NOTE BUBBLE */
+.status-bubble {
+  position: absolute;
+  top: -45px; /* Inangat sa taas ng picture */
+  left: 50%;
+  transform: translateX(-50%); /* Para gitnang-gitna sa ibabaw */
+  background: #242526; /* Darker tone tulad ng sa dark mode ng FB/IG */
+  padding: 10px 18px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #e4e6eb;
+  white-space: nowrap;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+  z-index: 5;
+}
+
+/* Medium dot */
+.status-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 30px; 
+  width: 10px;
+  height: 10px;
+  background: #242526;
+  border-radius: 50%;
+  border: 2px solid #000000; /* Para may gap effect na parang sa Messenger */
+}
+
+/* Small dot */
+.status-bubble::before {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: 20px; 
+  width: 6px;
+  height: 6px;
+  background: #242526;
+  border-radius: 50%;
+  border: 2px solid #000000;
+  z-index: 6;
 }
 
 .profile-header h1{
@@ -379,7 +433,13 @@ a:hover{
     <i class="fas fa-bars"></i>
   </div>
 
-  <img src="AlbertCamus.jpg" class="profile-img" alt="Profile">
+  <div class="profile-pic-container">
+    <div class="status-bubble">
+      I want to try everything.
+    </div>
+    <img src="AlbertCamus.jpg" class="profile-img" alt="Profile">
+  </div>
+  
   <h1>Dave Christopher</h1>
 </div>
 
@@ -607,7 +667,6 @@ bookCard.addEventListener('touchend', e => { touchendX = e.changedTouches[0].scr
 
 /* ===== PHILOSOPHY QUOTES SCRIPT ===== */
 const philosophyQuotes = [
-  // Albert Camus
   { text: "The only way to deal with an unfree world is to become so absolutely free that your very existence is an act of rebellion.", author: "Albert Camus" },
   { text: "In the midst of winter, I found there was, within me, an invincible summer.", author: "Albert Camus" },
   { text: "Man is the only creature who refuses to be what he is.", author: "Albert Camus" },
@@ -617,39 +676,25 @@ const philosophyQuotes = [
   { text: "To be happy, we must not be too concerned with others.", author: "Albert Camus" },
   { text: "The absurd is the essential concept and the first truth.", author: "Albert Camus" },
   { text: "Nobody realizes that some people expend tremendous energy merely to be normal.", author: "Albert Camus" },
-  
-  // Friedrich Nietzsche
   { text: "God is dead. God remains dead. And we have killed him.", author: "Friedrich Nietzsche" },
   { text: "He who has a why to live for can bear almost any how.", author: "Friedrich Nietzsche" },
   { text: "To live is to suffer, to survive is to find some meaning in the suffering.", author: "Friedrich Nietzsche" },
   { text: "Sometimes people don't want to hear the truth because they don't want their illusions destroyed.", author: "Friedrich Nietzsche" },
   { text: "There are no facts, only interpretations.", author: "Friedrich Nietzsche" },
   { text: "Hope in reality is the worst of all evils because it prolongs the torments of man.", author: "Friedrich Nietzsche" },
-  
-  // Jean-Paul Sartre
   { text: "Man is condemned to be free; because once thrown into the world, he is responsible for everything he does.", author: "Jean-Paul Sartre" },
   { text: "Hell is other people.", author: "Jean-Paul Sartre" },
   { text: "Life has no meaning a priori... It is up to you to give it a meaning.", author: "Jean-Paul Sartre" },
   { text: "Freedom is what you do with what's been done to you.", author: "Jean-Paul Sartre" },
-  
-  // Arthur Schopenhauer
   { text: "Man can do what he wills but he cannot will what he wills.", author: "Arthur Schopenhauer" },
   { text: "Life is a constant process of dying.", author: "Arthur Schopenhauer" },
   { text: "Every man takes the limits of his own field of vision for the limits of the world.", author: "Arthur Schopenhauer" },
-  
-  // Emil Cioran
   { text: "It is not worth the bother of killing yourself, since you always kill yourself too late.", author: "Emil Cioran" },
   { text: "A book should open old wounds, even inflict new ones. A book should be a danger.", author: "Emil Cioran" },
-  
-  // Søren Kierkegaard
   { text: "Anxiety is the dizziness of freedom.", author: "Søren Kierkegaard" },
   { text: "Life can only be understood backwards; but it must be lived forwards.", author: "Søren Kierkegaard" },
-  
-  // Franz Kafka
   { text: "I am free and that is why I am lost.", author: "Franz Kafka" },
   { text: "Meaninglessness is the actual reality of our lives.", author: "Franz Kafka" },
-  
-  // Epicurus
   { text: "Is God willing to prevent evil, but not able? Then he is not omnipotent...", author: "Epicurus" },
   { text: "Death does not concern us, because as long as we exist, death is not here. And when it does come, we no longer exist.", author: "Epicurus" }
 ];
