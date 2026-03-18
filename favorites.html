@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Favorites - devxdave</title>
+<title>Favorites - Dave Christopher</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
 
 *{
   box-sizing:border-box;
@@ -27,14 +27,22 @@ body {
   overflow-x: hidden;
 }
 
-/* MENU ICON */
+/* FIXED MENU ICON - MINIMALIST */
 .menu-icon {
-  position: absolute;
+  position: fixed;
   top: 30px;
-  right: 25px;
+  right: 30px;
   font-size: 22px;
   cursor: pointer;
   z-index: 101;
+  color: #ffffff;
+  opacity: 0.7;
+  transition: 0.3s ease;
+}
+
+.menu-icon:hover {
+  opacity: 1;
+  transform: scale(1.1);
 }
 
 /* SIDE MENU */
@@ -49,6 +57,7 @@ body {
   z-index: 110;
   transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   padding: 60px 25px;
+  box-shadow: -10px 0 30px rgba(0,0,0,0.8);
 }
 
 .menu-item {
@@ -58,6 +67,7 @@ body {
   padding: 14px 18px;
   border-radius: 12px;
   font-size: 15px;
+  font-weight: 500;
   color: rgba(255,255,255,0.7);
   transition: 0.3s;
   text-decoration: none;
@@ -67,6 +77,7 @@ body {
 .menu-item:hover, .menu-item.active {
   background: rgba(255,255,255,0.1);
   color: #fff;
+  border: 1px solid rgba(255,255,255,0.05);
 }
 
 #menuOverlay {
@@ -78,14 +89,14 @@ body {
   height: 100%;
   background: rgba(0,0,0,0.7);
   z-index: 105;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(5px);
 }
 
 /* MAIN CONTENT */
 .content {
   width: 100%;
   max-width: 600px;
-  margin-top: 80px;
+  margin-top: 60px;
   padding: 20px 20px 80px;
 }
 
@@ -94,94 +105,79 @@ body {
   margin-bottom: 40px;
 }
 
-h1 { font-size: 28px; letter-spacing: 2px; font-weight: 600; text-transform: uppercase; }
-.subtitle { font-size: 13px; opacity: 0.5; letter-spacing: 3px; text-transform: uppercase; margin-top: 5px; }
+h1 { 
+  font-size: 24px; 
+  letter-spacing: 4px; 
+  font-weight: 700; 
+  text-transform: uppercase; 
+  margin-bottom: 8px; 
+}
+
+.subtitle { 
+  font-size: 10px; 
+  opacity: 0.5; 
+  letter-spacing: 3px; 
+  text-transform: uppercase; 
+  font-weight: 600; 
+}
 
 /* INTERACTION TIP */
 .interaction-tip {
-  font-size: 11px;
-  opacity: 0.5;
-  margin-top: 15px;
+  font-size: 10px;
+  opacity: 0.4;
+  margin-top: 20px;
   color: #ffffff;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-}
-
-/* PROFESSIONAL & MINIMALIST ULTIMATE FAVORITE */
-.ultimate-fav {
-  background: rgba(255, 255, 255, 0.03) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  box-shadow: none !important;
-  position: relative;
-  overflow: hidden;
-  margin-bottom: 25px;
-  transition: all 0.4s ease;
-}
-
-.ultimate-fav::after {
-  display: none; /* Tinanggal na ang ribbon */
-}
-
-.ultimate-fav:hover {
-  background: rgba(255, 255, 255, 0.07) !important;
-  border-color: rgba(255, 255, 255, 0.3) !important;
-  transform: translateY(-2px);
-}
-
-.ultimate-fav .fav-value { 
-  color: #ffffff !important; 
-  font-size: 17px !important; 
-  letter-spacing: 0.5px;
-}
-
-.ultimate-fav .fav-icon {
-  color: #000000 !important; /* Black heart */
-  opacity: 0.9 !important;
-  text-shadow: 0 0 3px rgba(255, 255, 255, 0.3); /* Manipis na white glow para makita sa dark background */
+  text-transform: uppercase;
 }
 
 /* CATEGORY TITLE */
 .cat-title {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 2px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
   text-transform: uppercase;
   margin: 35px 0 15px 5px;
   color: #ffffff;
   opacity: 0.4;
-  border-left: 2px solid #ffffff;
-  padding-left: 10px;
+}
+
+/* SPECIAL PINNED TITLE */
+.pinned-title {
+  opacity: 0.7;
+  color: #ffffff;
 }
 
 /* FAV CARD STYLING */
 .fav-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .fav-item {
-  background: rgba(17,17,17,0.6);
-  border: 1px solid #1f1f1f;
-  border-radius: 15px;
-  padding: 15px 20px;
+  background: rgba(10, 10, 10, 0.6);
+  border: 1px solid #1a1a1a;
+  border-radius: 12px;
+  padding: 18px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   backdrop-filter: blur(10px);
   text-decoration: none;
   color: inherit;
-  transition: 0.3s;
+  transition: 0.3s ease;
 }
 
 /* Hover effects only for clickable items (anchors) */
 a.fav-item:hover {
-  background: rgba(255,255,255,0.05);
-  border-color: #333;
-  transform: translateX(5px);
+  background: rgba(255,255,255,0.03);
+  border-color: #333333;
+  transform: translateY(-2px);
 }
 
 /* Non-clickable items (divs) */
@@ -189,11 +185,14 @@ div.fav-item { cursor: default; }
 div.fav-item .fav-icon { opacity: 0.15; }
 
 .fav-info { display: flex; flex-direction: column; }
-.fav-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.5; margin-bottom: 2px; }
+.fav-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.5; margin-bottom: 4px; font-weight: 600; }
 .fav-value { font-size: 15px; font-weight: 600; color: #ffffff; }
-.fav-icon { font-size: 18px; opacity: 0.3; }
+.fav-icon { font-size: 18px; opacity: 0.3; transition: 0.3s ease; }
 
-.footer { text-align: center; font-size: 11px; opacity: 0.3; margin-top: 60px; letter-spacing: 2px; }
+a.fav-item:hover .fav-icon {
+  opacity: 0.8;
+}
+
 </style>
 </head>
 
@@ -212,7 +211,6 @@ div.fav-item .fav-icon { opacity: 0.15; }
   <nav style="margin-top:20px;">
     <a href="index.html" class="menu-item"><i class="fas fa-home"></i> Home</a>
     <a href="aboutme.html" class="menu-item"><i class="fas fa-user"></i> About me</a>
-    <a href="gender.html" class="menu-item"><i class="fas fa-venus-mars"></i> Gender</a>
     <a href="favorites.html" class="menu-item active"><i class="fas fa-heart"></i> Favorites</a>
     <a href="spotify.html" class="menu-item"><i class="fab fa-spotify"></i> Spotify</a>
     <a href="chess.html" class="menu-item"><i class="fas fa-chess-knight"></i> Chess</a>
@@ -225,18 +223,20 @@ div.fav-item .fav-icon { opacity: 0.15; }
     <h1>FAVORITES</h1>
     <div class="subtitle">Personal Preferences & Interests</div>
     <div class="interaction-tip">
-      <i class="fas fa-mouse-pointer"></i> Click on the highlighted items to see more info
+      <i class="fas fa-mouse-pointer"></i> Click items to see more info
     </div>
   </div>
 
-  <div class="cat-title">Inspiration & Muse</div>
+  <div class="cat-title pinned-title">
+    <i class="fas fa-thumbtack" style="font-size: 9px; margin-right: 6px;"></i> PINNED: Inspiration & Muse
+  </div>
   <div class="fav-list">
-    <a href="fav-person.html" class="fav-item ultimate-fav">
+    <a href="fav-person.html" class="fav-item">
       <div class="fav-info">
         <span class="fav-label">Favorite Person</span>
         <span class="fav-value">Hanni Pham</span>
       </div>
-      <i class="fas fa-heart fav-icon"></i>
+      <i class="fas fa-user fav-icon"></i>
     </a>
   </div>
 
@@ -256,7 +256,7 @@ div.fav-item .fav-icon { opacity: 0.15; }
     </a>
     <a href="fav-kactress.html" class="fav-item">
       <div class="fav-info"><span class="fav-label">K-Actress</span><span class="fav-value">Kim You-jung</span></div>
-      <i class="fas fa-star fav-icon"></i>
+      <i class="fas fa-user-astronaut fav-icon"></i>
     </a>
     <div class="fav-item">
       <div class="fav-info"><span class="fav-label">Movie Genre</span><span class="fav-value">Drama / Biography</span></div>
@@ -271,7 +271,7 @@ div.fav-item .fav-icon { opacity: 0.15; }
   <div class="cat-title">Music & K-Pop</div>
   <div class="fav-list">
     <a href="fav-singer.html" class="fav-item">
-      <div class="fav-info"><span class="fav-label">Singer / Artist</span><span class="fav-value">Clairo (Claire Elizabeth Cottrill)</span></div>
+      <div class="fav-info"><span class="fav-label">Singer / Artist</span><span class="fav-value">Clairo</span></div>
       <i class="fas fa-microphone-lines fav-icon"></i>
     </a>
     <a href="fav-music.html" class="fav-item">
@@ -279,7 +279,7 @@ div.fav-item .fav-icon { opacity: 0.15; }
       <i class="fas fa-music fav-icon"></i>
     </a>
     <div class="fav-item">
-      <div class="fav-info"><span class="fav-label">Music Genre</span><span class="fav-value">Kpop / Indie Pop</span></div>
+      <div class="fav-info"><span class="fav-label">Music Genre</span><span class="fav-value">K-Pop / Indie Pop</span></div>
       <i class="fas fa-headphones fav-icon"></i>
     </div>
     <a href="fav-music-album.html" class="fav-item">
