@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quotes | Dave Christopher</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:'Quicksand', sans-serif;
+}
+
+body {
+  background: #000000;
+  color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* FIXED MENU ICON */
+.menu-icon {
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 101;
+  color: #ffffff;
+  opacity: 0.5;
+  transition: 0.3s ease;
+}
+
+.menu-icon:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* SIDE MENU */
+#sideMenu {
+  position: fixed;
+  top: 0;
+  right: -260px;
+  width: 260px;
+  height: 100%;
+  background: #0a0a0a;
+  border-left: 1px solid #1f1f1f;
+  z-index: 110;
+  transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 60px 25px;
+  box-shadow: -10px 0 30px rgba(0,0,0,0.9);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 14px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.6);
+  transition: 0.3s;
+  text-decoration: none;
+  margin-bottom: 5px;
+}
+
+.menu-item:hover, .menu-item.active {
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+}
+
+#menuOverlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  z-index: 105;
+  backdrop-filter: blur(3px);
+}
+
+.content {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 70px;
+  padding: 20px;
+  padding-bottom: 80px;
+}
+
+.header-section {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+h1 { 
+  font-size: 20px; 
+  letter-spacing: 6px; 
+  font-weight: 700; 
+  text-transform: uppercase; 
+  margin-bottom: 8px; 
+}
+
+.subtitle { 
+  font-size: 9px; 
+  opacity: 0.4; 
+  letter-spacing: 4px; 
+  text-transform: uppercase; 
+  font-weight: 600; 
+}
+
+/* MINIMALIST TAB BUTTONS */
+.tab-container {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin-bottom: 35px;
+}
+
+.tab-btn {
+  background: transparent; 
+  color: rgba(255, 255, 255, 0.4); 
+  border: none;
+  border-bottom: 1px solid transparent;
+  padding: 8px 5px; 
+  font-size: 10px; 
+  font-weight: 600; 
+  cursor: pointer; 
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.tab-btn:hover { 
+  color: #ffffff;
+}
+
+.tab-btn.active {
+  color: #ffffff; 
+  border-bottom: 1px solid #ffffff;
+}
+
+/* MINIMALIST CARD STYLE */
+.card {
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 30px;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* SMOOTH QUOTE SECTIONS ANIMATION */
+.quote-section {
+  display: none;
+  opacity: 0;
+  transform: translateY(5px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.quote-section.active-section {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* QUOTE SPECIFIC STYLING (Left aligned text, Right aligned author) */
+.quote-wrapper {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.quote-author {
+  align-self: flex-end;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+  margin-top: 20px;
+}
+
+.quote-author span {
+  color: #ffffff;
+  font-weight: 600;
+  opacity: 0.8;
+}
+
+/* UNIFIED QUOTE TEXT STYLE (For both Own and Favorite Quotes) */
+.quote-text { 
+  font-size: 14px; 
+  line-height: 1.8; 
+  color: #c4c4c4; 
+  font-weight: 500;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="menu-icon" onclick="toggleSideMenu()">
+  <i class="fas fa-bars"></i>
+</div>
+
+<div id="menuOverlay" onclick="toggleSideMenu()"></div>
+
+<div id="sideMenu">
+  <div onclick="toggleSideMenu()" style="position:absolute; top:20px; right:20px; font-size:22px; cursor:pointer; opacity:0.5;">
+    <i class="fas fa-times"></i>
+  </div>
+  <nav style="margin-top:20px;">
+    <a href="index.html" class="menu-item"><i class="fas fa-home"></i> Home</a>
+    <a href="about.html" class="menu-item"><i class="fas fa-user"></i> About me</a>
+    <a href="quotes.html" class="menu-item active"><i class="fas fa-quote-left"></i> Quotes</a>
+    <a href="favorites.html" class="menu-item"><i class="fas fa-heart"></i> Favorites</a>
+    <a href="spotify.html" class="menu-item"><i class="fab fa-spotify"></i> Spotify</a>
+    <a href="chess.html" class="menu-item"><i class="fas fa-chess-knight"></i> Chess</a>
+    <a href="projects.html" class="menu-item"><i class="fas fa-code"></i> Projects</a>
+  </nav>
+</div>
+
+<div class="content">
+  <div class="header-section">
+    <h1>QUOTES</h1>
+    <div class="subtitle">Absurdism • Nihilism • Atheism</div>
+  </div>
+
+  <div class="tab-container">
+    <button class="tab-btn active" id="btn-own" onclick="switchTab('own')">My Own Quotes</button>
+    <button class="tab-btn" id="btn-fav" onclick="switchTab('fav')">Favorite Quotes</button>
+  </div>
+
+  <div id="ownQuotes" class="quote-section active-section">
+    
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"To desire someone is to trap yourself in a prison of thought. The mind clings, though the world cares nothing for your longing."</p>
+        <p class="quote-author">&mdash; <span>Dave Christopher</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"There are no good people. Only people pretending, stumbling through a world that does not notice."</p>
+        <p class="quote-author">&mdash; <span>Dave Christopher</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"Do not believe too easily in those you meet. People are actors in a world that does not care if you are fooled."</p>
+        <p class="quote-author">&mdash; <span>Dave Christopher</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"When you are young and yet understand the world, it is a cruel weight."</p>
+        <p class="quote-author">&mdash; <span>Dave Christopher</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"When you overthink, what you believe to be true may only exist in your mind. Sometimes it is not true at all—this is the world, and the world has no truth."</p>
+        <p class="quote-author">&mdash; <span>Dave Christopher</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"If you ever like someone, do not confess. The world doesn’t reward honesty; it only watches silently."</p>
+        <p class="quote-author">&mdash; <span>Dave Christopher</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"You can feel immense pity for others, yet somehow pity yourself more because you do not even know who you are."</p>
+        <p class="quote-author">&mdash; <span>Dave Christopher</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"Do not be kind to others. Be as cruel as they are to you."</p>
+        <p class="quote-author">&mdash; <span>Dave Christopher</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"Being a nerd is the best thing I have done in my life, for it gave me knowledge of the world that others ignore."</p>
+        <p class="quote-author">&mdash; <span>Dave Christopher</span></p>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="favQuotes" class="quote-section">
+    
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"I think, therefore I am."</p>
+        <p class="quote-author">&mdash; <span>René Descartes</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"Without music, life would be a mistake."</p>
+        <p class="quote-author">&mdash; <span>Friedrich Nietzsche</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"One must imagine Sisyphus happy."</p>
+        <p class="quote-author">&mdash; <span>Albert Camus</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"Imagination is more important than knowledge."</p>
+        <p class="quote-author">&mdash; <span>Albert Einstein</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"To be yourself in a world that is constantly trying to make you something else is the greatest accomplishment."</p>
+        <p class="quote-author">&mdash; <span>Ralph Waldo Emerson</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"Knowledge is power."</p>
+        <p class="quote-author">&mdash; <span>Francis Bacon</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"Simplicity is the ultimate sophistication."</p>
+        <p class="quote-author">&mdash; <span>Leonardo da Vinci</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"God is dead. God remains dead. And we have killed him."</p>
+        <p class="quote-author">&mdash; <span>Friedrich Nietzsche</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"Life has no meaning the moment you lose the illusion of being eternal."</p>
+        <p class="quote-author">&mdash; <span>Jean-Paul Sartre</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"There is but one truly serious philosophical problem, and that is suicide."</p>
+        <p class="quote-author">&mdash; <span>Albert Camus</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"The absurd is born of this confrontation between the human need and the unreasonable silence of the world."</p>
+        <p class="quote-author">&mdash; <span>Albert Camus</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"I rebel—therefore we exist."</p>
+        <p class="quote-author">&mdash; <span>Albert Camus</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"The struggle itself toward the heights is enough to fill a man's heart."</p>
+        <p class="quote-author">&mdash; <span>Albert Camus</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"The greatest wealth is to live content with little."</p>
+        <p class="quote-author">&mdash; <span>Plato</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"The only thing I know is that I know nothing."</p>
+        <p class="quote-author">&mdash; <span>Socrates</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"Happiness depends upon ourselves."</p>
+        <p class="quote-author">&mdash; <span>Aristotle</span></p>
+      </div>
+    </div>
+
+  </div>
+
+</div> 
+
+<script>
+// Menu Toggle Script
+function toggleSideMenu() {
+  const menu = document.getElementById("sideMenu");
+  const overlay = document.getElementById("menuOverlay");
+  if (menu.style.right === "0px") {
+    menu.style.right = "-260px";
+    overlay.style.display = "none";
+  } else {
+    menu.style.right = "0px";
+    overlay.style.display = "block";
+  }
+}
+
+// Smooth Tab Switcher Script
+function switchTab(tabId) {
+  const ownQuotes = document.getElementById('ownQuotes');
+  const favQuotes = document.getElementById('favQuotes');
+  const btnOwn = document.getElementById('btn-own');
+  const btnFav = document.getElementById('btn-fav');
+
+  // Fade out both sections
+  ownQuotes.style.opacity = '0';
+  favQuotes.style.opacity = '0';
+  
+  // Update button active states
+  btnOwn.classList.remove('active');
+  btnFav.classList.remove('active');
+
+  // Wait for fade out animation (0.3s) before switching display
+  setTimeout(() => {
+    ownQuotes.classList.remove('active-section');
+    favQuotes.classList.remove('active-section');
+
+    if(tabId === 'own') {
+      ownQuotes.classList.add('active-section');
+      btnOwn.classList.add('active');
+      setTimeout(() => {
+        ownQuotes.style.opacity = '1';
+      }, 50);
+    } else {
+      favQuotes.classList.add('active-section');
+      btnFav.classList.add('active');
+      setTimeout(() => {
+        favQuotes.style.opacity = '1';
+      }, 50);
+    }
+  }, 300); 
+}
+</script>
+
+</body>
+  </html>
