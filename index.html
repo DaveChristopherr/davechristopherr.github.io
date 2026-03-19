@@ -146,7 +146,7 @@ a:hover{
 /* HEADER INFO */
 .profile-header {
   position: relative;
-  padding: 80px 20px 25px; /* Dinagdagan yung top padding para may space yung bubble */
+  padding: 80px 20px 25px; 
   text-align: center;
   background: #000000;
   border-bottom: 1px solid #1a1a1a;
@@ -155,7 +155,7 @@ a:hover{
   align-items: center;
 }
 
-/* PROFILE & BUBBLE WRAPPER */
+/* PROFILE WRAPPER */
 .profile-pic-container {
   position: relative;
   display: inline-block;
@@ -169,50 +169,6 @@ a:hover{
   border: 3px solid #1f1f1f;
   object-fit: cover;
   display: block; 
-}
-
-/* MESSENGER NOTE BUBBLE */
-.status-bubble {
-  position: absolute;
-  top: -45px; /* Inangat sa taas ng picture */
-  left: 50%;
-  transform: translateX(-50%); /* Para gitnang-gitna sa ibabaw */
-  background: #242526; /* Darker tone tulad ng sa dark mode ng FB/IG */
-  padding: 10px 18px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #e4e6eb;
-  white-space: nowrap;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-  z-index: 5;
-}
-
-/* Medium dot */
-.status-bubble::after {
-  content: '';
-  position: absolute;
-  bottom: -6px;
-  left: 30px; 
-  width: 10px;
-  height: 10px;
-  background: #242526;
-  border-radius: 50%;
-  border: 2px solid #000000; /* Para may gap effect na parang sa Messenger */
-}
-
-/* Small dot */
-.status-bubble::before {
-  content: '';
-  position: absolute;
-  bottom: -15px;
-  left: 20px; 
-  width: 6px;
-  height: 6px;
-  background: #242526;
-  border-radius: 50%;
-  border: 2px solid #000000;
-  z-index: 6;
 }
 
 .profile-header h1{
@@ -420,6 +376,7 @@ a:hover{
   <nav style="display:flex; flex-direction:column; gap:8px; margin-top:20px;">
     <a href="index.html" class="menu-item active"><i class="fas fa-home"></i> Home</a>
     <a href="aboutme.html" class="menu-item"><i class="fas fa-user"></i> About me</a>
+    <a href="quotes.html" class="menu-item"><i class="fas fa-quote-left"></i> Quotes</a>
     <a href="favorites.html" class="menu-item"><i class="fas fa-heart"></i> Favorites</a>
     <a href="spotify.html" class="menu-item"><i class="fab fa-spotify"></i> Spotify</a>
     <a href="chess.html" class="menu-item"><i class="fas fa-chess-knight"></i> Chess</a>
@@ -433,9 +390,6 @@ a:hover{
   </div>
 
   <div class="profile-pic-container">
-    <div class="status-bubble">
-      I want to try everything.
-    </div>
     <img src="AlbertCamus.jpg" class="profile-img" alt="Profile">
   </div>
   
@@ -492,10 +446,10 @@ a:hover{
   </div>
 
   <div style="flex: 1;">
-    <h2>The Absurd</h2>
+    <h2>Quotes</h2>
     <div class="quote-card">
-      <p id="dailyQuote">"The only way to deal with an unfree world is to become so absolutely free."</p>
-      <span id="quoteAuthor" class="quote-author">— Albert Camus</span>
+      <p id="dailyQuote">Loading...</p>
+      <span id="quoteAuthor" class="quote-author"></span>
     </div>
   </div>
 
@@ -664,38 +618,36 @@ const bookCard = document.getElementById('bookCard');
 bookCard.addEventListener('touchstart', e => { touchstartX = e.changedTouches[0].screenX; });
 bookCard.addEventListener('touchend', e => { touchendX = e.changedTouches[0].screenX; handleGesture(); });
 
-/* ===== PHILOSOPHY QUOTES SCRIPT ===== */
+/* ===== COMBINED QUOTES SCRIPT ===== */
 const philosophyQuotes = [
-  { text: "The only way to deal with an unfree world is to become so absolutely free that your very existence is an act of rebellion.", author: "Albert Camus" },
-  { text: "In the midst of winter, I found there was, within me, an invincible summer.", author: "Albert Camus" },
-  { text: "Man is the only creature who refuses to be what he is.", author: "Albert Camus" },
-  { text: "There is but one truly serious philosophical problem, and that is suicide.", author: "Albert Camus" },
-  { text: "I rebel; therefore I exist.", author: "Albert Camus" },
-  { text: "You will never live if you are looking for the meaning of life.", author: "Albert Camus" },
-  { text: "To be happy, we must not be too concerned with others.", author: "Albert Camus" },
-  { text: "The absurd is the essential concept and the first truth.", author: "Albert Camus" },
-  { text: "Nobody realizes that some people expend tremendous energy merely to be normal.", author: "Albert Camus" },
+  // My Own Quotes
+  { text: "To desire someone is to trap yourself in a prison of thought. The mind clings, though the world cares nothing for your longing.", author: "Dave Christopher" },
+  { text: "There are no good people. Only people pretending, stumbling through a world that does not notice.", author: "Dave Christopher" },
+  { text: "Do not believe too easily in those you meet. People are actors in a world that does not care if you are fooled.", author: "Dave Christopher" },
+  { text: "When you are young and yet understand the world, it is a cruel weight.", author: "Dave Christopher" },
+  { text: "When you overthink, what you believe to be true may only exist in your mind. Sometimes it is not true at all—this is the world, and the world has no truth.", author: "Dave Christopher" },
+  { text: "If you ever like someone, do not confess. The world doesn’t reward honesty; it only watches silently.", author: "Dave Christopher" },
+  { text: "You can feel immense pity for others, yet somehow pity yourself more because you do not even know who you are.", author: "Dave Christopher" },
+  { text: "Do not be kind to others. Be as cruel as they are to you.", author: "Dave Christopher" },
+  { text: "Being a nerd is the best thing I have done in my life, for it gave me knowledge of the world that others ignore.", author: "Dave Christopher" },
+  
+  // Favorite Quotes
+  { text: "I think, therefore I am.", author: "René Descartes" },
+  { text: "Without music, life would be a mistake.", author: "Friedrich Nietzsche" },
+  { text: "One must imagine Sisyphus happy.", author: "Albert Camus" },
+  { text: "Imagination is more important than knowledge.", author: "Albert Einstein" },
+  { text: "To be yourself in a world that is constantly trying to make you something else is the greatest accomplishment.", author: "Ralph Waldo Emerson" },
+  { text: "Knowledge is power.", author: "Francis Bacon" },
+  { text: "Simplicity is the ultimate sophistication.", author: "Leonardo da Vinci" },
   { text: "God is dead. God remains dead. And we have killed him.", author: "Friedrich Nietzsche" },
-  { text: "He who has a why to live for can bear almost any how.", author: "Friedrich Nietzsche" },
-  { text: "To live is to suffer, to survive is to find some meaning in the suffering.", author: "Friedrich Nietzsche" },
-  { text: "Sometimes people don't want to hear the truth because they don't want their illusions destroyed.", author: "Friedrich Nietzsche" },
-  { text: "There are no facts, only interpretations.", author: "Friedrich Nietzsche" },
-  { text: "Hope in reality is the worst of all evils because it prolongs the torments of man.", author: "Friedrich Nietzsche" },
-  { text: "Man is condemned to be free; because once thrown into the world, he is responsible for everything he does.", author: "Jean-Paul Sartre" },
-  { text: "Hell is other people.", author: "Jean-Paul Sartre" },
-  { text: "Life has no meaning a priori... It is up to you to give it a meaning.", author: "Jean-Paul Sartre" },
-  { text: "Freedom is what you do with what's been done to you.", author: "Jean-Paul Sartre" },
-  { text: "Man can do what he wills but he cannot will what he wills.", author: "Arthur Schopenhauer" },
-  { text: "Life is a constant process of dying.", author: "Arthur Schopenhauer" },
-  { text: "Every man takes the limits of his own field of vision for the limits of the world.", author: "Arthur Schopenhauer" },
-  { text: "It is not worth the bother of killing yourself, since you always kill yourself too late.", author: "Emil Cioran" },
-  { text: "A book should open old wounds, even inflict new ones. A book should be a danger.", author: "Emil Cioran" },
-  { text: "Anxiety is the dizziness of freedom.", author: "Søren Kierkegaard" },
-  { text: "Life can only be understood backwards; but it must be lived forwards.", author: "Søren Kierkegaard" },
-  { text: "I am free and that is why I am lost.", author: "Franz Kafka" },
-  { text: "Meaninglessness is the actual reality of our lives.", author: "Franz Kafka" },
-  { text: "Is God willing to prevent evil, but not able? Then he is not omnipotent...", author: "Epicurus" },
-  { text: "Death does not concern us, because as long as we exist, death is not here. And when it does come, we no longer exist.", author: "Epicurus" }
+  { text: "Life has no meaning the moment you lose the illusion of being eternal.", author: "Jean-Paul Sartre" },
+  { text: "There is but one truly serious philosophical problem, and that is suicide.", author: "Albert Camus" },
+  { text: "The absurd is born of this confrontation between the human need and the unreasonable silence of the world.", author: "Albert Camus" },
+  { text: "I rebel—therefore we exist.", author: "Albert Camus" },
+  { text: "The struggle itself toward the heights is enough to fill a man's heart.", author: "Albert Camus" },
+  { text: "The greatest wealth is to live content with little.", author: "Plato" },
+  { text: "The only thing I know is that I know nothing.", author: "Socrates" },
+  { text: "Happiness depends upon ourselves.", author: "Aristotle" }
 ];
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -709,4 +661,4 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
   
 </body>
-</html>
+  </html>
