@@ -136,19 +136,23 @@ h1 {
   border-bottom: 1px solid #ffffff;
 }
 
-/* MINIMALIST CARD STYLE */
+/* MATCHED CARD STYLE FROM INDEX & ABOUTME */
 .card {
-  background: rgba(255, 255, 255, 0.015);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 12px;
-  padding: 30px;
-  margin-bottom: 15px;
-  transition: all 0.3s ease;
+  background: rgba(17,17,17,0.6);
+  border: 1px solid #1f1f1f;
+  border-radius: 18px;
+  padding: 25px 25px;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+  transition: 0.3s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .card:hover {
-  border-color: rgba(255, 255, 255, 0.15);
-  background: rgba(255, 255, 255, 0.03);
+  transform: translateY(-4px);
+  background: #1a1a1a;
+  border-color: #333333;
 }
 
 /* SMOOTH QUOTE SECTIONS ANIMATION */
@@ -175,24 +179,25 @@ h1 {
 .quote-author {
   align-self: flex-end;
   font-size: 10px;
-  font-weight: 500;
+  font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.4);
   margin-top: 20px;
 }
 
 .quote-author span {
   color: #ffffff;
-  font-weight: 600;
-  opacity: 0.8;
+  opacity: 1;
 }
 
+/* UNIFIED QUOTE TEXT STYLE */
 .quote-text { 
   font-size: 14px; 
   line-height: 1.8; 
-  color: #c4c4c4; 
+  color: #ffffff; 
   font-weight: 500;
+  opacity: 0.9;
 }
 
 </style>
@@ -471,4 +476,4 @@ function switchTab(tabId) {
 </script>
 
 </body>
-  </html>
+      </html>
