@@ -176,6 +176,33 @@ a:hover{
   letter-spacing:1px;
 }
 
+/* LIFE STATUS (ALIVE/DEAD) */
+.life-status {
+  font-size: 9px;
+  letter-spacing: 2px;
+  font-weight: 700;
+  margin-top: 8px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  text-transform: uppercase;
+  transition: 0.3s ease;
+}
+
+.status-alive {
+  color: #a5d6a7; 
+  box-shadow: 0 0 8px rgba(165, 214, 167, 0.1);
+}
+
+.status-dead {
+  color: #ef9a9a; 
+  opacity: 0.6;
+}
+
 /* MENU ICON */
 .menu-icon {
   position: fixed; 
@@ -394,6 +421,9 @@ a:hover{
   </div>
   
   <h1>Dave Christopher</h1>
+  
+  <div id="lifeStatus" class="life-status">
+    </div>
 </div>
 
 <div class="content">
@@ -446,7 +476,7 @@ a:hover{
   </div>
 
   <div style="flex: 1;">
-    <h2>Quotes</h2>
+    <h2>Daily Quote</h2>
     <div class="quote-card">
       <p id="dailyQuote">Loading...</p>
       <span id="quoteAuthor" class="quote-author"></span>
@@ -631,7 +661,8 @@ const philosophyQuotes = [
   { text: "Do not be kind to others. Be as cruel as they are to you.", author: "Dave Christopher" },
   { text: "Being a nerd is the best thing I have done in my life, for it gave me knowledge of the world that others ignore.", author: "Dave Christopher" },
   
-  // Favorite Quotes
+  // Atheism & Philosophy Quotes
+  { text: "We are all atheists about most of the gods that humanity has ever believed in. Some of us just go one god further.", author: "Richard Dawkins" },
   { text: "I think, therefore I am.", author: "René Descartes" },
   { text: "Without music, life would be a mistake.", author: "Friedrich Nietzsche" },
   { text: "One must imagine Sisyphus happy.", author: "Albert Camus" },
@@ -657,8 +688,24 @@ document.addEventListener("DOMContentLoaded", () => {
   const randomQuote = philosophyQuotes[Math.floor(Math.random() * philosophyQuotes.length)];
   document.getElementById("dailyQuote").textContent = `"${randomQuote.text}"`;
   document.getElementById("quoteAuthor").textContent = `— ${randomQuote.author}`;
+
+  const daysThreshold = 3; 
+  const lastModifiedDate = new Date(document.lastModified);
+  const currentDate = new Date();
+  
+  // Calculate difference in days
+  const daysSinceUpdate = (currentDate - lastModifiedDate) / (1000 * 60 * 60 * 24);
+  const statusEl = document.getElementById("lifeStatus");
+  
+  if (daysSinceUpdate > daysThreshold) {
+    statusEl.innerHTML = '<i class="fas fa-skull"></i> Dead';
+    statusEl.className = "life-status status-dead";
+  } else {
+    statusEl.innerHTML = '<i class="fas fa-heartbeat"></i> Alive';
+    statusEl.className = "life-status status-alive";
+  }
 });
 </script>
   
 </body>
-  </html>
+</html>
