@@ -35,27 +35,6 @@ body {
   border-bottom:1px solid #1f1f1f;
 }
 
-.profile-circle{
-  width:110px;
-  height:110px;
-  border-radius:50%;
-  background:#0f0f0f;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  margin:0 auto 20px;
-  border:1px solid #1f1f1f;
-  font-size:20px;
-  font-weight:600;
-  letter-spacing:2px;
-}
-
-.app-bar h1{
-  font-size:22px;
-  letter-spacing:3px;
-  font-weight:600;
-}
-
 /* CONTENT */
 .content{
   padding:20px;
@@ -92,10 +71,6 @@ body {
   padding-left: 5px;
 }
 
-.label{
-  font-weight:600;
-}
-
 a{
   color:#ffffff;
   text-decoration:none;
@@ -124,25 +99,6 @@ a:hover{
   border-color: #333;
 }
 
-/* SOCIAL ICONS */
-.social-icons{
-  display:flex;
-  justify-content:center;
-  gap:28px;
-  margin-top:18px;
-}
-
-.social-icons a{
-  font-size:26px;
-  color:white;
-  transition:0.2s ease;
-}
-
-.social-icons a:hover{
-  transform:scale(1.2);
-  opacity:0.7;
-}
-
 /* HEADER INFO */
 .profile-header {
   position: relative;
@@ -155,7 +111,7 @@ a:hover{
   align-items: center;
 }
 
-/* PROFILE WRAPPER */
+/* PROFILE WRAPPER & STATUS DOT */
 .profile-pic-container {
   position: relative;
   display: inline-block;
@@ -171,36 +127,68 @@ a:hover{
   display: block; 
 }
 
+/* FB/IG Style Status Dot */
+.status-dot {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 4px solid #000000; /* Balances with the background */
+  cursor: pointer;
+  z-index: 10;
+  transition: transform 0.2s ease;
+}
+
+.status-dot:hover {
+  transform: scale(1.1);
+}
+
+.dot-alive {
+  background-color: #31A24C; /* Messenger Green */
+}
+
+.dot-dead {
+  background-color: #E41E3F; /* Muted Red */
+}
+
+/* Clickable Tooltip for Status */
+.status-tooltip {
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1f1f1f;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  border: 1px solid #333;
+  pointer-events: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 20;
+}
+
+.status-tooltip.show {
+  opacity: 1;
+  visibility: visible;
+  bottom: -32px; 
+}
+
 .profile-header h1{
   font-size:20px;
   letter-spacing:1px;
-}
-
-/* LIFE STATUS (ALIVE/DEAD) */
-.life-status {
-  font-size: 9px;
-  letter-spacing: 2px;
-  font-weight: 700;
-  margin-top: 8px;
-  padding: 5px 12px;
-  border-radius: 20px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  text-transform: uppercase;
-  transition: 0.3s ease;
-}
-
-.status-alive {
-  color: #a5d6a7; 
-  box-shadow: 0 0 8px rgba(165, 214, 167, 0.1);
-}
-
-.status-dead {
-  color: #ef9a9a; 
-  opacity: 0.6;
 }
 
 /* MENU ICON */
@@ -418,12 +406,11 @@ a:hover{
 
   <div class="profile-pic-container">
     <img src="AlbertCamus.jpg" class="profile-img" alt="Profile">
+    <div id="statusDot" class="status-dot" onclick="toggleStatus()"></div>
+    <div id="statusTooltip" class="status-tooltip"></div>
   </div>
   
   <h1>Dave Christopher</h1>
-  
-  <div id="lifeStatus" class="life-status">
-    </div>
 </div>
 
 <div class="content">
@@ -518,6 +505,17 @@ function toggleSideMenu() {
     menu.style.right = "0px";
     overlay.style.display = "block";
   }
+}
+
+/* ===== FB/IG STYLE STATUS LOGIC ===== */
+function toggleStatus() {
+  const tooltip = document.getElementById("statusTooltip");
+  tooltip.classList.toggle("show");
+  
+  // Auto-hide after 3 seconds
+  setTimeout(() => {
+    tooltip.classList.remove("show");
+  }, 3000);
 }
 
 /* ===== LOOPING PERSISTENT NOW WATCHING ===== */
@@ -689,20 +687,23 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("dailyQuote").textContent = `"${randomQuote.text}"`;
   document.getElementById("quoteAuthor").textContent = `— ${randomQuote.author}`;
 
-  const daysThreshold = 3; 
+  // ALIVE / DEAD Status Logic Initialization
+  const daysThreshold = 14; 
   const lastModifiedDate = new Date(document.lastModified);
   const currentDate = new Date();
   
   // Calculate difference in days
   const daysSinceUpdate = (currentDate - lastModifiedDate) / (1000 * 60 * 60 * 24);
-  const statusEl = document.getElementById("lifeStatus");
+  
+  const dotEl = document.getElementById("statusDot");
+  const tooltipEl = document.getElementById("statusTooltip");
   
   if (daysSinceUpdate > daysThreshold) {
-    statusEl.innerHTML = '<i class="fas fa-skull"></i> Dead';
-    statusEl.className = "life-status status-dead";
+    dotEl.classList.add("dot-dead");
+    tooltipEl.innerHTML = '<i class="fas fa-skull" style="color:#E41E3F;"></i> DEAD';
   } else {
-    statusEl.innerHTML = '<i class="fas fa-heartbeat"></i> Alive';
-    statusEl.className = "life-status status-alive";
+    dotEl.classList.add("dot-alive");
+    tooltipEl.innerHTML = '<i class="fas fa-circle" style="color:#31A24C; font-size:8px;"></i> ALIVE';
   }
 });
 </script>
