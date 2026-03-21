@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life Checklist</title>
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --text-color: #ededed;
+            --text-muted: #737373;
+            --accent-color: #4CAF50;
+            --item-bg: #141414;
+            --item-hover: #1c1c1c;
+            --border-color: #262626;
+            --font-main: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .top-bar {
+            position: fixed;
+            top: 20px;
+            right: 25px;
+            z-index: 1000;
+        }
+
+        .icon-btn {
+            background: var(--item-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.2s ease;
+        }
+
+        .icon-btn:hover {
+            color: var(--text-color);
+            border-color: #444;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            background-color: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            width: 100%;
+            padding: 30px 20px 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            z-index: 100;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+        }
+
+        .creator-tag {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 6px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .progress-wrapper {
+            margin-top: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            max-width: 650px;
+            background-color: var(--item-bg);
+            border-radius: 4px;
+            height: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--accent-color);
+            width: 0%;
+            transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        main {
+            width: 100%;
+            max-width: 650px;
+            padding: 30px 20px 100px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .finish-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 25px;
+        }
+
+        .finish-btn {
+            background-color: transparent;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .finish-btn:hover {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            background-color: var(--item-bg);
+            margin-bottom: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .checklist-item:hover {
+            background-color: var(--item-hover);
+            border-color: var(--border-color);
+        }
+
+        .checklist-item.checked {
+            opacity: 0.4;
+            background-color: transparent;
+        }
+
+        .checkbox {
+            width: 22px;
+            height: 22px;
+            border: 1px solid #555;
+            border-radius: 4px;
+            margin-right: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        @keyframes subtlePop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .checklist-item.checked .checkbox {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            animation: subtlePop 0.2s ease forwards;
+        }
+
+        .checklist-item.checked .checkbox::after {
+            content: "✓";
+            color: #000;
+            font-weight: 800;
+            font-size: 12px;
+        }
+
+        .item-text {
+            font-size: 1.05rem;
+            font-weight: 400;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .emoji {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Minimalist Modal & Certificate */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background-color: var(--item-bg);
+            border: 1px solid var(--border-color);
+            padding: 40px;
+            border-radius: 12px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Premium Flat Certificate */
+        .cert-card {
+            background-color: #111111;
+            border: 1px solid #2a2a2a;
+            padding: 50px 40px;
+            border-radius: 12px;
+            max-width: 480px;
+            width: 100%;
+            text-align: left;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+
+        .modal-overlay.active .cert-card {
+            transform: translateY(0);
+        }
+
+        .cert-header {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            border-bottom: 1px solid #222;
+            padding-bottom: 10px;
+        }
+
+        .cert-score-wrapper {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+
+        .cert-score {
+            font-size: 4.5rem;
+            font-weight: 300;
+            color: #ffffff;
+            line-height: 1;
+            letter-spacing: -2px;
+        }
+
+        .cert-total {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .cert-persona {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cert-message {
+            font-size: 1rem;
+            color: #999;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .cert-footer {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cert-signature {
+            font-size: 0.8rem;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .close-cert-btn {
+            background-color: #fff;
+            color: #000;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .close-cert-btn:hover {
+            opacity: 0.8;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .cert-card { padding: 40px 30px; }
+            .cert-score { font-size: 3.5rem; }
+            .item-text { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <button class="icon-btn" onclick="openAbout()">?</button>
+    </div>
+
+    <header>
+        <h1>Life Checklist</h1>
+        <div class="creator-tag">made by devxdave ☕</div>
+        <div class="progress-wrapper">
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="finish-container">
+            <button class="finish-btn" onclick="showCertificate()">Finish</button>
+        </div>
+        <div id="checklist-container">
+            </div>
+    </main>
+
+    <div class="modal-overlay" id="about-modal">
+        <div class="modal-content">
+            <h2 style="margin-top:0; font-weight: 600; font-size: 1.4rem;">Instructions</h2>
+            <p style="color:#888; line-height:1.6; margin-bottom:30px; font-size: 0.95rem;">
+                <strong>1 Tap:</strong> Check an item.<br>
+                <strong>2 Taps:</strong> Clear the check.<br><br>
+                Your progress is automatically saved. Click "Finish" anytime to view your statistics and persona.
+            </p>
+            <button class="close-cert-btn" style="width: 100%;" onclick="closeAbout()">Understood</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="cert-modal">
+        <div class="cert-card">
+            <div class="cert-header">Life Experience Report</div>
+            
+            <div class="cert-score-wrapper">
+                <div class="cert-score" id="cert-score">0</div>
+                <div class="cert-total" id="cert-total">/ 204</div>
+            </div>
+            
+            <div class="cert-persona" id="cert-persona">The Wanderer</div>
+            <div class="cert-message" id="cert-message">
+                Message goes here.
+            </div>
+
+            <div class="cert-footer">
+                <div class="cert-signature">certified by devxdave ☕</div>
+                <button class="close-cert-btn" onclick="closeCertificate()">Close</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Massive list of 204 carefully curated items covering a full lifespan
+        const lifeEvents = [
+            // Milestones (Early Life to Old Age)
+            { emoji: "👶", text: "Be born", cat: "milestones" }, { emoji: "🚶", text: "Take your first steps", cat: "milestones" },
+            { emoji: "🗣️", text: "Say your first word", cat: "milestones" }, { emoji: "🦷", text: "Lose a baby tooth", cat: "milestones" },
+            { emoji: "📖", text: "Learn to read", cat: "milestones" }, { emoji: "🚴", text: "Learn to ride a bike", cat: "milestones" },
+            { emoji: "🏊", text: "Learn to swim", cat: "milestones" }, { emoji: "🏫", text: "Start elementary school", cat: "milestones" },
+            { emoji: "🎒", text: "Survive middle school", cat: "milestones" }, { emoji: "🎓", text: "Graduate high school", cat: "milestones" },
+            { emoji: "🎓", text: "Get a college degree", cat: "milestones" }, { emoji: "💼", text: "Get your first job", cat: "milestones" },
+            { emoji: "💸", text: "Earn your first paycheck", cat: "milestones" }, { emoji: "🚗", text: "Learn how to drive", cat: "milestones" },
+            { emoji: "🏠", text: "Move into your own place", cat: "milestones" }, { emoji: "🍳", text: "Cook a perfect meal", cat: "milestones" },
+            { emoji: "🌱", text: "Keep a houseplant alive", cat: "milestones" }, { emoji: "🐶", text: "Adopt a pet", cat: "milestones" },
+            { emoji: "👕", text: "Curate a minimalist wardrobe", cat: "milestones" }, { emoji: "🕰️", text: "Realize you are an adult", cat: "milestones" },
+            { emoji: "👨‍🦳", text: "Find your first gray hair", cat: "milestones" }, { emoji: "💰", text: "Invest your money", cat: "milestones" },
+            { emoji: "📉", text: "Experience a major failure and recover", cat: "milestones" }, { emoji: "🔥", text: "Quit a toxic job", cat: "milestones" },
+            { emoji: "🎂", text: "Celebrate your 18th birthday", cat: "milestones" }, { emoji: "🎂", text: "Celebrate your 21st birthday", cat: "milestones" },
+            { emoji: "🎂", text: "Celebrate your 30th birthday", cat: "milestones" }, { emoji: "🎂", text: "Celebrate your 50th birthday", cat: "milestones" },
+            { emoji: "🏡", text: "Buy a house or property", cat: "milestones" }, { emoji: "🏦", text: "Pay off a mortgage or debt", cat: "milestones" },
+            { emoji: "💍", text: "Get married (or happily commit to solitude)", cat: "milestones" }, { emoji: "📜", text: "Write your last will and testament", cat: "milestones" },
+            { emoji: "👴", text: "Become a mentor to the next generation", cat: "milestones" }, { emoji: "👶", text: "Hold your grandchild", cat: "milestones" },
+            { emoji: "🏖️", text: "Retire comfortably", cat: "milestones" }, { emoji: "🎂", text: "Celebrate your 80th birthday", cat: "milestones" },
+            { emoji: "🎂", text: "Reach 100 years old", cat: "milestones" }, { emoji: "🕊️", text: "Look back at life with absolute peace", cat: "milestones" },
+
+            // Tech & Coding
+            { emoji: "💻", text: "Write your first line of code", cat: "tech" }, { emoji: "🌐", text: "Build a personal website", cat: "tech" },
+            { emoji: "🎨", text: "Design a premium, minimalist UI", cat: "tech" }, { emoji: "⚙️", text: "Master JavaScript", cat: "tech" },
+            { emoji: "🗄️", text: "Learn backend development", cat: "tech" }, { emoji: "🚀", text: "Deploy an app to production", cat: "tech" },
+            { emoji: "👾", text: "Code your own video game", cat: "tech" }, { emoji: "🧠", text: "Build an AI bot or engine", cat: "tech" },
+            { emoji: "📱", text: "Develop a mobile application", cat: "tech" }, { emoji: "👥", text: "Have 1,000 users on your app", cat: "tech" },
+            { emoji: "🌍", text: "Have 10,000 users on your app", cat: "tech" }, { emoji: "🐛", text: "Spend 5 hours fixing one bug", cat: "tech" },
+            { emoji: "🌙", text: "Code overnight until 4 AM", cat: "tech" }, { emoji: "⌨️", text: "Learn to touch type over 80 WPM", cat: "tech" },
+            { emoji: "🐧", text: "Install and use Linux", cat: "tech" }, { emoji: "💾", text: "Lose hours of code because you forgot to save", cat: "tech" },
+            { emoji: "☕", text: "Drink coffee while debugging", cat: "tech" }, { emoji: "📚", text: "Read documentation instead of a tutorial", cat: "tech" },
+            { emoji: "🛠️", text: "Contribute to open source", cat: "tech" }, { emoji: "☁️", text: "Host your own server", cat: "tech" },
+            { emoji: "🔒", text: "Learn basic cybersecurity", cat: "tech" }, { emoji: "🐍", text: "Learn Python or C++", cat: "tech" },
+            { emoji: "🏆", text: "Win or place in a Hackathon", cat: "tech" }, { emoji: "💸", text: "Get paid for your code for the first time", cat: "tech" },
+            { emoji: "🏢", text: "Build and launch a SaaS product", cat: "tech" }, { emoji: "🤖", text: "Automate a boring part of your life", cat: "tech" },
+            { emoji: "🗑️", text: "Accidentally delete a production database", cat: "tech" }, { emoji: "🔄", text: "Successfully restore a database backup", cat: "tech" },
+            { emoji: "🎓", text: "Teach someone else how to code", cat: "tech" }, { emoji: "👁️", text: "Reach 1 million page views on a project", cat: "tech" },
+
+            // Philosophy & Deep Thoughts
+            { emoji: "📚", text: "Read a philosophical essay", cat: "philosophy" }, { emoji: "🤔", text: "Question the meaning of existence", cat: "philosophy" },
+            { emoji: "🪨", text: "Understand Camus and the Absurd", cat: "philosophy" }, { emoji: "🦅", text: "Read Friedrich Nietzsche", cat: "philosophy" },
+            { emoji: "🌌", text: "Stare at the night sky and feel insignificant", cat: "philosophy" }, { emoji: "🎭", text: "Accept that life has no inherent script", cat: "philosophy" },
+            { emoji: "🎨", text: "Construct your own meaning", cat: "philosophy" }, { emoji: "🗣️", text: "Have a deep philosophical debate", cat: "philosophy" },
+            { emoji: "🧘", text: "Meditate in complete silence for an hour", cat: "philosophy" }, { emoji: "📵", text: "Do a dopamine detox for a week", cat: "philosophy" },
+            { emoji: "🧠", text: "Completely change a core belief", cat: "philosophy" }, { emoji: "💀", text: "Make peace with mortality", cat: "philosophy" },
+            { emoji: "🕊️", text: "Experience a moment of pure stoicism", cat: "philosophy" }, { emoji: "🏁", text: "Commit to living without regrets", cat: "philosophy" },
+            { emoji: "👁️", text: "Experience ego dissolution", cat: "philosophy" }, { emoji: "⚖️", text: "Find comfort in nihilism", cat: "philosophy" },
+            { emoji: "🚶", text: "Take a long walk with no destination", cat: "philosophy" }, { emoji: "🕰️", text: "Realize time is an illusion", cat: "philosophy" },
+            { emoji: "🤫", text: "Enjoy the pure silence of being alone", cat: "philosophy" }, { emoji: "🏛️", text: "Read Marcus Aurelius", cat: "philosophy" },
+            { emoji: "🌊", text: "Accept the things you cannot change", cat: "philosophy" }, { emoji: "📓", text: "Journal consistently for a year", cat: "philosophy" },
+            { emoji: "🏔️", text: "Spend a week in total isolation", cat: "philosophy" }, { emoji: "🫂", text: "Truly forgive yourself for past mistakes", cat: "philosophy" },
+            { emoji: "🎭", text: "Realize everyone is just pretending", cat: "philosophy" }, { emoji: "🎲", text: "Question the concept of free will", cat: "philosophy" },
+
+            // Chess & Tactics
+            { emoji: "♟️", text: "Learn how the chess pieces move", cat: "chess" }, { emoji: "🛡️", text: "Memorize a solid opening repertoire", cat: "chess" },
+            { emoji: "⚔️", text: "Deliver a brilliant checkmate", cat: "chess" }, { emoji: "🧩", text: "Solve 100 chess puzzles", cat: "chess" },
+            { emoji: "👑", text: "Beat a 1500+ rated chess player", cat: "chess" }, { emoji: "👀", text: "Play a full game blindfolded", cat: "chess" },
+            { emoji: "⚫", text: "Learn and master Omok", cat: "chess" }, { emoji: "⏳", text: "Flag an opponent in bullet chess", cat: "chess" },
+            { emoji: "📖", text: "Study endgame theory", cat: "chess" }, { emoji: "🤝", text: "Swindle a draw in a lost position", cat: "chess" },
+            { emoji: "🧠", text: "Sacrifice a queen for a forced mate", cat: "chess" }, { emoji: "🎮", text: "Beat an extremely difficult strategy game", cat: "chess" },
+            { emoji: "🥇", text: "Win an over-the-board tournament", cat: "chess" }, { emoji: "📉", text: "Blunder a piece in a winning position", cat: "chess" },
+            { emoji: "📈", text: "Recover your rating after a tilt", cat: "chess" }, { emoji: "🤖", text: "Play against a maximum-level bot", cat: "chess" },
+            { emoji: "🔥", text: "Beat a 2000+ rated chess player", cat: "chess" }, { emoji: "🏅", text: "Get an official FIDE rating", cat: "chess" },
+            { emoji: "🛡️", text: "Draw against a titled master", cat: "chess" }, { emoji: "📚", text: "Read a classic chess book", cat: "chess" },
+            { emoji: "🎓", text: "Teach chess to a complete beginner", cat: "chess" }, { emoji: "🕰️", text: "Play a grueling 100-move game", cat: "chess" },
+            { emoji: "🛡️", text: "Perfectly execute the Caro-Kann defense", cat: "chess" }, { emoji: "🔮", text: "Accurately predict 5 moves ahead", cat: "chess" },
+            { emoji: "♟️", text: "Realize chess is a metaphor for life", cat: "chess" },
+
+            // Adventure & Experiences
+            { emoji: "✈️", text: "Take a flight to a new place", cat: "adventure" }, { emoji: "🌊", text: "Swim in the ocean", cat: "adventure" },
+            { emoji: "⛰️", text: "Climb to the peak of a mountain", cat: "adventure" }, { emoji: "🏕️", text: "Spend a night camping outdoors", cat: "adventure" },
+            { emoji: "🌠", text: "Witness a meteor shower", cat: "adventure" }, { emoji: "❄️", text: "Experience heavy snowfall", cat: "adventure" },
+            { emoji: "🌎", text: "Travel alone to a foreign country", cat: "adventure" }, { emoji: "🎢", text: "Ride an extreme rollercoaster", cat: "adventure" },
+            { emoji: "🏃", text: "Complete a marathon or long-distance run", cat: "adventure" }, { emoji: "🌅", text: "Stay awake to watch the sunrise", cat: "adventure" },
+            { emoji: "🌩️", text: "Watch a severe thunderstorm safely", cat: "adventure" }, { emoji: "🌈", text: "Spot a double rainbow", cat: "adventure" },
+            { emoji: "🗺️", text: "Go on an unplanned road trip", cat: "adventure" }, { emoji: "🚤", text: "Pilot a boat", cat: "adventure" },
+            { emoji: "🤿", text: "Scuba dive in a coral reef", cat: "adventure" }, { emoji: "🪂", text: "Jump out of a plane (Skydiving)", cat: "adventure" },
+            { emoji: "🗺️", text: "Set foot on all 7 continents", cat: "adventure" }, { emoji: "🌌", text: "See the Aurora Borealis", cat: "adventure" },
+            { emoji: "🌋", text: "Stand near an active volcano", cat: "adventure" }, { emoji: "🧭", text: "Navigate a new city without a map", cat: "adventure" },
+            { emoji: "👻", text: "Explore a deserted or haunted building", cat: "adventure" }, { emoji: "🏜️", text: "Walk across a desert", cat: "adventure" },
+            { emoji: "🛳️", text: "Go on a multi-day cruise", cat: "adventure" }, { emoji: "🏰", text: "Visit a historical castle or ruin", cat: "adventure" },
+            { emoji: "🎫", text: "Fly first class", cat: "adventure" }, { emoji: "🎒", text: "Backpack across an entire country", cat: "adventure" },
+            { emoji: "⛺", text: "Sleep outside under the stars", cat: "adventure" }, { emoji: "🛕", text: "See the Great Pyramids", cat: "adventure" },
+            { emoji: "🦓", text: "Go on a wildlife safari", cat: "adventure" }, { emoji: "🎈", text: "Ride in a hot air balloon", cat: "adventure" },
+            { emoji: "🌍", text: "Live in another country for a year", cat: "adventure" }, { emoji: "🧊", text: "Walk on a glacier", cat: "adventure" },
+
+            // Social & Connections
+            { emoji: "🤝", text: "Make a lifelong best friend", cat: "social" }, { emoji: "💔", text: "Heal from a severe heartbreak", cat: "social" },
+            { emoji: "🎤", text: "Sing in front of a crowd", cat: "social" }, { emoji: "🗣️", text: "Become fluent in a second language", cat: "social" },
+            { emoji: "🩸", text: "Donate blood to a hospital", cat: "social" }, { emoji: "🫂", text: "Help a stranger without expecting anything", cat: "social" },
+            { emoji: "🤐", text: "Take a massive secret to the grave", cat: "social" }, { emoji: "😭", text: "Laugh until your stomach hurts", cat: "social" },
+            { emoji: "😠", text: "Forgive someone who betrayed you", cat: "social" }, { emoji: "🙏", text: "Sincerely apologize when you are wrong", cat: "social" },
+            { emoji: "💌", text: "Write a letter to your future self", cat: "social" }, { emoji: "🤝", text: "Have a conversation that shifts your perspective", cat: "social" },
+            { emoji: "☕", text: "Pay for the person behind you in line", cat: "social" }, { emoji: "⚖️", text: "Perform civic duty (like serving on a jury)", cat: "social" },
+            { emoji: "🗳️", text: "Vote in a major election", cat: "social" }, { emoji: "🎓", text: "Mentor someone in a skill you mastered", cat: "social" },
+            { emoji: "🛡️", text: "Defend someone who cannot defend themselves", cat: "social" }, { emoji: "🇰🇷", text: "Listen to K-Pop (like NewJeans)", cat: "social" },
+            { emoji: "🎮", text: "Carry your team in a multiplayer game", cat: "social" }, { emoji: "💬", text: "Give a compliment to a random person", cat: "social" },
+            { emoji: "🍽️", text: "Host a dinner party for friends", cat: "social" }, { emoji: "❤️", text: "Experience falling in love", cat: "social" },
+            { emoji: "💒", text: "Attend a close friend's wedding", cat: "social" }, { emoji: "🕴️", text: "Be a best man or maid of honor", cat: "social" },
+            { emoji: "🥀", text: "Comfort someone who is grieving", cat: "social" }, { emoji: "🚪", text: "Distance yourself from toxic people", cat: "social" },
+            { emoji: "👴", text: "Make a friend from a different generation", cat: "social" }, { emoji: "🏡", text: "Be someone's safe space", cat: "social" },
+            
+            // Creation & Culture
+            { emoji: "🔥", text: "Start a fire from scratch", cat: "creation" }, { emoji: "🎸", text: "Learn to play a musical instrument", cat: "creation" },
+            { emoji: "📖", text: "Read over 100 books", cat: "creation" }, { emoji: "✍️", text: "Write and publish a short story or article", cat: "creation" },
+            { emoji: "🖼️", text: "Spend a day at a modern art museum", cat: "creation" }, { emoji: "🎫", text: "Attend a live music festival or concert", cat: "creation" },
+            { emoji: "🎭", text: "Watch a classical theater performance", cat: "creation" }, { emoji: "👔", text: "Own a perfectly tailored suit or outfit", cat: "creation" },
+            { emoji: "☕", text: "Brew an absolute premium cup of coffee", cat: "creation" }, { emoji: "🍰", text: "Bake a complex dessert from scratch", cat: "creation" },
+            { emoji: "📸", text: "Take an award-worthy photograph", cat: "creation" }, { emoji: "🎨", text: "Create a piece of abstract art", cat: "creation" },
+            { emoji: "🔨", text: "Build a functional piece of furniture", cat: "creation" }, { emoji: "🌳", text: "Plant a tree and watch it mature", cat: "creation" },
+            { emoji: "📖", text: "Start writing an autobiography", cat: "creation" }, { emoji: "🎙️", text: "Launch a podcast or a dedicated blog", cat: "creation" },
+            { emoji: "🤝", text: "Found a startup or small business", cat: "creation" }, { emoji: "🎥", text: "Direct or edit a short film", cat: "creation" },
+            { emoji: "🎬", text: "Watch a critically acclaimed indie movie", cat: "creation" }, { emoji: "🎧", text: "Listen to an entire album with zero distractions", cat: "creation" },
+            { emoji: "🥋", text: "Master a physical craft or martial art", cat: "creation" }, { emoji: "🖌️", text: "Paint a large canvas", cat: "creation" },
+            { emoji: "🖥️", text: "Design your ultimate dream workspace", cat: "creation" }, { emoji: "🏛️", text: "Leave a positive legacy behind", cat: "creation" },
+            { emoji: "🏗️", text: "Build something that outlives you", cat: "creation" }
+        ];
+
+        const container = document.getElementById('checklist-container');
+        const progressBar = document.getElementById('progress-bar');
+        
+        let checkedItems = JSON.parse(localStorage.getItem('premiumLifeChecklistV4')) || [];
+
+        function updateProgress() {
+            const percentage = (checkedItems.length / lifeEvents.length) * 100;
+            progressBar.style.width = percentage + '%';
+            localStorage.setItem('premiumLifeChecklistV4', JSON.stringify(checkedItems));
+        }
+
+        function toggleItem(index, itemDiv) {
+            const itemIndex = checkedItems.indexOf(index);
+            if (itemIndex > -1) {
+                checkedItems.splice(itemIndex, 1);
+                itemDiv.classList.remove('checked');
+            } else {
+                checkedItems.push(index);
+                itemDiv.classList.add('checked');
+            }
+            updateProgress();
+        }
+
+        function renderChecklist() {
+            lifeEvents.forEach((event, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'checklist-item';
+                
+                if (checkedItems.includes(index)) {
+                    itemDiv.classList.add('checked');
+                }
+
+                const checkboxDiv = document.createElement('div');
+                checkboxDiv.className = 'checkbox';
+
+                const textSpan = document.createElement('span');
+                textSpan.className = 'item-text';
+                
+                const emojiSpan = document.createElement('span');
+                emojiSpan.className = 'emoji';
+                emojiSpan.textContent = event.emoji;
+
+                const labelSpan = document.createElement('span');
+                labelSpan.textContent = event.text;
+
+                textSpan.appendChild(emojiSpan);
+                textSpan.appendChild(labelSpan);
+
+                itemDiv.appendChild(checkboxDiv);
+                itemDiv.appendChild(textSpan);
+
+                itemDiv.addEventListener('click', () => toggleItem(index, itemDiv));
+                container.appendChild(itemDiv);
+            });
+            updateProgress();
+        }
+
+        // Stats & Persona Logic
+        const personaData = {
+            milestones: { title: "The Grounded", msg: "You have built a solid foundation and lived a complete life cycle. You understand the core human experience. To balance this, try embracing the unpredictable—travel without a map or dive deep into an abstract concept." },
+            philosophy: { title: "The Thinker", msg: "You confront the void and question existence. You understand that meaning is constructed. Balance your deep thoughts by creating something tangible in the physical world." },
+            tech: { title: "The Architect", msg: "You construct digital worlds and solve complex logic. Your technical prowess is sharp. Remember to occasionally disconnect and experience the raw, unprogrammed reality." },
+            chess: { title: "The Tactician", msg: "You calculate, strategize, and anticipate the next move. You command the board. However, remember that life rarely follows rigid rules. Allow yourself to be spontaneous." },
+            adventure: { title: "The Explorer", msg: "You seek horizons and thrive on adrenaline. You collect memories across the globe. Ground yourself occasionally by mastering a quiet, isolated discipline." },
+            social: { title: "The Connector", msg: "You thrive on empathy, understanding, and shared human experiences. Your strength is your network. Take time to sit in solitude and discover what you want when no one is watching." },
+            creation: { title: "The Creator", msg: "You bring ideas into reality through art, business, and expression. You leave a mark. To sharpen your mind further, try studying a rigid, logical system." },
+            none: { title: "The Blank Canvas", msg: "You stand at the beginning. Every path is open to you. Start clicking boxes, author your own experience, and define your existence." }
+        };
+
+        function showCertificate() {
+            const totalItems = lifeEvents.length;
+            const checkedCount = checkedItems.length;
+            
+            let catCounts = { milestones: 0, philosophy: 0, tech: 0, chess: 0, adventure: 0, social: 0, creation: 0 };
+            
+            checkedItems.forEach(index => {
+                const cat = lifeEvents[index].cat;
+                if(catCounts[cat] !== undefined) {
+                    catCounts[cat]++;
+                }
+            });
+
+      let topCat = "none";
+            let maxCount = 0;
+            for (const [cat, count] of Object.entries(catCounts)) {
+                if (count > maxCount) {
+                    maxCount = count;
+                    topCat = cat;
+                }
+            }
+
+            document.getElementById('cert-score').textContent = checkedCount;
+            document.getElementById('cert-total').textContent = `/ ${totalItems}`;
+            
+            document.getElementById('cert-persona').textContent = personaData[topCat].title;
+            document.getElementById('cert-message').textContent = personaData[topCat].msg;
+
+            document.getElementById('cert-modal').classList.add('active');
+        }
+
+        function closeCertificate() {
+            document.getElementById('cert-modal').classList.remove('active');
+        }
+
+        function openAbout() {
+            document.getElementById('about-modal').classList.add('active');
+      }
+
+      function closeAbout() {
+            document.getElementById('about-modal').classList.remove('active');
+        }
+
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        });
+
+        // Initialize App
+        renderChecklist();
+    </script>
+</body>
+</html>
