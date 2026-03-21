@@ -196,7 +196,7 @@ h1 {
   opacity: 1;
 }
 
-/* SKILLS SECTION (Styled like Tags) */
+/* SKILLS SECTION */
 .skills-container {
   display: flex;
   flex-wrap: wrap;
@@ -230,17 +230,57 @@ h1 {
   font-size: 14px;
 }
 
-/* CARDS FOR PROJECTS */
+/* FILTER SYSTEM */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
 .section-label { 
   font-size: 10px; 
   font-weight: 700; 
   letter-spacing: 2.5px; 
   opacity: 0.5; 
   text-transform: uppercase; 
-  margin-bottom: 15px; 
   display: block; 
 }
 
+.filter-container {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.filter-btn:hover {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.filter-btn.active {
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+}
+
+/* CARDS FOR PROJECTS */
 .card {
   background: rgba(10, 10, 10, 0.6);
   border: 1px solid #1a1a1a;
@@ -252,7 +292,13 @@ h1 {
   flex-direction: column;
   text-decoration: none;
   color: #ffffff;
-  transition: 0.3s ease;
+  transition: 0.4s ease;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .card:hover {
@@ -374,7 +420,7 @@ p.project-desc {
     </div>
   </div>
 
-  <span class="section-label">Tech Stack & AI Tools</span>
+  <span class="section-label" style="margin-bottom: 15px;">Tech Stack & AI Tools</span>
   <div class="skills-container">
     <div class="skill-tag"><i class="fab fa-html5"></i> HTML5</div>
     <div class="skill-tag"><i class="fab fa-css3-alt"></i> CSS3</div>
@@ -395,228 +441,255 @@ p.project-desc {
     <div class="skill-tag"><i class="fab fa-x-twitter"></i> Grok</div>
   </div>
 
-  <span class="section-label">Featured Projects</span>
+  <div class="section-header">
+    <span class="section-label" style="margin-bottom: 0;">Featured Projects</span>
+    <div class="filter-container">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="website">Website</button>
+      <button class="filter-btn" data-filter="game">Game</button>
+      <button class="filter-btn" data-filter="stuff">Stuff</button>
+    </div>
+  </div>
 
-  <a href="kdramachecklist.html" target="_blank" class="card">
-      <div class="project-header">
-        <div class="project-title-wrapper">
-          <span class="project-title">The K-Drama Archive</span>
-          <span class="status-badge">Web Tracker</span>
+  <div id="projects-container">
+    <a href="whimsical.html" target="_blank" class="card" data-category="website">
+        <div class="project-header">
+          <div class="project-title-wrapper">
+            <span class="project-title">The World of Whimsy</span>
+            <span class="status-badge">Website</span>
+          </div>
+          <i class="fas fa-external-link-alt project-icon"></i>
         </div>
-        <i class="fas fa-external-link-alt project-icon"></i>
-      </div>
-      <p class="project-desc">
-        A premium, dark-themed checklist application designed for K-Drama enthusiasts. It features a curated list of top-tier shows, saves your progress locally, and uses a custom algorithm to calculate your dominant watched genre, generating a personalized "Viewer Persona" certificate.
-      </p>
-      <div class="project-tech">
-        <span class="tech-bubble">HTML5</span>
-        <span class="tech-bubble">CSS3</span>
-        <span class="tech-bubble">JavaScript</span>
-      </div>
-  </a>
+        <p class="project-desc">
+          A pure black, minimalist website exploring the concept of "whimsical" thought. It relies on elegant typography, subtle animations, and high contrast to create a mysterious, imaginative, and calm aesthetic without the use of colorful themes.
+        </p>
+        <div class="project-tech">
+          <span class="tech-bubble">HTML5</span>
+          <span class="tech-bubble">CSS3</span>
+          <span class="tech-bubble">Vanilla JS</span>
+        </div>
+    </a>
 
-  <a href="lifechecklist.html" target="_blank" class="card">
-    <div class="project-header">
-      <div class="project-title-wrapper">
-        <span class="project-title">Life Checklist</span>
-        <span class="status-badge">Web App</span>
-      </div>
-      <i class="fas fa-external-link-alt project-icon"></i>
-    </div>
-    <p class="project-desc">
-      A premium, minimalist web application featuring a curated checklist of over 200 life experiences—ranging from everyday milestones and coding achievements to deep philosophical realizations. It features a sleek dark mode UI, auto-saving progress, and a dynamic algorithm that generates a personalized "Life Experience Report" certificate, revealing your unique persona based on the path you choose to live.
-    </p>
-    <div class="project-tech">
-      <span class="tech-bubble">HTML5</span>
-      <span class="tech-bubble">CSS3</span>
-      <span class="tech-bubble">JavaScript</span>
-      <span class="tech-bubble">Local Storage</span>
-    </div>
-  </a>
+    <a href="kdramachecklist.html" target="_blank" class="card" data-category="website">
+        <div class="project-header">
+          <div class="project-title-wrapper">
+            <span class="project-title">The K-Drama Archive</span>
+            <span class="status-badge">Web Tracker</span>
+          </div>
+          <i class="fas fa-external-link-alt project-icon"></i>
+        </div>
+        <p class="project-desc">
+          A premium, dark-themed checklist application designed for K-Drama enthusiasts. It features a curated list of top-tier shows, saves your progress locally, and uses a custom algorithm to calculate your dominant watched genre, generating a personalized "Viewer Persona" certificate.
+        </p>
+        <div class="project-tech">
+          <span class="tech-bubble">HTML5</span>
+          <span class="tech-bubble">CSS3</span>
+          <span class="tech-bubble">JavaScript</span>
+        </div>
+    </a>
 
-  <a href="calculator.html" target="_blank" class="card">
+    <a href="lifechecklist.html" target="_blank" class="card" data-category="website">
       <div class="project-header">
         <div class="project-title-wrapper">
-          <span class="project-title">All-in-One Calculator</span>
+          <span class="project-title">Life Checklist</span>
           <span class="status-badge">Web App</span>
         </div>
         <i class="fas fa-external-link-alt project-icon"></i>
       </div>
       <p class="project-desc">
-        A sleek, mobile-first web app that seamlessly combines a Standard and Scientific Calculator, Currency/Unit Converter, and Date/Time Calculator into a single minimalist and professional dark-mode interface. Designed to provide a clutter-free, native app experience.
+        A premium, minimalist web application featuring a curated checklist of over 200 life experiences. It features a sleek dark mode UI, auto-saving progress, and a dynamic algorithm that generates a personalized "Life Experience Report" certificate.
       </p>
       <div class="project-tech">
         <span class="tech-bubble">HTML5</span>
         <span class="tech-bubble">CSS3</span>
         <span class="tech-bubble">JavaScript</span>
+        <span class="tech-bubble">Local Storage</span>
       </div>
+    </a>
+
+    <a href="calculator.html" target="_blank" class="card" data-category="stuff">
+        <div class="project-header">
+          <div class="project-title-wrapper">
+            <span class="project-title">All-in-One Calculator</span>
+            <span class="status-badge">Web App</span>
+          </div>
+          <i class="fas fa-external-link-alt project-icon"></i>
+        </div>
+        <p class="project-desc">
+          A sleek, mobile-first web app that seamlessly combines a Standard and Scientific Calculator, Currency/Unit Converter, and Date/Time Calculator into a single minimalist and professional dark-mode interface.
+        </p>
+        <div class="project-tech">
+          <span class="tech-bubble">HTML5</span>
+          <span class="tech-bubble">CSS3</span>
+          <span class="tech-bubble">JavaScript</span>
+        </div>
   </a>
 
-  <a href="eternal-push.html" target="_blank" class="card">
+    <a href="eternal-push.html" target="_blank" class="card" data-category="game">
+        <div class="project-header">
+          <div class="project-title-wrapper">
+            <span class="project-title">Eternal Push</span>
+            <span class="status-badge">Minigame Unfinished</span>
+          </div>
+          <i class="fas fa-external-link-alt project-icon"></i>
+        </div>
+        <p class="project-desc">
+          Inspired by the absurdist philosophy of The Myth of Sisyphus, this minimalist and interactive web game challenges players to solve rapid-fire math equations to push a boulder up a hill. Built with clean UI and dynamic Canvas animations.
+        </p>
+        <div class="project-tech">
+          <span class="tech-bubble">HTML5</span>
+          <span class="tech-bubble">CSS3</span>
+          <span class="tech-bubble">JavaScript</span>
+          <span class="tech-bubble">Canvas API</span>
+        </div>
+    </a>
+
+    <a href="https://davechristopherr.github.io/Solar-System-/" target="_blank" class="card" data-category="stuff">
       <div class="project-header">
         <div class="project-title-wrapper">
-          <span class="project-title">Eternal Push</span>
-          <span class="status-badge">Minigame Unfinished</span>
+          <span class="project-title">3D Solar System</span>
+          <span class="status-badge">Simulation</span>
         </div>
         <i class="fas fa-external-link-alt project-icon"></i>
       </div>
       <p class="project-desc">
-        Inspired by the absurdist philosophy of The Myth of Sisyphus, this minimalist and interactive web game challenges players to solve rapid-fire math equations to push a boulder up a hill. Answer correctly to build your streak and reach the summit, but answer wrong and watch the boulder roll back down. Built with clean UI, dynamic Canvas animations, and procedural difficulty.
+        A responsive web application featuring a stunning interactive 3D simulation of our solar system. Explore the cosmos in real-time, click on planets to learn fascinating facts, and enjoy smooth, dynamic camera animations.
       </p>
       <div class="project-tech">
         <span class="tech-bubble">HTML5</span>
         <span class="tech-bubble">CSS3</span>
         <span class="tech-bubble">JavaScript</span>
-        <span class="tech-bubble">Canvas API</span>
+        <span class="tech-bubble">Three.js</span>
+        <span class="tech-bubble">GSAP</span>
       </div>
-  </a>
+    </a>
 
-  <a href="https://davechristopherr.github.io/Solar-System-/" target="_blank" class="card">
-    <div class="project-header">
-      <div class="project-title-wrapper">
-        <span class="project-title">3D Solar System</span>
-        <span class="status-badge">Simulation</span>
-      </div>
-      <i class="fas fa-external-link-alt project-icon"></i>
-    </div>
-    <p class="project-desc">
-      A responsive web application featuring a stunning interactive 3D simulation of our solar system. Explore the cosmos in real-time, click on planets to learn fascinating facts, and enjoy smooth, dynamic camera animations. Built from scratch to combine educational content with a premium, glassmorphism-inspired UI.
-    </p>
-    <div class="project-tech">
-      <span class="tech-bubble">HTML5</span>
-      <span class="tech-bubble">CSS3</span>
-      <span class="tech-bubble">JavaScript</span>
-      <span class="tech-bubble">Three.js</span>
-      <span class="tech-bubble">GSAP</span>
-    </div>
-  </a>
-
-  <a href="https://davechristopherr.github.io/Omok-/" target="_blank" class="card">
-    <div class="project-header">
-      <div class="project-title-wrapper">
-        <span class="project-title">Omok Premium (오목)</span>
-        <span class="status-badge">Board Game</span>
-      </div>
-      <i class="fas fa-external-link-alt project-icon"></i>
-    </div>
-    <p class="project-desc">
-      A web-based recreation of the classic strategy board game Omok (Five in a Row). Designed with a clean, modern aesthetic, this interactive two-player game features real-time turn tracking, precise grid placement mechanics, and built-in bilingual instructions (English & Korean). The first to align exactly five stones claims victory!
-    </p>
-    <div class="project-tech">
-      <span class="tech-bubble">HTML5</span>
-      <span class="tech-bubble">CSS3</span>
-      <span class="tech-bubble">JavaScript</span>
-    </div>
-  </a>
-
-  <a href="https://davechristopherr.github.io/Draw-Perfect-Circle-/" target="_blank" class="card">
-    <div class="project-header">
-      <div class="project-title-wrapper">
-        <span class="project-title">Perfect Circle Challenge</span>
-        <span class="status-badge">Minigame</span>
-      </div>
-      <i class="fas fa-external-link-alt project-icon"></i>
-    </div>
-    <p class="project-desc">
-      A fun and interactive web-based mini-game that challenges players to draw the most flawless circle possible using their mouse or touchscreen. Built using HTML5 Canvas and Vanilla JavaScript, the application analyzes the user's drawing path in real-time, computing the geometry and roundness to generate a precise accuracy score. 
-    </p>
-    <div class="project-tech">
-      <span class="tech-bubble">HTML5 Canvas</span>
-      <span class="tech-bubble">CSS3</span>
-      <span class="tech-bubble">JavaScript</span>
-    </div>
-  </a>
-
-  <a href="https://davechristopherr.github.io/Attendance-Record-2026-2027/" target="_blank" class="card">
-    <div class="project-header">
-      <div class="project-title-wrapper">
-        <span class="project-title">Attendance Tracker</span>
-        <span class="status-badge">Web App</span>
-      </div>
-      <i class="fas fa-external-link-alt project-icon"></i>
-    </div>
-    <p class="project-desc">
-      A minimalist, mobile-first web application designed to track student attendance for School Year 2026-2027. It features an interactive tap-to-mark calendar UI, a real-time progress dashboard, and Local Storage integration to auto-save records directly on the device. Built entirely with Vanilla JavaScript to ensure a fast, seamless experience.
-    </p>
-    <div class="project-tech">
-      <span class="tech-bubble">HTML5</span>
-      <span class="tech-bubble">CSS3</span>
-      <span class="tech-bubble">JavaScript</span>
-    </div>
-  </a>
-
-  <a href="im-not-robot.html" target="_blank" class="card">
+    <a href="https://davechristopherr.github.io/Omok-/" target="_blank" class="card" data-category="game">
       <div class="project-header">
         <div class="project-title-wrapper">
-          <span class="project-title">I'm Not A Robot</span>
+          <span class="project-title">Omok Premium (오목)</span>
+          <span class="status-badge">Board Game</span>
+        </div>
+        <i class="fas fa-external-link-alt project-icon"></i>
+      </div>
+      <p class="project-desc">
+        A web-based recreation of the classic strategy board game Omok (Five in a Row). Designed with a clean, modern aesthetic, this interactive two-player game features real-time turn tracking and precise grid placement mechanics.
+      </p>
+      <div class="project-tech">
+        <span class="tech-bubble">HTML5</span>
+        <span class="tech-bubble">CSS3</span>
+        <span class="tech-bubble">JavaScript</span>
+      </div>
+    </a>
+
+    <a href="https://davechristopherr.github.io/Draw-Perfect-Circle-/" target="_blank" class="card" data-category="game">
+      <div class="project-header">
+        <div class="project-title-wrapper">
+          <span class="project-title">Perfect Circle Challenge</span>
           <span class="status-badge">Minigame</span>
         </div>
         <i class="fas fa-external-link-alt project-icon"></i>
       </div>
       <p class="project-desc">
-        An interactive web application that transforms the standard CAPTCHA experience into a 100-level marathon. Developed using Vanilla JavaScript, this project features a procedural level generator that randomly compiles math equations, logic puzzles, and trivia to ensure no two playthroughs are exactly the same. It showcases dynamic DOM manipulation, custom CSS animations, and clean state management.
+        A fun and interactive web-based mini-game that challenges players to draw the most flawless circle possible using their mouse or touchscreen. Built using HTML5 Canvas and Vanilla JavaScript.
+      </p>
+      <div class="project-tech">
+        <span class="tech-bubble">HTML5 Canvas</span>
+        <span class="tech-bubble">CSS3</span>
+        <span class="tech-bubble">JavaScript</span>
+      </div>
+    </a>
+
+    <a href="https://davechristopherr.github.io/Attendance-Record-2026-2027/" target="_blank" class="card" data-category="stuff">
+      <div class="project-header">
+        <div class="project-title-wrapper">
+          <span class="project-title">Attendance Tracker</span>
+          <span class="status-badge">Web App</span>
+        </div>
+        <i class="fas fa-external-link-alt project-icon"></i>
+      </div>
+      <p class="project-desc">
+        A minimalist, mobile-first web application designed to track student attendance for School Year 2026-2027. It features an interactive tap-to-mark calendar UI and Local Storage integration to auto-save records directly on the device.
       </p>
       <div class="project-tech">
         <span class="tech-bubble">HTML5</span>
         <span class="tech-bubble">CSS3</span>
         <span class="tech-bubble">JavaScript</span>
       </div>
-  </a>
-  
-  <a href="love-alarm.html" target="_blank" class="card">
+    </a>
+
+    <a href="im-not-robot.html" target="_blank" class="card" data-category="game">
+        <div class="project-header">
+          <div class="project-title-wrapper">
+            <span class="project-title">I'm Not A Robot</span>
+            <span class="status-badge">Minigame</span>
+          </div>
+          <i class="fas fa-external-link-alt project-icon"></i>
+        </div>
+        <p class="project-desc">
+          An interactive web application that transforms the standard CAPTCHA experience into a 100-level marathon. It features a procedural level generator that randomly compiles math equations, logic puzzles, and trivia.
+        </p>
+        <div class="project-tech">
+          <span class="tech-bubble">HTML5</span>
+          <span class="tech-bubble">CSS3</span>
+          <span class="tech-bubble">JavaScript</span>
+        </div>
+    </a>
+    
+    <a href="love-alarm.html" target="_blank" class="card" data-category="stuff">
+        <div class="project-header">
+          <div class="project-title-wrapper">
+            <span class="project-title">Love Alarm</span>
+            <span class="status-badge">App</span>
+          </div>
+          <i class="fas fa-external-link-alt project-icon"></i>
+        </div>
+        <p class="project-desc">
+          Inspired by the K-drama Love Alarm, I was so amazed by the app's concept that I decided to recreate it. Please note: this is just a fun simulation and not a real working radar like in the show. The heart numbers generated are completely random!
+        </p>
+        <div class="project-tech">
+          <span class="tech-bubble">HTML</span>
+          <span class="tech-bubble">CSS</span>
+          <span class="tech-bubble">JavaScript</span>
+        </div>
+    </a>
+    
+    <a href="https://davechristopherr.github.io/FlappyJeans-/" target="_blank" class="card" data-category="game">
       <div class="project-header">
         <div class="project-title-wrapper">
-          <span class="project-title">Love Alarm</span>
-          <span class="status-badge">App</span>
+          <span class="project-title">FlappyJeans</span>
+          <span class="status-badge">Unfinished</span>
         </div>
         <i class="fas fa-external-link-alt project-icon"></i>
       </div>
       <p class="project-desc">
-        Inspired by the K-drama Love Alarm, I was so amazed by the app's concept that I decided to recreate it. Please note: this is just a fun simulation and not a real working radar like in the show. The heart numbers generated are completely random!
+        A web-based game inspired by the classic mechanics of Flappy Bird, creatively reimagined with a NewJeans theme. This project is currently in the development phase and serves as an exercise in game logic and web animation.
       </p>
       <div class="project-tech">
         <span class="tech-bubble">HTML</span>
         <span class="tech-bubble">CSS</span>
         <span class="tech-bubble">JavaScript</span>
       </div>
-  </a>
-  
-  <a href="https://davechristopherr.github.io/FlappyJeans-/" target="_blank" class="card">
-    <div class="project-header">
-      <div class="project-title-wrapper">
-        <span class="project-title">FlappyJeans</span>
-        <span class="status-badge">Unfinished</span>
-      </div>
-      <i class="fas fa-external-link-alt project-icon"></i>
-    </div>
-    <p class="project-desc">
-      A web-based game inspired by the classic mechanics of Flappy Bird, creatively reimagined with a NewJeans theme. This project is currently in the development phase and serves as an exercise in game logic and web animation.
-    </p>
-    <div class="project-tech">
-      <span class="tech-bubble">HTML</span>
-      <span class="tech-bubble">CSS</span>
-      <span class="tech-bubble">JavaScript</span>
-    </div>
-  </a>
+    </a>
 
-  <a href="https://davechristopherr.github.io/Sauyo-High-School-2025-2026/index.html" target="_blank" class="card">
-    <div class="project-header">
-      <div class="project-title-wrapper">
-        <span class="project-title">Section Website</span>
-        <span class="status-badge">Class Portal</span>
+    <a href="https://davechristopherr.github.io/Sauyo-High-School-2025-2026/index.html" target="_blank" class="card" data-category="website">
+      <div class="project-header">
+        <div class="project-title-wrapper">
+          <span class="project-title">Section Website</span>
+          <span class="status-badge">Class Portal</span>
+        </div>
+        <i class="fas fa-external-link-alt project-icon"></i>
       </div>
-      <i class="fas fa-external-link-alt project-icon"></i>
-    </div>
-    <p class="project-desc">
-      A dedicated, responsive web portal developed for Grade 7 Section Paterno. Designed with a clean and modern interface, it serves as a centralized hub for class information, student directories, and shared memories.
-    </p>
-    <div class="project-tech">
-      <span class="tech-bubble">HTML5</span>
-      <span class="tech-bubble">CSS3</span>
-      <span class="tech-bubble">JavaScript</span>
-    </div>
-  </a>
-
+      <p class="project-desc">
+        A dedicated, responsive web portal developed for Grade 7 Section Paterno. Designed with a clean and modern interface, it serves as a centralized hub for class information, student directories, and shared memories.
+      </p>
+      <div class="project-tech">
+        <span class="tech-bubble">HTML5</span>
+        <span class="tech-bubble">CSS3</span>
+        <span class="tech-bubble">JavaScript</span>
+      </div>
+    </a>
+  </div>
 </div>
 
 <script>
@@ -640,7 +713,35 @@ function toggleNote() {
   content.classList.toggle("open");
   chevron.classList.toggle("rotate");
 }
+
+// FILTER SYSTEM LOGIC
+document.addEventListener("DOMContentLoaded", () => {
+  const filterBtns = document.querySelectorAll(".filter-btn");
+  const projectCards = document.querySelectorAll(".card");
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      // Tanggalin ang active class sa lahat ng buttons
+      filterBtns.forEach(b => b.classList.remove("active"));
+      // Ilagay ang active class sa pinindot na button
+      btn.classList.add("active");
+
+      const filterValue = btn.getAttribute("data-filter");
+
+      projectCards.forEach(card => {
+        const category = card.getAttribute("data-category");
+        
+        // Ipakita kapag naka "all" o nag-match yung category
+        if (filterValue === "all" || filterValue === category) {
+          card.style.display = "flex";
+        } else {
+          card.style.display = "none";
+        }
+      });
+    });
+  });
+});
 </script>
 
 </body>
-</html>
+          </html>
