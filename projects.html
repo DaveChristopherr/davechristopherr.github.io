@@ -103,7 +103,7 @@ body {
 
 .header-section {
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 }
 
 h1 { 
@@ -120,6 +120,80 @@ h1 {
   letter-spacing: 3px; 
   text-transform: uppercase; 
   font-weight: 600; 
+}
+
+/* QUICK NOTE TOGGLE SECTION */
+.note-wrapper {
+  background: rgba(10, 10, 10, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  margin-bottom: 40px;
+  overflow: hidden;
+  transition: 0.3s ease;
+}
+
+.note-wrapper:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.note-toggle-btn {
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  transition: 0.3s ease;
+}
+
+.note-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.03);
+  color: #ffffff;
+}
+
+.note-toggle-btn .left-side {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.note-toggle-btn i.fa-lightbulb {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 14px;
+}
+
+.chevron-icon {
+  transition: transform 0.3s ease;
+  font-size: 12px;
+}
+
+.chevron-icon.rotate {
+  transform: rotate(180deg);
+}
+
+.note-content {
+  max-height: 0;
+  padding: 0 20px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+  line-height: 1.7;
+  font-weight: 500;
+  text-align: center;
+  transition: max-height 0.4s ease, padding 0.4s ease, opacity 0.3s ease;
+  opacity: 0;
+}
+
+.note-content.open {
+  max-height: 200px;
+  padding: 10px 20px 25px 20px;
+  opacity: 1;
 }
 
 /* SKILLS SECTION (Styled like Tags) */
@@ -152,7 +226,7 @@ h1 {
   color: #ffffff;
 }
 
-.skill-tag i {
+.skill-tag i, .skill-tag svg {
   font-size: 14px;
 }
 
@@ -287,17 +361,38 @@ p.project-desc {
     <div class="subtitle">Projects & Tech Stack</div>
   </div>
 
+  <div class="note-wrapper">
+    <button class="note-toggle-btn" onclick="toggleNote()">
+      <div class="left-side">
+        <i class="fas fa-lightbulb"></i>
+        <span>Quick Note</span>
+      </div>
+      <i class="fas fa-chevron-down chevron-icon" id="noteChevron"></i>
+    </button>
+    <div class="note-content" id="noteContent">
+      <p>All the projects showcased below are personal concepts born out of my own imagination, built during my free time. I am currently a student exploring web development, not a professional taking client commissions. These creations are simply the results of my curiosity and passion for coding.</p>
+    </div>
+  </div>
+
   <span class="section-label">Tech Stack & AI Tools</span>
   <div class="skills-container">
     <div class="skill-tag"><i class="fab fa-html5"></i> HTML5</div>
     <div class="skill-tag"><i class="fab fa-css3-alt"></i> CSS3</div>
     <div class="skill-tag"><i class="fab fa-js"></i> JavaScript</div>
     <div class="skill-tag"><i class="fab fa-python"></i> Python</div>
+    <div class="skill-tag"><i class="fas fa-database"></i> SQLite</div>
+    <div class="skill-tag"><i class="fas fa-fire"></i> Firebase</div>
     <div class="skill-tag"><i class="fas fa-robot"></i> ChatGPT</div>
-    <div class="skill-tag"><i class="fas fa-sparkles"></i> Gemini</div>
+    <div class="skill-tag">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 0c-.2 5.5-4.5 9.8-10 10 5.5.2 9.8 4.5 10 10 .2-5.5 4.5-9.8 10-10-5.5-.2-9.8-4.5-10-10z"/>
+      </svg> 
+      Gemini
+    </div>
     <div class="skill-tag"><i class="fas fa-brain"></i> Claude</div>
     <div class="skill-tag"><i class="fas fa-code-branch"></i> Copilot</div>
-    <div class="skill-tag"><i class="fas fa-microchip"></i> Meta AI</div>
+    <div class="skill-tag"><i class="fab fa-brave"></i> Brave AI</div>
+    <div class="skill-tag"><i class="fab fa-x-twitter"></i> Grok</div>
   </div>
 
   <span class="section-label">Featured Projects</span>
@@ -481,7 +576,16 @@ function toggleSideMenu() {
     overlay.style.display = "block";
   }
 }
+
+// TOGGLE SCRIPT PARA SA QUICK NOTE
+function toggleNote() {
+  const content = document.getElementById("noteContent");
+  const chevron = document.getElementById("noteChevron");
+  
+  content.classList.toggle("open");
+  chevron.classList.toggle("rotate");
+}
 </script>
 
 </body>
-  </html>  
+</html>
