@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Premium All-in-One Calculator</title>
+    <style>
+        /* BASE & RESET */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body, html {
+            width: 100%;
+            /* Using dvh for proper mobile full screen avoiding address bar issues */
+            height: 100dvh; 
+            background-color: #000; /* Pure black for premium dark mode */
+            color: #fff;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* WATERMARK */
+        .watermark {
+            position: absolute;
+            bottom: 95px; /* Above nav bar */
+            right: 20px;
+            font-size: 11px;
+            color: #444;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* TABS */
+        .tab-content {
+            width: 100%;
+            height: calc(100% - 85px); /* Minus nav bar */
+            display: none;
+            flex-direction: column;
+            overflow-y: auto;
+            position: relative;
+        }
+        .tab-content.active {
+            display: flex;
+        }
+
+        /* ============================
+           TAB 1: CALCULATOR STYLES
+           ============================ */
+        .display-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 30px 25px;
+            text-align: right;
+            position: relative;
+        }
+
+        /* Premium Scientific Toggle */
+        .sci-toggle-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s, transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        .sci-toggle-btn:active { opacity: 1; transform: scale(0.95); }
+        .sci-toggle-btn svg { width: 22px; height: 22px; fill: none; stroke: #ff9f0a; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+        .sci-toggle-btn span { color: #ff9f0a; font-size: 10px; font-weight: 500; letter-spacing: 0.5px; }
+
+        .history {
+            color: #777;
+            font-size: 26px;
+            min-height: 35px;
+            margin-bottom: 5px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .current-input {
+            color: #fff;
+            font-size: 85px;
+            font-weight: 200;
+            border: none;
+            background: transparent;
+            text-align: right;
+            width: 100%;
+            outline: none;
+        }
+
+        .keypad {
+            padding: 0 20px 25px 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .btn {
+            aspect-ratio: 1/1;
+            border-radius: 50%;
+            border: none;
+            font-size: 34px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: filter 0.2s ease, transform 0.1s;
+            font-weight: 400;
+        }
+        .btn:active { filter: brightness(1.5); transform: scale(0.95); }
+        .btn svg { width: 28px; height: 28px; stroke: currentColor; stroke-width: 2; fill: none; }
+
+        /* Colors */
+        .bg-dark { background-color: #2c2c2e; color: #fff; }
+        .bg-gray { background-color: #a5a5a5; color: #000; }
+        .bg-orange { background-color: #ff9f0a; color: #fff; font-size: 40px; }
+        .bg-sci { background-color: #1c1c1e; color: #ff9f0a; font-size: 18px; }
+
+        .hidden { display: none !important; }
+
+        /* ============================
+           TAB 2 & 3: CONVERTER & DATE
+           ============================ */
+        .panel-header {
+            padding: 40px 25px 15px;
+            font-size: 34px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .tool-section {
+            padding: 10px 25px 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .input-group {
+            background-color: #1c1c1e;
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .input-group label {
+            color: #888;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        /* CUSTOM PREMIUM SELECTOR UI */
+        .custom-select-btn {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 22px;
+            font-weight: 300;
+            text-align: left;
+            padding: 5px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        .custom-select-btn svg { width: 18px; height: 18px; stroke: #888; }
+        
+        .text-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: #ff9f0a;
+            font-size: 36px;
+            font-weight: 300;
+            outline: none;
+        }
+
+        input[type="time"]::-webkit-calendar-picker-indicator,
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            opacity: 0.5;
+            cursor: pointer;
+            width: 25px;
+            height: 25px;
+        }
+
+        .action-btn {
+            background-color: #ff9f0a;
+            color: #fff;
+            border: none;
+            padding: 18px;
+            border-radius: 20px;
+            font-size: 18px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: opacity 0.2s;
+            margin-top: 10px;
+        }
+        .action-btn:active { opacity: 0.8; transform: scale(0.98); }
+
+        .result-box {
+            font-size: 40px;
+            font-weight: 200;
+            color: #fff;
+            padding-top: 10px;
+        }
+
+        /* ============================
+           BOTTOM SHEET MODAL (For Selection)
+           ============================ */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .modal-sheet {
+            position: absolute;
+            bottom: -100%;
+            left: 0; width: 100%;
+            background: #1c1c1e;
+            border-radius: 30px 30px 0 0;
+            padding: 20px;
+            transition: bottom 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            max-height: 70vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .modal-overlay.show { display: block; opacity: 1; }
+        .modal-overlay.show .modal-sheet { bottom: 0; }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #333;
+            margin-bottom: 10px;
+        }
+        .modal-header h3 { font-weight: 500; font-size: 18px; }
+        .close-modal { background: #333; color: #fff; border: none; border-radius: 50%; width: 30px; height: 30px; font-weight: bold; cursor: pointer; }
+        
+        .modal-list {
+            overflow-y: auto;
+            flex: 1;
+        }
+        .modal-item {
+            padding: 18px 10px;
+            border-bottom: 1px solid #2a2a2c;
+            font-size: 18px;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .modal-item:active { background: #333; }
+
+        /* ============================
+           BOTTOM NAVIGATION
+           ============================ */
+        .nav-bar {
+            height: 85px;
+            width: 100%;
+            background-color: rgba(28, 28, 30, 0.95);
+            backdrop-filter: blur(20px);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: 20px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            position: absolute;
+            bottom: 0;
+        }
+
+        .nav-item {
+            color: #777;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-item.active { color: #ff9f0a; }
+
+        .nav-item svg {
+            width: 26px;
+            height: 26px;
+            stroke: currentColor;
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+            transition: transform 0.2s;
+        }
+        .nav-item.active svg { transform: translateY(-3px); }
+    </style>
+</head>
+<body>
+
+    <div class="watermark">made by you ☕</div>
+
+    <div id="tab-math" class="tab-content active">
+        <div class="display-area">
+            <button class="sci-toggle-btn" onclick="toggleSci()" title="Scientific Calculator">
+                <svg viewBox="0 0 24 24"><path d="M4 19l4-14 4 14 4-14 4 14"/><path d="M2 12h20" stroke-dasharray="2 4"/></svg>
+                <span>Scientific</span>
+            </button>
+            <div class="history" id="history"></div>
+            <input type="text" class="current-input" id="screen" value="0" disabled>
+        </div>
+
+        <div class="keypad">
+            <button class="btn bg-sci sci-btn hidden" onclick="appendMath('Math.sin(')">sin</button>
+            <button class="btn bg-sci sci-btn hidden" onclick="appendMath('Math.cos(')">cos</button>
+            <button class="btn bg-sci sci-btn hidden" onclick="appendMath('Math.tan(')">tan</button>
+            <button class="btn bg-sci sci-btn hidden" onclick="appendMath('Math.log10(')">log</button>
+
+            <button class="btn bg-sci sci-btn hidden" onclick="appendMath('Math.sqrt(')">√</button>
+            <button class="btn bg-sci sci-btn hidden" onclick="appendMath('**')">x²</button>
+            <button class="btn bg-sci sci-btn hidden" onclick="appendMath('Math.PI')">π</button>
+            <button class="btn bg-sci sci-btn hidden" onclick="appendMath('(')">( )</button>
+
+            <button class="btn bg-gray" onclick="clearScreen()">AC</button>
+            <button class="btn bg-gray" onclick="toggleSign()">+/-</button>
+            <button class="btn bg-gray" onclick="appendChar('%')">%</button>
+            <button class="btn bg-orange" onclick="appendChar('/')">÷</button>
+
+            <button class="btn bg-dark" onclick="appendChar('7')">7</button>
+            <button class="btn bg-dark" onclick="appendChar('8')">8</button>
+            <button class="btn bg-dark" onclick="appendChar('9')">9</button>
+            <button class="btn bg-orange" onclick="appendChar('*')">×</button>
+
+            <button class="btn bg-dark" onclick="appendChar('4')">4</button>
+            <button class="btn bg-dark" onclick="appendChar('5')">5</button>
+            <button class="btn bg-dark" onclick="appendChar('6')">6</button>
+            <button class="btn bg-orange" onclick="appendChar('-')">−</button>
+
+            <button class="btn bg-dark" onclick="appendChar('1')">1</button>
+            <button class="btn bg-dark" onclick="appendChar('2')">2</button>
+            <button class="btn bg-dark" onclick="appendChar('3')">3</button>
+            <button class="btn bg-orange" onclick="appendChar('+')">+</button>
+
+            <button class="btn bg-dark" onclick="appendChar('.')">.</button>
+            <button class="btn bg-dark" onclick="appendChar('0')">0</button>
+            <button class="btn bg-dark" onclick="deleteChar()">
+                <svg viewBox="0 0 24 24"><path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path><line x1="18" y1="9" x2="12" y2="15"></line><line x1="12" y1="9" x2="18" y2="15"></line></svg>
+            </button>
+            <button class="btn bg-orange" onclick="calculate()">=</button>
+        </div>
+    </div>
+
+    <div id="tab-convert" class="tab-content">
+        <div class="panel-header">Convert</div>
+        
+        <div class="tool-section">
+            <div class="input-group">
+                <label>Category</label>
+                <button class="custom-select-btn" onclick="openModal('category')" id="display-category" style="color: #ff9f0a;">
+                    Currency (Money)
+                    <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+            </div>
+
+            <div class="input-group">
+                <label>Amount</label>
+                <input type="number" class="text-input" id="conv-amount" value="1" oninput="convert()">
+                <div style="height: 1px; background: #333; margin: 10px 0;"></div>
+                <label>From</label>
+                <button class="custom-select-btn" onclick="openModal('from')" id="display-from">
+                    USD (US Dollar)
+                    <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+            </div>
+
+            <div class="input-group">
+                <label>To Result</label>
+                <button class="custom-select-btn" onclick="openModal('to')" id="display-to">
+                    PHP (Philippine Peso)
+                    <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+                <div class="result-box" id="conv-result">0.00</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tab-datetime" class="tab-content">
+        <div class="panel-header">Date / Time</div>
+        
+        <div class="tool-section">
+            <div class="input-group">
+                <label style="color: #ff9f0a;">Time Difference</label>
+                <div style="display: flex; gap: 15px; margin-top: 10px;">
+                    <input type="time" class="text-input" style="font-size:24px;" id="time1">
+                    <span style="color:#555; align-self:center; font-size:20px;">→</span>
+                    <input type="time" class="text-input" style="font-size:24px;" id="time2">
+                </div>
+                <button class="action-btn" onclick="calcTime()">Calculate Time</button>
+                <div class="result-box" id="time-result" style="text-align: center; font-size: 28px;">--</div>
+            </div>
+
+            <div class="input-group">
+                <label style="color: #ff9f0a;">Days Between</label>
+                <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 10px;">
+                    <input type="date" class="text-input" style="font-size:20px;" id="date1">
+                    <input type="date" class="text-input" style="font-size:20px;" id="date2">
+                </div>
+                <button class="action-btn" onclick="calcDate()">Calculate Days</button>
+                <div class="result-box" id="date-result" style="text-align: center; font-size: 28px;">--</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-bar">
+        <div class="nav-item active" onclick="switchTab('math')">
+            <svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="18"></line><line x1="16" y1="10" x2="16" y2="10.01"></line><line x1="12" y1="10" x2="12" y2="10.01"></line><line x1="8" y1="10" x2="8" y2="10.01"></line><line x1="12" y1="14" x2="12" y2="14.01"></line><line x1="8" y1="14" x2="8" y2="14.01"></line><line x1="12" y1="18" x2="12" y2="18.01"></line><line x1="8" y1="18" x2="8" y2="18.01"></line></svg>
+            Calc
+        </div>
+        <div class="nav-item" onclick="switchTab('convert')">
+            <svg viewBox="0 0 24 24"><path d="M17 3l4 4-4 4"></path><path d="M3 7h18"></path><path d="M7 21l-4-4 4-4"></path><path d="M21 17H3"></path></svg>
+            Convert
+        </div>
+        <div class="nav-item" onclick="switchTab('datetime')">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            Time
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="selection-modal" onclick="closeModal(event)">
+        <div class="modal-sheet" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3 id="modal-title">Select Option</h3>
+                <button class="close-modal" onclick="closeModal(true)">✕</button>
+            </div>
+            <div class="modal-list" id="modal-list">
+                </div>
+        </div>
+    </div>
+
+    <script>
+        /* =====================================
+           TAB NAVIGATION
+           ===================================== */
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(`tab-${tab}`).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        /* =====================================
+           MATH CALCULATOR
+           ===================================== */
+        const screen = document.getElementById('screen');
+        const historyDisplay = document.getElementById('history');
+        let currentInput = '0';
+        let isNewInput = true;
+
+        function updateScreen() {
+            screen.style.fontSize = currentInput.length > 8 ? '55px' : '85px';
+            screen.value = currentInput;
+        }
+
+        function appendChar(char) {
+            if (isNewInput) {
+                currentInput = char === '.' ? '0.' : char;
+                isNewInput = false;
+            } else { currentInput += char; }
+            updateScreen();
+        }
+
+        function appendMath(func) {
+            if (isNewInput) { currentInput = func; isNewInput = false; } 
+            else { currentInput += func; }
+            updateScreen();
+        }
+
+        function clearScreen() { currentInput = '0'; historyDisplay.innerText = ''; isNewInput = true; updateScreen(); }
+
+        function deleteChar() {
+            if (currentInput.length === 1 || currentInput === 'Error') { currentInput = '0'; isNewInput = true; } 
+            else { currentInput = currentInput.slice(0, -1); }
+            updateScreen();
+        }
+
+        function toggleSign() {
+            if (currentInput !== '0' && currentInput !== 'Error') {
+                currentInput = currentInput.startsWith('-') ? currentInput.substring(1) : '-' + currentInput;
+                updateScreen();
+            }
+        }
+
+        function calculate() {
+            try {
+                let expression = currentInput.replace(/×/g, '*').replace(/÷/g, '/');
+                historyDisplay.innerText = currentInput + ' =';
+                let result = new Function('return ' + expression)();
+                if(!isFinite(result)) throw "Error";
+                currentInput = String(Math.round(result * 10000000) / 10000000);
+                isNewInput = true;
+                updateScreen();
+            } catch (error) {
+                currentInput = 'Error';
+                isNewInput = true;
+                updateScreen();
+            }
+        }
+
+        function toggleSci() {
+            const btns = document.querySelectorAll('.sci-btn');
+            let isHidden = btns[0].classList.contains('hidden');
+            btns.forEach(btn => isHidden ? btn.classList.remove('hidden') : btn.classList.add('hidden'));
+        }
+
+      /* =====================================
+           CONVERTER LOGIC & CUSTOM MODAL
+           ===================================== */
+        const unitData = {
+            currency: { "PHP (Philippine Peso)": 56.20, "USD (US Dollar)": 1, "EUR (Euro)": 0.92, "JPY (Japanese Yen)": 150.15, "KRW (Korean Won)": 1335.50, "GBP (British Pound)": 0.79 },
+            length: { "Meter (m)": 1, "Kilometer (km)": 0.001, "Centimeter (cm)": 100, "Inch (in)": 39.3701, "Foot (ft)": 3.28084 },
+            weight: { "Kilogram (kg)": 1, "Gram (g)": 1000, "Pound (lb)": 2.20462, "Ounce (oz)": 35.274 }
+        };
+
+        const categories = { "currency": "Currency (Money)", "length": "Length", "weight": "Weight" };
+        
+        let currentCategory = 'currency';
+        let fromUnit = 'USD (US Dollar)';
+        let toUnit = 'PHP (Philippine Peso)';
+        let activeSelection = ''; // 'category', 'from', or 'to'
+
+        function openModal(type) {
+            activeSelection = type;
+            const modal = document.getElementById('selection-modal');
+            const list = document.getElementById('modal-list');
+            const title = document.getElementById('modal-title');
+            list.innerHTML = '';
+
+            if(type === 'category') {
+                title.innerText = "Select Category";
+                Object.keys(categories).forEach(key => {
+                    list.innerHTML += `<div class="modal-item" onclick="selectItem('${key}')">${categories[key]}</div>`;
+                });
+            } else {
+                title.innerText = type === 'from' ? "Convert From" : "Convert To";
+                Object.keys(unitData[currentCategory]).forEach(unit => {
+                    list.innerHTML += `<div class="modal-item" onclick="selectItem('${unit}')">${unit}</div>`;
+                });
+            }
+            modal.classList.add('show');
+        }
+
+        function closeModal(force = false) {
+            if(force === true || event.target.id === 'selection-modal') {
+                document.getElementById('selection-modal').classList.remove('show');
+            }
+        }
+
+        function selectItem(value) {
+            if(activeSelection === 'category') {
+                currentCategory = value;
+                document.getElementById('display-category').innerHTML = `${categories[value]} <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>`;
+                // Reset defaults
+                let keys = Object.keys(unitData[currentCategory]);
+                fromUnit = keys[0];
+                toUnit = keys[1] || keys[0];
+                updateDisplayBtns();
+            } else if (activeSelection === 'from') {
+                fromUnit = value;
+                updateDisplayBtns();
+            } else if (activeSelection === 'to') {
+                toUnit = value;
+                updateDisplayBtns();
+            }
+            closeModal(true);
+            convert();
+        }
+
+       function updateDisplayBtns() {
+            document.getElementById('display-from').innerHTML = `${fromUnit} <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>`;
+            document.getElementById('display-to').innerHTML = `${toUnit} <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>`;
+        }
+
+        function convert() {
+            const amount = parseFloat(document.getElementById('conv-amount').value) || 0;
+            const fromRate = unitData[currentCategory][fromUnit];
+            const toRate = unitData[currentCategory][toUnit];
+            
+            let result = (amount / fromRate) * toRate;
+            let decimals = currentCategory === 'currency' ? 2 : 4;
+            document.getElementById('conv-result').innerText = result.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: decimals}) + " " + toUnit.split(' ')[0];
+        }
+
+       /* =====================================
+           DATE & TIME
+           ===================================== */
+        function calcTime() {
+            const t1 = document.getElementById('time1').value;
+            const t2 = document.getElementById('time2').value;
+            const res = document.getElementById('time-result');
+            if(!t1 || !t2) return res.innerText = "Set times ↑";
+
+            const d1 = new Date("1970-01-01T" + t1 + "Z");
+            let d2 = new Date("1970-01-01T" + t2 + "Z");
+            if (d2 < d1) d2.setDate(d2.getDate() + 1);
+
+            const diff = d2 - d1;
+            const hrs = Math.floor(diff / 1000 / 60 / 60);
+            const mins = Math.floor((diff / 1000 / 60) % 60);
+            res.innerText = `${hrs}h ${mins}m`;
+        }
+
+      function calcDate() {
+            const d1 = new Date(document.getElementById('date1').value);
+            const d2 = new Date(document.getElementById('date2').value);
+            const res = document.getElementById('date-result');
+            if(isNaN(d1) || isNaN(d2)) return res.innerText = "Set dates ↑";
+
+            const diffTime = Math.abs(d2 - d1);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+            res.innerText = `${diffDays} days`;
+        }
+    </script>
+</body>
+</html>
