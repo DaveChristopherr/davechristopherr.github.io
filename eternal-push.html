@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Eternal Push — Sisyphus Math</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* ── RESET ── */
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+html,body{height:100%;overflow:hidden}
+
+/* ── TOKENS ── */
+:root{
+  --bg:#0b0908;
+  --s1:#171310;
+  --s2:#1d1a13;
+  --bd:#3a2c1c;
+  --tx:#f0e2cc;
+  --dim:#8a7a62;
+  --ac:#c4601e;
+  --gd:#d4a040;
+  --gd2:#f0c050;
+  --ok:#3d7854;
+  --ok2:#52a870;
+  --er:#943030;
+  --er2:#c04848;
+  --r:10px;
+}
+
+body{
+  display:flex;flex-direction:column;
+  background:var(--bg);color:var(--tx);
+  font-family:'Crimson Text',Georgia,serif;
+  max-width:480px;margin:0 auto;
+  height:100dvh;position:relative;
+}
+
+/* ── HEADER ── */
+.hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 16px;
+  background:var(--s1);
+  border-bottom:1px solid var(--bd);
+  flex-shrink:0;
+}
+.hdr-title{
+  font-family:'Cinzel',serif;font-size:13px;font-weight:700;
+  letter-spacing:4px;color:var(--gd);
+  text-align:center;flex:1;
+}
+.ic-btn{
+  width:34px;height:34px;
+  display:flex;align-items:center;justify-content:center;
+  border:1.5px solid var(--bd);border-radius:50%;
+  background:transparent;color:var(--dim);
+  font-size:14px;cursor:pointer;font-family:'Cinzel',serif;
+  transition:border-color .2s,color .2s;flex-shrink:0;
+}
+.ic-btn:hover,.ic-btn:active{border-color:var(--gd);color:var(--gd);}
+
+/* ── STATS ── */
+.stats{
+  display:flex;flex-shrink:0;
+  background:var(--s2);border-bottom:1px solid var(--bd);
+}
+.stat{flex:1;text-align:center;padding:7px 4px;border-right:1px solid var(--bd);}
+.stat:last-child{border-right:none}
+.stat-lb{
+  font-family:'Cinzel',serif;font-size:9px;
+  color:var(--dim);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:1px;
+}
+.stat-vl{
+  font-family:'Cinzel',serif;font-size:20px;font-weight:700;
+  color:var(--gd);line-height:1.1;transition:transform .1s;
+}
+.stat-vl.bump{transform:scale(1.2);}
+
+/* ── SCENE ── */
+.scene{flex:1;position:relative;overflow:hidden;min-height:0;}
+canvas{display:block;width:100%;height:100%;}
+
+/* ── TOAST ── */
+.toast{
+  position:absolute;top:12px;left:50%;
+  transform:translateX(-50%) translateY(-70px);
+  background:var(--ok);color:#fff;
+  font-family:'Cinzel',serif;font-size:11px;font-weight:700;
+  letter-spacing:2px;padding:7px 20px;border-radius:100px;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+  white-space:nowrap;pointer-events:none;z-index:20;
+}
+.toast.show{transform:translateX(-50%) translateY(0);}
+.toast.ng{background:var(--er);}
+.toast.gd{background:linear-gradient(90deg,#7a5500,#a07010);}
+
+/* ── PROGRESS ── */
+.pg-wrap{padding:5px 14px 4px;background:var(--bg);flex-shrink:0;}
+.pg-info{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
+.pg-label{font-family:'Cinzel',serif;font-size:9px;color:var(--dim);letter-spacing:1px;}
+.pg-track{height:4px;background:var(--s2);border-radius:2px;overflow:hidden;}
+.pg-fill{
+  height:100%;width:0%;
+  background:linear-gradient(90deg,var(--ac),var(--gd));
+  border-radius:2px;
+  transition:width .7s cubic-bezier(.4,0,.2,1);
+}
+
+/* ── QUESTION ── */
+.qpanel{
+  background:var(--s1);border-top:1px solid var(--bd);
+  padding:12px 14px 13px;flex-shrink:0;
+}
+.qtxt{
+  font-family:'Cinzel',serif;font-size:24px;font-weight:700;
+  text-align:center;letter-spacing:4px;margin-bottom:10px;
+  color:var(--tx);min-height:32px;
+}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.ch{
+  background:var(--s2);border:1.5px solid var(--bd);color:var(--tx);
+  font-family:'Cinzel',serif;font-size:18px;font-weight:600;
+  padding:13px 8px;border-radius:var(--r);
+  cursor:pointer;text-align:center;
+  transition:border-color .15s,background .15s,color .15s,transform .1s,opacity .2s;
+  -webkit-tap-highlight-color:transparent;
+}
+.ch:not(.dis):hover{border-color:var(--gd);color:var(--gd);}
+.ch:not(.dis):active{transform:scale(.95);}
+.ch.ok{background:var(--ok);border-color:var(--ok2);color:#fff;pointer-events:none;}
+.ch.ng{background:var(--er);border-color:var(--er2);color:#fff;pointer-events:none;}
+.ch.dis{pointer-events:none;opacity:.4;}
+
+/* ── FOOTER ── */
+.ftr{
+  padding:6px 16px;background:var(--s1);
+  border-top:1px solid var(--bd);
+  display:flex;justify-content:flex-end;align-items:center;flex-shrink:0;
+}
+.credit{font-size:11px;color:var(--dim);font-style:italic;letter-spacing:.3px;}
+
+/* ── MODAL ── */
+.mb{
+  position:fixed;inset:0;background:rgba(0,0,0,.9);
+  display:flex;align-items:center;justify-content:center;
+  z-index:200;opacity:0;pointer-events:none;transition:opacity .3s;
+  padding:20px;
+}
+.mb.open{opacity:1;pointer-events:all;}
+.md{
+  background:var(--s1);border:1px solid var(--bd);
+  border-radius:18px;padding:28px 22px;
+  max-width:320px;width:100%;
+  transform:scale(.88) translateY(16px);
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1);
+}
+.mb.open .md{transform:scale(1) translateY(0);}
+.md-icon{text-align:center;font-size:36px;margin-bottom:12px;}
+.md h2{
+  font-family:'Cinzel',serif;font-size:16px;color:var(--gd);
+  letter-spacing:3px;margin-bottom:16px;text-align:center;
+}
+.md-rule{
+  display:flex;align-items:flex-start;gap:10px;
+  margin-bottom:9px;font-size:13.5px;color:var(--dim);line-height:1.7;
+}
+.md-rule b{color:var(--tx);}
+.md-rule .icon{flex-shrink:0;font-size:15px;margin-top:1px;}
+.md-divider{height:1px;background:var(--bd);margin:14px 0;}
+.md-close{
+  display:block;width:100%;padding:13px;margin-top:4px;
+  background:var(--ac);border:none;border-radius:var(--r);
+  color:#fff;font-family:'Cinzel',serif;
+  font-size:12px;font-weight:700;letter-spacing:2.5px;cursor:pointer;
+  transition:opacity .2s;
+}
+.md-close:active{opacity:.8;}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hdr">
+  <button class="ic-btn" id="aboutBtn" aria-label="How to play">?</button>
+  <div class="hdr-title">ETERNAL PUSH</div>
+  <div style="width:34px;flex-shrink:0"></div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat">
+    <div class="stat-lb">Score</div>
+    <div class="stat-vl" id="vScore">0</div>
+  </div>
+  <div class="stat">
+    <div class="stat-lb">Streak</div>
+    <div class="stat-vl" id="vStreak">0</div>
+  </div>
+  <div class="stat">
+    <div class="stat-lb">Best</div>
+    <div class="stat-vl" id="vBest">0</div>
+  </div>
+</div>
+
+<!-- GAME SCENE -->
+<div class="scene" id="scene">
+  <canvas id="gc"></canvas>
+  <div class="toast" id="toast"></div>
+</div>
+
+<!-- PROGRESS -->
+<div class="pg-wrap">
+  <div class="pg-info">
+    <span class="pg-label">PROGRESS UP THE HILL</span>
+    <span class="pg-label" id="pgSteps">0 / 10</span>
+  </div>
+  <div class="pg-track">
+    <div class="pg-fill" id="pgFill"></div>
+  </div>
+</div>
+
+<!-- QUESTION -->
+<div class="qpanel">
+  <div class="qtxt" id="qTxt">—</div>
+  <div class="choices" id="choices"></div>
+</div>
+
+<!-- FOOTER -->
+<div class="ftr"><span class="credit">made by devxdave ☕</span></div>
+
+<!-- ABOUT MODAL -->
+<div class="mb" id="mb">
+  <div class="md">
+    <div class="md-icon">⛰️</div>
+    <h2>HOW TO PLAY</h2>
+    <div class="md-rule">
+      <span class="icon">📖</span>
+      <span>Sisyphus is cursed by the gods to <b>push a boulder up a hill for eternity</b>. Help him climb.</span>
+    </div>
+    <div class="md-rule">
+      <span class="icon">✅</span>
+      <span><b>Correct answer</b> — the boulder advances up the hill!</span>
+    </div>
+    <div class="md-rule">
+      <span class="icon">❌</span>
+      <span><b>Wrong answer</b> — the boulder slides back down!</span>
+    </div>
+    <div class="md-rule">
+      <span class="icon">🔥</span>
+      <span>Build a <b>streak</b> of correct answers for bonus points.</span>
+    </div>
+    <div class="md-rule">
+      <span class="icon">⚡</span>
+      <span>Difficulty <b>increases</b> as your score grows higher.</span>
+    </div>
+    <div class="md-divider"></div>
+    <div class="md-rule" style="justify-content:center;text-align:center;color:var(--dim);font-style:italic;font-size:13px;">
+      <span>Reach the summit... only to begin again.<br>Such is the eternal curse of Sisyphus.</span>
+    </div>
+    <button class="md-close" id="mdClose">BEGIN THE PUSH</button>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+// ══════════════════════════════════════════════
+//  CANVAS SETUP
+// ══════════════════════════════════════════════
+const canvas = document.getElementById('gc');
+const ctx    = canvas.getContext('2d');
+let W = 0, H = 0;
+
+function resize() {
+  const el = document.getElementById('scene');
+  W = canvas.width  = el.clientWidth;
+  H = canvas.height = el.clientHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+// ══════════════════════════════════════════════
+//  HILL GEOMETRY
+// ══════════════════════════════════════════════
+// Hill: from bottom-left to upper-right (fractions)
+const HSX = 0.06, HSY = 0.88;
+const HEX = 0.94, HEY = 0.10;
+
+function hillPt(t) {
+  return {
+    x: (HSX + (HEX - HSX) * t) * W,
+    y: (HSY + (HEY - HSY) * t) * H,
+  };
+}
+function hillAngle() {
+  return Math.atan2((HEY - HSY) * H, (HEX - HSX) * W);
+}
+
+// ══════════════════════════════════════════════
+//  STARS (stable — no wobble)
+// ══════════════════════════════════════════════
+const STARS = Array.from({ length: 88 }, () => ({
+  px: Math.random(),
+  py: Math.random() * 0.70,
+  r:  Math.random() * 1.35 + 0.2,
+  a:  Math.random() * 0.45 + 0.15,
+  tw: Math.random() * Math.PI * 2,
+  ts: Math.random() * 1.8  + 0.4,
+}));
+
+// ══════════════════════════════════════════════
+//  BOULDER POLYGON (fixed — never changes shape!)
+// ══════════════════════════════════════════════
+const BOULDER_PTS = [
+  [ 0.03,-1.00],[ 0.50,-0.83],[ 0.90,-0.38],
+  [ 1.00, 0.22],[ 0.80, 0.78],[ 0.20, 0.98],
+  [-0.36, 0.90],[-0.86, 0.55],[-0.98,-0.08],
+  [-0.78,-0.62],[-0.35,-0.92],
+];
+
+// ══════════════════════════════════════════════
+//  PARTICLES
+// ══════════════════════════════════════════════
+const PARTS = [];
+
+function spawnParts(x, y, ok) {
+  const cols = ok
+    ? ['#d4a040','#f0c050','#3d7854','#88d0a0','#f0e2cc','#c4601e']
+    : ['#943030','#c04848','#e08060','#a04020'];
+  const n = ok ? 28 : 14;
+  for (let i = 0; i < n; i++) {
+    const a   = Math.random() * Math.PI * 2;
+    const spd = Math.random() * (ok ? 5.5 : 3.5) + 0.8;
+    PARTS.push({
+      x, y,
+      vx: Math.cos(a) * spd,
+      vy: Math.sin(a) * spd - (ok ? 3.8 : 1.5),
+      r:  Math.random() * 4.5 + 1.5,
+      c:  cols[(Math.random() * cols.length) | 0],
+      life: 1,
+      dec: 0.016 + Math.random() * 0.022,
+    });
+  }
+}
+
+function tickParts() {
+  for (let i = PARTS.length - 1; i >= 0; i--) {
+    const p = PARTS[i];
+    p.x  += p.vx; p.y += p.vy;
+    p.vy += 0.13; p.vx *= 0.98;
+    p.life -= p.dec;
+    if (p.life <= 0) PARTS.splice(i, 1);
+  }
+}
+function drawParts() {
+  PARTS.forEach(p => {
+    ctx.globalAlpha = p.life * 0.9;
+    ctx.fillStyle = p.c;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r * (0.5 + p.life * 0.5), 0, Math.PI * 2);
+    ctx.fill();
+  });
+  ctx.globalAlpha = 1;
+}
+
+// ══════════════════════════════════════════════
+//  AUDIO (Web Audio — lazy init)
+// ══════════════════════════════════════════════
+let _ac = null;
+function getAC() {
+  if (!_ac) _ac = new (window.AudioContext || window.webkitAudioContext)();
+  return _ac;
+}
+function playSound(type) {
+  try {
+    const ac = getAC();
+    if (ac.state === 'suspended') ac.resume();
+    const now = ac.currentTime;
+    if (type === 'correct') {
+      [[523.25, 0], [659.25, 0.10], [783.99, 0.18]].forEach(([freq, when]) => {
+        const o = ac.createOscillator(), g = ac.createGain();
+        o.connect(g); g.connect(ac.destination);
+        o.frequency.value = freq; o.type = 'triangle';
+        g.gain.setValueAtTime(0, now + when);
+        g.gain.linearRampToValueAtTime(0.18, now + when + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.001, now + when + 0.4);
+        o.start(now + when); o.stop(now + when + 0.4);
+      });
+    } else if (type === 'wrong') {
+      const o = ac.createOscillator(), g = ac.createGain();
+      o.connect(g); g.connect(ac.destination);
+      o.type = 'sawtooth';
+      o.frequency.setValueAtTime(200, now);
+      o.frequency.exponentialRampToValueAtTime(80, now + 0.35);
+      g.gain.setValueAtTime(0.12, now);
+      g.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+      o.start(now); o.stop(now + 0.35);
+    } else if (type === 'top') {
+      [523, 659, 784, 1047].forEach((f, i) => {
+        const o = ac.createOscillator(), g = ac.createGain();
+        o.connect(g); g.connect(ac.destination);
+        o.frequency.value = f; o.type = 'triangle';
+        const t = now + i * 0.12;
+        g.gain.setValueAtTime(0, t);
+        g.gain.linearRampToValueAtTime(0.15, t + 0.03);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.55);
+        o.start(t); o.stop(t + 0.55);
+      });
+    } else if (type === 'curse') {
+      const o = ac.createOscillator(), g = ac.createGain();
+      o.connect(g); g.connect(ac.destination);
+      o.type = 'sawtooth';
+      o.frequency.setValueAtTime(150, now);
+      o.frequency.exponentialRampToValueAtTime(50, now + 0.6);
+      g.gain.setValueAtTime(0.14, now);
+      g.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+      o.start(now); o.stop(now + 0.6);
+    }
+  } catch(e) {}
+}
+
+// ══════════════════════════════════════════════
+//  GAME STATE
+// ══════════════════════════════════════════════
+const SEG = 10;
+let score    = 0;
+let streak   = 0;
+let best     = +(localStorage.getItem('ep_best') || 0);
+let position = 0;       // logical 0..SEG
+let visT     = 0.0;     // interpolated 0..1
+let targT    = 0.0;     // target 0..1
+let bRoll    = 0;       // boulder cumulative roll
+let canAns   = true;
+let curQ     = null;
+let mode     = 'idle';  // idle|push|fall|top|curse
+let elapsed  = 0;
+let shakeT   = 0;
+let cursedN  = 0;       // times boulder fell from top
+
+// ══════════════════════════════════════════════
+//  DRAWING
+// ══════════════════════════════════════════════
+function drawBG(t) {
+  const sky = ctx.createLinearGradient(0, 0, 0, H);
+  sky.addColorStop(0, '#04030c');
+  sky.addColorStop(0.55, '#0d0b18');
+  sky.addColorStop(1, '#180e06');
+  ctx.fillStyle = sky;
+  ctx.fillRect(0, 0, W, H);
+
+  // Twinkling stars
+  STARS.forEach(s => {
+    const alpha = s.a + Math.sin(t * s.ts + s.tw) * 0.2;
+    if (alpha <= 0) return;
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = '#f8eedd';
+    ctx.beginPath();
+    ctx.arc(s.px * W, s.py * H, s.r, 0, Math.PI * 2);
+    ctx.fill();
+  });
+  ctx.globalAlpha = 1;
+
+  // Crescent moon
+  const mx = W * 0.78, my = H * 0.10;
+  const mr = Math.min(W, H) * 0.060;
+
+  // Moon glow halo
+  const gl = ctx.createRadialGradient(mx, my, mr * 0.2, mx, my, mr * 2.5);
+  gl.addColorStop(0, 'rgba(240,220,120,.13)');
+  gl.addColorStop(1, 'rgba(240,220,120,0)');
+  ctx.fillStyle = gl;
+  ctx.beginPath(); ctx.arc(mx, my, mr * 2.5, 0, Math.PI * 2); ctx.fill();
+
+  // Moon disk
+  ctx.fillStyle = '#f0e090';
+  ctx.beginPath(); ctx.arc(mx, my, mr, 0, Math.PI * 2); ctx.fill();
+
+  // Crescent shadow
+  ctx.fillStyle = '#04030c';
+  ctx.beginPath(); ctx.arc(mx + mr * 0.33, my - mr * 0.07, mr * 0.87, 0, Math.PI * 2); ctx.fill();
+}
+
+function drawHill() {
+  const ha = hillAngle();
+  const sp = hillPt(0), ep = hillPt(1);
+
+  // Ground fill below slope
+  ctx.beginPath();
+  ctx.moveTo(-10, H + 10);
+  ctx.lineTo(W + 10, H + 10);
+  ctx.lineTo(ep.x, ep.y);
+  ctx.lineTo(sp.x, sp.y);
+  ctx.closePath();
+  const hg = ctx.createLinearGradient(sp.x, sp.y, W * 0.5, H);
+  hg.addColorStop(0, '#211a0e');
+  hg.addColorStop(1, '#161310');
+  ctx.fillStyle = hg; ctx.fill();
+
+  // Surface edge line
+  ctx.beginPath();
+  ctx.moveTo(sp.x - 20, sp.y + 6);
+  ctx.lineTo(ep.x + 20, ep.y - 6);
+  ctx.strokeStyle = '#503c22';
+  ctx.lineWidth = 2.5;
+  ctx.stroke();
+
+  // Surface detail line (lighter)
+  ctx.beginPath();
+  ctx.moveTo(sp.x - 15, sp.y + 2);
+  ctx.lineTo(ep.x + 15, ep.y - 2);
+  ctx.strokeStyle = 'rgba(100,75,40,.3)';
+  ctx.lineWidth = 1; ctx.stroke();
+
+  // Rocky pebbles along slope
+  for (let i = 0; i <= 16; i++) {
+    const tt = i / 16;
+    const p = hillPt(tt);
+    const sz = 1.8 + Math.abs(Math.sin(i * 4.3)) * 1.6;
+    ctx.fillStyle = `rgba(60,46,28,${0.45 + Math.sin(i * 3.1) * 0.22})`;
+    ctx.beginPath();
+    ctx.ellipse(p.x, p.y + 4, sz, sz * 0.38, ha, 0, Math.PI);
+    ctx.fill();
+  }
+
+  // Progress segment dots
+  for (let i = 1; i <= SEG; i++) {
+    const p  = hillPt(i / SEG);
+    const lit = (position >= i);
+    if (lit) {
+      ctx.globalAlpha = 0.3;
+      ctx.fillStyle = '#f0c050';
+      ctx.beginPath(); ctx.arc(p.x, p.y, 8, 0, Math.PI * 2); ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+    ctx.fillStyle = lit ? '#d4a040' : '#3d2e1a';
+    ctx.beginPath(); ctx.arc(p.x, p.y, i === SEG ? 5 : 3.5, 0, Math.PI * 2); ctx.fill();
+  }
+
+  // Summit flag
+  const top = hillPt(1);
+  ctx.strokeStyle = '#a08030';
+  ctx.lineWidth = 1.5;
+  ctx.lineCap = 'round';
+  ctx.beginPath();
+  ctx.moveTo(top.x, top.y - 2);
+  ctx.lineTo(top.x, top.y - 19);
+  ctx.stroke();
+
+  ctx.fillStyle = '#c4601e';
+  ctx.beginPath();
+  ctx.moveTo(top.x, top.y - 19);
+  ctx.lineTo(top.x + 11, top.y - 14);
+  ctx.lineTo(top.x, top.y - 9);
+  ctx.closePath(); ctx.fill();
+}
+
+function drawBoulder(x, y, roll) {
+  const R = Math.min(W, H) * 0.062;
+  ctx.save();
+  ctx.translate(x, y);
+
+  // Slope shadow
+  const ha = hillAngle();
+  ctx.fillStyle = 'rgba(0,0,0,.35)';
+  ctx.beginPath();
+  ctx.ellipse(R * 0.3, R * 0.5, R * 0.82, R * 0.27, ha, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.rotate(roll);
+
+  // Rock polygon
+  ctx.beginPath();
+  ctx.moveTo(BOULDER_PTS[0][0] * R, BOULDER_PTS[0][1] * R);
+  for (let i = 1; i < BOULDER_PTS.length; i++)
+    ctx.lineTo(BOULDER_PTS[i][0] * R, BOULDER_PTS[i][1] * R);
+  ctx.closePath();
+
+  const rg = ctx.createRadialGradient(-R * 0.22, -R * 0.28, R * 0.04, 0, 0, R * 1.1);
+  rg.addColorStop(0,    '#a09088');
+  rg.addColorStop(0.3,  '#706860');
+  rg.addColorStop(0.65, '#4e4840');
+  rg.addColorStop(1,    '#272018');
+  ctx.fillStyle = rg; ctx.fill();
+
+  ctx.strokeStyle = 'rgba(255,240,200,.07)';
+  ctx.lineWidth = 1.5; ctx.stroke();
+
+  // Crack lines
+  ctx.strokeStyle = 'rgba(0,0,0,.50)';
+  ctx.lineWidth = 1; ctx.lineCap = 'round';
+  ctx.beginPath();
+  ctx.moveTo(-R * 0.13, -R * 0.42);
+  ctx.lineTo( R * 0.11,  R * 0.02);
+  ctx.lineTo( R * 0.34,  R * 0.30);
+  ctx.moveTo(-R * 0.46,  R * 0.08);
+  ctx.lineTo(-R * 0.12,  R * 0.40);
+  ctx.moveTo( R * 0.22, -R * 0.60);
+  ctx.lineTo( R * 0.52, -R * 0.26);
+  ctx.stroke();
+
+  // Light streak
+  ctx.strokeStyle = 'rgba(255,255,180,.14)';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(-R * 0.42, -R * 0.54);
+  ctx.quadraticCurveTo(-R * 0.1, -R * 0.84, R * 0.22, -R * 0.50);
+  ctx.stroke();
+
+  ctx.restore();
+}
+
+function drawSisyphus(cx, cy, t, m) {
+  const ha = hillAngle();
+  const U  = Math.min(W, H) * 0.046;
+
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.rotate(ha);
+
+  // Determine pose from mode
+  let lean = -0.48;
+  let legT = 0;
+  let armX = 1.0;
+  let victory = false;
+
+  if (m === 'push') {
+    lean = -0.50 - Math.sin(t * 3.5) * 0.09;
+    legT  = t;
+    armX  = 1.0 + Math.sin(t * 3.5) * 0.14;
+  } else if (m === 'fall' || m === 'curse') {
+    lean = 0.16 + Math.min(t * 0.45, 0.42);
+    legT  = t * 2.8;
+    armX  = 0.4;
+  } else if (m === 'top') {
+    lean = -0.18 + Math.sin(t * 3) * 0.05;
+    victory = true;
+  } else {
+    // idle — gentle breathing sway
+    lean = -0.44 + Math.sin(t * 0.85) * 0.03;
+    legT  = t * 0.12;
+    armX  = 0.82;
+  }
+
+  const skin  = '#c87c34';
+  const tunic = '#8a3416';
+  const tDark = '#581408';
+  const hair  = '#1a0e06';
+
+  ctx.save();
+  ctx.rotate(lean);
+
+  // Ground shadow
+  ctx.fillStyle = 'rgba(0,0,0,.18)';
+  ctx.beginPath();
+  ctx.ellipse(0, U * 1.58, U * 0.62, U * 0.18, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Back leg
+  const bkA = Math.sin(legT * Math.PI * 2 + 0.5) * 0.22;
+  ctx.strokeStyle = tDark; ctx.lineWidth = U * 0.20; ctx.lineCap = 'round';
+  ctx.beginPath();
+  ctx.moveTo(U * 0.10, U * 0.32);
+  ctx.quadraticCurveTo(
+    U * (0.22 + bkA * 0.4), U * 1.00,
+    U * (0.16 + Math.sin(bkA) * 0.32), U * 1.56
+  );
+  ctx.stroke();
+
+  // Front leg
+  const frA = Math.sin(legT * Math.PI * 2) * 0.22;
+  ctx.strokeStyle = tunic;
+  ctx.beginPath();
+  ctx.moveTo(-U * 0.10, U * 0.32);
+  ctx.quadraticCurveTo(
+    U * (-0.22 + frA * 0.4), U * 1.00,
+    U * (-0.16 + Math.sin(frA) * 0.32), U * 1.56
+  );
+  ctx.stroke();
+
+  // Feet
+  ctx.fillStyle = skin;
+  ctx.beginPath(); ctx.arc(U * ( 0.16 + Math.sin(bkA)*0.32), U * 1.56, U * 0.11, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(U * (-0.16 + Math.sin(frA)*0.32), U * 1.56, U * 0.11, 0, Math.PI*2); ctx.fill();
+
+  // Torso (tunic)
+  ctx.fillStyle = tunic;
+  ctx.beginPath();
+  ctx.moveTo(-U * 0.32, -U * 1.08);
+  ctx.lineTo( U * 0.36, -U * 1.08);
+  ctx.lineTo( U * 0.40,  U * 0.30);
+  ctx.lineTo(-U * 0.36,  U * 0.30);
+  ctx.closePath(); ctx.fill();
+
+  // Tunic sheen
+  ctx.fillStyle = 'rgba(255,155,65,.07)';
+  ctx.beginPath();
+  ctx.roundRect(-U * 0.10, -U * 0.98, U * 0.27, U * 0.82, U * 0.04);
+  ctx.fill();
+
+  // Arms
+  ctx.strokeStyle = skin; ctx.lineWidth = U * 0.16; ctx.lineCap = 'round';
+
+  if (victory) {
+    // Arms raised in triumph!
+    ctx.beginPath();
+    ctx.moveTo(-U * 0.26, -U * 0.80);
+    ctx.quadraticCurveTo(-U * 0.58, -U * 1.35, -U * 0.48, -U * 1.65);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo( U * 0.26, -U * 0.80);
+    ctx.quadraticCurveTo( U * 0.58, -U * 1.35,  U * 0.48, -U * 1.65);
+    ctx.stroke();
+  } else {
+    // Arms pushing forward (+x = up the hill)
+    ctx.beginPath();
+    ctx.moveTo(U * 0.22, -U * 0.80);
+    ctx.quadraticCurveTo(U * (0.52 * armX), -U * 0.72, U * (0.74 * armX), -U * 0.78);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(U * 0.18, -U * 0.96);
+    ctx.quadraticCurveTo(U * (0.48 * armX), -U * 0.92, U * (0.70 * armX), -U * 0.98);
+    ctx.stroke();
+  }
+
+  // Head
+  ctx.fillStyle = skin;
+  ctx.beginPath(); ctx.arc(0, -U * 1.38, U * 0.35, 0, Math.PI * 2); ctx.fill();
+
+  // Hair
+  ctx.fillStyle = hair;
+  ctx.beginPath(); ctx.arc(0, -U * 1.52, U * 0.32, Math.PI * 0.12, Math.PI * 2 - 0.22); ctx.fill();
+
+  // Eye (dot)
+  ctx.fillStyle = hair;
+  ctx.beginPath(); ctx.arc(U * 0.14, -U * 1.37, U * 0.052, 0, Math.PI * 2); ctx.fill();
+
+  ctx.restore(); // lean
+  ctx.restore(); // translate + ha
+}
+
+// ══════════════════════════════════════════════
+//  RENDER LOOP
+// ══════════════════════════════════════════════
+let lastTs = 0;
+let arrivedHandled = false;
+
+function frame(ts) {
+  const dt = Math.min((ts - lastTs) / 1000, 0.05);
+  lastTs = ts;
+  elapsed += dt;
+
+  // Interpolate position
+  const spd = (mode === 'curse') ? 4.5 : (mode === 'fall') ? 2.5 : 3.0;
+  visT += (targT - visT) * Math.min(dt * spd * 2.5, 1);
+  const arrived = Math.abs(visT - targT) < 0.003;
+  if (arrived) visT = targT;
+
+  // Boulder rolling
+  if (mode === 'push' || mode === 'top')        bRoll += dt * 2.8;
+  else if (mode === 'fall')                      bRoll -= dt * 4.5;
+  else if (mode === 'curse')                     bRoll -= dt * 8.5;
+
+  // Screen shake decay
+  shakeT = Math.max(0, shakeT - dt * 7);
+
+  tickParts();
+
+  // Animation completion
+  if (arrived && !arrivedHandled &&
+      (mode === 'push' || mode === 'fall' || mode === 'curse')) {
+    arrivedHandled = true;
+    onArrived();
+  }
+
+  // ── DRAW ──
+  ctx.save();
+  if (shakeT > 0) {
+    const sk = shakeT * 6;
+    ctx.translate(
+      (Math.random() - 0.5) * sk,
+      (Math.random() - 0.5) * sk
+    );
+  }
+
+  drawBG(elapsed);
+  drawHill();
+
+  // Position characters on hill
+  const ha   = hillAngle();
+  const cPt  = hillPt(visT);
+  const bOff = Math.min(W, H) * 0.076;
+  const bPt  = {
+    x: cPt.x + Math.cos(ha) * bOff,
+    y: cPt.y + Math.sin(ha) * bOff,
+  };
+
+  drawBoulder(bPt.x, bPt.y, bRoll);
+  drawSisyphus(cPt.x, cPt.y, elapsed, mode);
+  drawParts();
+
+  ctx.restore();
+  requestAnimationFrame(frame);
+}
+
+function onArrived() {
+  if (mode === 'push') {
+    if (position >= SEG) {
+      mode = 'top';
+      playSound('top');
+      showToast('⛰️  SUMMIT REACHED!', 'gd');
+      setTimeout(startCurse, 1500);
+    } else {
+      mode = 'idle';
+      canAns = true;
+      nextQ();
+    }
+  } else if (mode === 'fall') {
+    mode = 'idle';
+    canAns = true;
+    nextQ();
+  } else if (mode === 'curse') {
+    mode = 'idle';
+    canAns = true;
+    nextQ();
+  }
+}
+
+function startCurse() {
+  cursedN++;
+  position = 0; targT = 0;
+  arrivedHandled = false;
+  mode = 'curse';
+  shakeT = 0.6;
+  playSound('curse');
+  const p = hillPt(0.1);
+  spawnParts(p.x, p.y, false);
+  showToast('💀  THE CURSE CONTINUES...', 'ng');
+}
+
+// ══════════════════════════════════════════════
+//  QUESTION LOGIC
+// ══════════════════════════════════════════════
+function rnd(lo, hi) { return (Math.random() * (hi - lo + 1) + lo) | 0; }
+
+function genQ() {
+  const diff = Math.min((score / 50) | 0, 5);
+  const OPS  = ['+', '−', '×', '÷'];
+  const maxOp = diff < 2 ? 2 : diff < 4 ? 3 : 4;
+  const op = OPS[(Math.random() * maxOp) | 0];
+
+  let a, b, ans;
+
+  if (op === '+') {
+    const m = 10 + diff * 10;
+    a = rnd(1, m); b = rnd(1, m); ans = a + b;
+  } else if (op === '−') {
+    const m = 15 + diff * 10;
+    a = rnd(5, m + 5); b = rnd(1, Math.max(a - 1, 1)); ans = a - b;
+  } else if (op === '×') {
+    const m = 4 + diff * 2;
+    a = rnd(2, m); b = rnd(2, m); ans = a * b;
+  } else {
+    const m = 4 + diff * 2;
+    b = rnd(2, m); ans = rnd(2, m); a = b * ans;
+  }
+
+  // 4 choices (correct + 3 plausible wrongs)
+  const used = new Set([ans]);
+  const choices = [ans];
+  let tries = 0;
+  while (choices.length < 4 && tries < 300) {
+    tries++;
+    const offset = rnd(-6, 6);
+    if (offset === 0) continue;
+    const w = ans + offset;
+    if (w <= 0 || used.has(w)) continue;
+    used.add(w); choices.push(w);
+  }
+  choices.sort(() => Math.random() - 0.5);
+  return { q: `${a} ${op} ${b} = ?`, ans, choices };
+}
+
+function nextQ() {
+  curQ = genQ();
+  document.getElementById('qTxt').textContent = curQ.q;
+  const grid = document.getElementById('choices');
+  grid.innerHTML = '';
+  curQ.choices.forEach(v => {
+    const b = document.createElement('button');
+    b.className = 'ch'; b.textContent = v;
+    b.addEventListener('click', () => onAnswer(v, b));
+    grid.appendChild(b);
+  });
+}
+
+function onAnswer(val, btn) {
+  if (!canAns) return;
+  canAns = false;
+  arrivedHandled = false;
+
+  const ok = val === curQ.ans;
+
+  // Style buttons
+  document.querySelectorAll('.ch').forEach(b => {
+    if (b !== btn) b.classList.add('dis');
+  });
+  btn.classList.add(ok ? 'ok' : 'ng');
+  if (!ok) {
+    document.querySelectorAll('.ch').forEach(b => {
+      if (+b.textContent === curQ.ans) { b.classList.remove('dis'); b.classList.add('ok'); }
+    });
+  }
+
+  if (ok) {
+    streak++;
+    const bonus = (streak >= 3) ? (((streak / 3) | 0) * 5) : 0;
+    score += 10 + bonus;
+    if (score > best) {
+      best = score;
+      localStorage.setItem('ep_best', best);
+    }
+    position = Math.min(position + 1, SEG);
+    targT    = position / SEG;
+    mode     = 'push';
+    playSound('correct');
+
+    const label = streak >= 3
+      ? `🔥  STREAK ×${streak}  +${10 + bonus}`
+      : '✓  CORRECT!';
+    showToast(label, 'ok');
+
+    const bp = hillPt(targT);
+    spawnParts(bp.x, bp.y, true);
+    bumpStat('vScore');
+    if (streak > 1) bumpStat('vStreak');
+  } else {
+    streak = 0;
+    position = Math.max(position - 1, 0);
+    targT    = position / SEG;
+    mode     = 'fall';
+    shakeT   = 0.45;
+    playSound('wrong');
+    showToast('✗  WRONG!', 'ng');
+    spawnParts(hillPt(visT).x, hillPt(visT).y, false);
+  }
+
+  updateUI();
+}
+
+// ══════════════════════════════════════════════
+//  UI HELPERS
+// ══════════════════════════════════════════════
+function updateUI() {
+  document.getElementById('vScore').textContent  = score;
+  document.getElementById('vStreak').textContent = streak;
+  document.getElementById('vBest').textContent   = best;
+  document.getElementById('pgFill').style.width  = (position / SEG * 100) + '%';
+  document.getElementById('pgSteps').textContent = `${position} / ${SEG}`;
+}
+
+function bumpStat(id) {
+  const el = document.getElementById(id);
+  el.classList.remove('bump');
+  void el.offsetWidth; // reflow
+  el.classList.add('bump');
+  setTimeout(() => el.classList.remove('bump'), 200);
+}
+
+let toastTmr = null;
+function showToast(msg, type) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = `toast show ${type}`;
+  clearTimeout(toastTmr);
+  toastTmr = setTimeout(() => { el.className = 'toast'; }, 1900);
+}
+
+// ══════════════════════════════════════════════
+//  MODAL
+// ══════════════════════════════════════════════
+document.getElementById('aboutBtn').addEventListener('click', () => {
+  document.getElementById('mb').classList.add('open');
+});
+document.getElementById('mdClose').addEventListener('click', () => {
+  document.getElementById('mb').classList.remove('open');
+});
+document.getElementById('mb').addEventListener('click', e => {
+  if (e.target === e.currentTarget)
+    document.getElementById('mb').classList.remove('open');
+});
+
+// ══════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════
+updateUI();
+nextQ();
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
