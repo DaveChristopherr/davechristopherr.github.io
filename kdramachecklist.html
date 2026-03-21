@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K-Drama Checklist</title>
+    <style>
+        :root {
+            --bg-color: #050505;
+            --text-color: #e5e5e5;
+            --text-muted: #666666;
+            --accent-color: #ffffff; 
+            --item-bg: #0f0f0f;
+            --item-hover: #1a1a1a;
+            --border-color: #222222;
+            --font-main: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .top-bar {
+            position: fixed;
+            top: 20px;
+            right: 25px;
+            z-index: 1000;
+        }
+
+        .icon-btn {
+            background: var(--item-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .icon-btn:hover {
+            color: var(--bg-color);
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            background-color: rgba(5, 5, 5, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            width: 100%;
+            padding: 40px 20px 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            z-index: 100;
+        }
+
+        .creator-tag {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+        }
+
+        .desc {
+            font-size: 0.85rem;
+            color: #888;
+            max-width: 500px;
+            margin: 12px auto 0;
+            line-height: 1.5;
+        }
+
+        .progress-wrapper {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            max-width: 650px;
+            background-color: var(--border-color);
+            border-radius: 2px;
+            height: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--accent-color);
+            width: 0%;
+            transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        main {
+            width: 100%;
+            max-width: 650px;
+            padding: 30px 20px 100px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .finish-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 25px;
+        }
+
+        .finish-btn {
+            background-color: transparent;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .finish-btn:hover {
+            background-color: var(--accent-color);
+            color: var(--bg-color);
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            padding: 14px 18px;
+            background-color: var(--item-bg);
+            margin-bottom: 6px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .checklist-item:hover {
+            background-color: var(--item-hover);
+            border-color: var(--border-color);
+        }
+
+        .checklist-item.checked {
+            opacity: 0.3;
+        }
+
+        .checkbox {
+            width: 18px;
+            height: 18px;
+            border: 1px solid #444;
+            border-radius: 3px;
+            margin-right: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .checklist-item.checked .checkbox {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .checklist-item.checked .checkbox::after {
+            content: "";
+            width: 4px;
+            height: 8px;
+            border: solid var(--bg-color);
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            margin-bottom: 2px;
+        }
+
+        .item-text {
+            font-size: 0.95rem;
+            font-weight: 400;
+            user-select: none;
+            flex-grow: 1;
+            letter-spacing: 0.2px;
+        }
+
+        .genre-tag {
+            font-size: 0.65rem;
+            padding: 3px 8px;
+            border-radius: 4px;
+            background-color: #1a1a1a;
+            color: #777;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Modals */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content, .cert-card {
+            background-color: #0a0a0a;
+            border: 1px solid #222;
+            padding: 40px;
+            border-radius: 8px;
+            max-width: 420px;
+            width: 100%;
+            text-align: left;
+            transform: translateY(15px);
+            transition: all 0.4s ease;
+        }
+
+        .modal-overlay.active .modal-content, .modal-overlay.active .cert-card {
+            transform: translateY(0);
+        }
+
+        .cert-header {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #555;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #1a1a1a;
+            padding-bottom: 12px;
+        }
+
+        .cert-score-wrapper {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 5px;
+        }
+
+        .cert-score {
+            font-size: 4rem;
+            font-weight: 300;
+            color: #ffffff;
+            line-height: 1;
+        }
+
+        .cert-total {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .top-genre {
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cert-persona {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #fff;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .cert-message {
+            font-size: 0.9rem;
+            color: #777;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .cert-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #1a1a1a;
+            padding-top: 20px;
+        }
+
+        .cert-signature {
+            font-size: 0.75rem;
+            color: #444;
+        }
+
+        .close-btn {
+            background-color: #fff;
+            color: #000;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.6rem; }
+            .cert-card { padding: 30px 20px; }
+            .genre-tag { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <button class="icon-btn" onclick="openAbout()">?</button>
+    </div>
+
+    <header>
+        <div class="creator-tag">made by devxdave ☕</div>
+        <h1>The K-Drama Checklist</h1>
+        <p class="desc">A curated checklist of the most popular, highly-rated, and culturally significant Korean dramas. Track your watchlist and generate your viewing statistics.</p>
+        <div class="progress-wrapper">
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="finish-container">
+            <button class="finish-btn" onclick="showCertificate()">Generate Stats</button>
+        </div>
+        <div id="checklist-container"></div>
+    </main>
+
+    <div class="modal-overlay" id="about-modal">
+        <div class="modal-content">
+            <h2 style="margin:0 0 15px; font-weight: 500; font-size: 1.2rem; color: #fff;">Information</h2>
+            <p style="color:#888; line-height:1.6; font-size: 0.9rem; margin-bottom: 30px;">
+                Tap an item to mark it as watched. Tap again to unmark. All progress is saved locally to your device.<br><br>
+                Once you have tracked your watchlist, click "Generate Stats" to view your customized viewing persona based on your most-watched genres.
+            </p>
+            <button class="close-btn" style="width: 100%;" onclick="closeAbout()">Close</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="cert-modal">
+        <div class="cert-card">
+            <div class="cert-header">Viewer Statistics Report</div>
+            <div class="cert-score-wrapper">
+                <div class="cert-score" id="cert-score">0</div>
+                <div class="cert-total" id="cert-total">/ 0</div>
+            </div>
+            <div class="top-genre" id="top-genre">Dominant Genre: N/A</div>
+            <div class="cert-persona" id="cert-persona">The Initiate</div>
+            <div class="cert-message" id="cert-message">Message goes here.</div>
+            <div class="cert-footer">
+                <div class="cert-signature">certified by devxdave</div>
+                <button class="close-btn" onclick="closeCertificate()">Close</button>
+            </div>
+        </div>
+    </div>
+<script>
+        // Highly compressed array to fit hundreds of top-tier K-Dramas
+        // Format: ["Title", "genre"]
+        const rawData = [
+            ["Crash Landing on You","Romance"],["Queen of Tears","Romance"],["Business Proposal","Romance"],["Descendants of the Sun","Romance"],
+            ["Hometown Cha-Cha-Cha","Romance"],["Weightlifting Fairy Kim Bok-joo","Romance"],["Strong Woman Do Bong Soon","Romance"],["What's Wrong with Secretary Kim","Romance"],
+            ["Our Beloved Summer","Romance"],["Twenty-Five Twenty-One","Romance"],["True Beauty","Romance"],["My Demon","Romance"],
+            ["King the Land","Romance"],["Because This Is My First Life","Romance"],["Something in the Rain","Romance"],["It's Okay to Not Be Okay","Romance"],
+            ["Nevertheless","Romance"],["Start-Up","Romance"],["Boys Over Flowers","Romance"],["Coffee Prince","Romance"],["Secret Garden","Romance"],
+            ["Twinkling Watermelon","Romance"],["Her Private Life","Romance"],["Touch Your Heart","Romance"],["Suspicious Partner","Romance"],
+            ["Shooting Stars","Romance"],["Run On","Romance"],["Romance is a Bonus Book","Romance"],["Lovestruck in the City","Romance"],
+            ["Yumi's Cells","Romance"],["Crazy Love","Romance"],["Dali and Cocky Prince","Romance"],["Oh My Venus","Romance"],
+            ["She Was Pretty","Romance"],["Kill Me Heal Me","Romance"],["It's Okay That's Love","Romance"],["My Love from the Star","Romance"],
+            ["The Heirs","Romance"],["You're Beautiful","Romance"],["Princess Hours","Romance"],["Reply 1997","Romance"],
+            ["Mouse","Thriller"],["Flower of Evil","Thriller"],["Signal","Thriller"],["Beyond Evil","Thriller"],
+            ["Stranger","Thriller"],["Voice","Thriller"],["Extracurricular","Thriller"],["Blind","Thriller"],
+            ["Big Mouth","Thriller"],["Vigilante","Thriller"],["A Killer Paradox","Thriller"],["Through the Darkness","Thriller"],
+            ["Save Me","Thriller"],["Strangers from Hell","Thriller"],["Taxi Driver","Thriller"],["My Name","Thriller"],
+            ["Bloodhounds","Action"],["Vincenzo","Action"],["Vagabond","Action"],["Healer","Action"],
+            ["City Hunter","Action"],["D.P.","Action"],["The K2","Action"],["Lawless Lawyer","Action"],
+            ["Bad and Crazy","Action"],["Moving","Action"],["Weak Hero Class 1","Action"],["Kill It","Action"],
+            ["Moon Lovers: Scarlet Heart Ryeo","Historical"],["Mr. Queen","Historical"],["Alchemy of Souls","Historical"],["The Red Sleeve","Historical"],
+            ["Under the Queen's Umbrella","Historical"],["Love in the Moonlight","Historical"],["Hwarang","Historical"],["100 Days My Prince","Historical"],
+            ["Empress Ki","Historical"],["Kingdom","Historical"],["My Dearest","Historical"],["Lovers of the Red Sky","Historical"],
+            ["Six Flying Dragons","Historical"],["The Crowned Clown","Historical"],["Tale of Nokdu","Historical"],["Sungkyunkwan Scandal","Historical"],
+            ["Reply 1988","Slice of Life"],["Hospital Playlist","Slice of Life"],["My Mister","Slice of Life"],["Prison Playbook","Slice of Life"],
+            ["My Liberation Notes","Slice of Life"],["Daily Dose of Sunshine","Slice of Life"],["Extraordinary Attorney Woo","Slice of Life"],["Navillera","Slice of Life"],
+            ["Misaeng","Slice of Life"],["Our Blues","Slice of Life"],["Welcome to Samdal-ri","Slice of Life"],["Summer Strike","Slice of Life"],
+            ["Age of Youth","Slice of Life"],["Dear My Friends","Slice of Life"],["Work Later Drink Now","Slice of Life"],["Be Melodramatic","Slice of Life"],
+            ["Goblin","Fantasy"],["W (Two Worlds)","Fantasy"],["Hotel Del Luna","Fantasy"],["Tale of the Nine Tailed","Fantasy"],
+            ["The Uncanny Counter","Fantasy"],["Sweet Home","Fantasy"],["All of Us Are Dead","Fantasy"],["Death's Game","Fantasy"],
+            ["Doom at Your Service","Fantasy"],["While You Were Sleeping","Fantasy"],["Arthdal Chronicles","Fantasy"],["Gyeongseong Creature","Fantasy"],
+            ["Memories of the Alhambra","Fantasy"],["The King: Eternal Monarch","Fantasy"],["My Roommate is a Gumiho","Fantasy"],["Hellbound","Fantasy"],
+            ["The Glory","Melodrama"],["The Penthouse","Melodrama"],["The World of the Married","Melodrama"],["Sky Castle","Melodrama"],
+            ["Marry My Husband","Melodrama"],["Reborn Rich","Melodrama"],["Perfect Marriage Revenge","Melodrama"],["Itaewon Class","Melodrama"],
+            ["Little Women","Melodrama"],["Eve","Melodrama"],["Graceful Family","Melodrama"],["Mine","Melodrama"],
+            ["Welcome to Waikiki","Comedy"],["The Sound of Your Heart","Comedy"],["Gaus Electronics","Comedy"],["Chief Kim","Comedy"],
+            ["The Fiery Priest","Comedy"],["Pegasus Market","Comedy"],["Zombie Detective","Comedy"],["Psychopath Diary","Comedy"]
+        ];
+
+        // Format and sort alphabetically
+        const kdramas = rawData.map(d => ({ text: d[0], cat: d[1] })).sort((a, b) => a.text.localeCompare(b.text));
+
+        const container = document.getElementById('checklist-container');
+        const progressBar = document.getElementById('progress-bar');
+        let checkedItems = JSON.parse(localStorage.getItem('kdramaProChecklist')) || [];
+
+        function updateProgress() {
+            const percentage = (checkedItems.length / kdramas.length) * 100;
+            progressBar.style.width = percentage + '%';
+            localStorage.setItem('kdramaProChecklist', JSON.stringify(checkedItems));
+        }
+
+        function toggleItem(index, itemDiv) {
+            const itemIndex = checkedItems.indexOf(index);
+            if (itemIndex > -1) {
+                checkedItems.splice(itemIndex, 1);
+                itemDiv.classList.remove('checked');
+            } else {
+                checkedItems.push(index);
+                itemDiv.classList.add('checked');
+            }
+            updateProgress();
+        }
+
+        function renderChecklist() {
+            kdramas.forEach((drama, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'checklist-item';
+                if (checkedItems.includes(index)) itemDiv.classList.add('checked');
+
+                const checkboxDiv = document.createElement('div');
+                checkboxDiv.className = 'checkbox';
+
+                const textSpan = document.createElement('span');
+                textSpan.className = 'item-text';
+                textSpan.textContent = drama.text;
+
+                const genreTag = document.createElement('span');
+                genreTag.className = 'genre-tag';
+                genreTag.textContent = drama.cat;
+
+                itemDiv.appendChild(checkboxDiv);
+                itemDiv.appendChild(textSpan);
+                itemDiv.appendChild(genreTag);
+
+                itemDiv.addEventListener('click', () => toggleItem(index, itemDiv));
+                container.appendChild(itemDiv);
+            });
+            updateProgress();
+        }
+
+        const personaData = {
+            "Romance": { title: "The Hopeless Romantic", msg: "You gravitate towards the slow burns, profound connections, and heartwarming narratives. You appreciate the beauty of human relationships." },
+            "Thriller": { title: "The Investigator", msg: "You have an eye for detail and a mind for mysteries. You thrive on suspense, plot twists, and psychological depth." },
+            "Historical": { title: "The Time Traveler", msg: "You are fascinated by culture, politics, and the grandeur of the past. You enjoy complex power struggles and tragic loyalties." },
+            "Slice of Life": { title: "The Realist", msg: "You find beauty in the mundane. You appreciate grounded, realistic storytelling that mirrors actual human struggles and triumphs." },
+            "Action": { title: "The Adrenaline Seeker", msg: "You prefer high-stakes environments, fast-paced choreography, and justice served cold. You want stories that keep you on the edge." },
+            "Fantasy": { title: "The Visionary", msg: "Your imagination knows no bounds. You enjoy exploring different realms, mythological beings, and stories that defy the laws of physics." },
+            "Melodrama": { title: "The Emotional Anchor", msg: "You are not afraid of intense emotions, revenge plots, and high-society chaos. You can handle the heaviest of narratives." },
+            "Comedy": { title: "The Optimist", msg: "You watch to relieve stress and find joy. You appreciate sharp timing, absurd situations, and pure, unfiltered entertainment." },
+            "None": { title: "The Blank Slate", msg: "Your journey has just begun. Start tracking to discover your dominant viewing patterns." }
+        };
+
+        function showCertificate() {
+            let catCounts = {};
+            checkedItems.forEach(index => {
+                const cat = kdramas[index].cat;
+                catCounts[cat] = (catCounts[cat] || 0) + 1;
+            });
+
+            let topCat = "None", maxCount = 0;
+            for (const [cat, count] of Object.entries(catCounts)) {
+                if (count > maxCount) { maxCount = count; topCat = cat; }
+            }
+
+            document.getElementById('cert-score').textContent = checkedItems.length;
+            document.getElementById('cert-total').textContent = `/ ${kdramas.length}`;
+            document.getElementById('top-genre').textContent = checkedItems.length === 0 ? "Dominant Genre: N/A" : `Dominant Genre: ${topCat}`;
+            document.getElementById('cert-persona').textContent = personaData[topCat].title;
+            document.getElementById('cert-message').textContent = personaData[topCat].msg;
+            document.getElementById('cert-modal').classList.add('active');
+        }
+
+        function closeCertificate() { document.getElementById('cert-modal').classList.remove('active'); }
+        function openAbout() { document.getElementById('about-modal').classList.add('active'); }
+        function closeAbout() { document.getElementById('about-modal').classList.remove('active'); }
+
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.classList.remove('active');
+            });
+        });
+
+        renderChecklist();
+    </script>
+</body>
+</html>
