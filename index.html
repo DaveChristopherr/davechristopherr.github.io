@@ -279,6 +279,7 @@ a:hover{
   gap: 15px;
   align-items: stretch;
   margin-bottom: 30px;
+  width: 100%;
 }
 
 /* BOOK CARD */
@@ -358,12 +359,14 @@ a:hover{
   min-height: 115px;
   position: relative;
   transition: 0.3s;
+  overflow: hidden; /* Dito pinipigilan mag-overflow yung laman */
 }
 
 .spotify-card:hover {
   background: #1a1a1a;
 }
 
+/* Mas maliit at malinis na "Listening to Spotify" header */
 .spotify-header {
   display: flex;
   align-items: center;
@@ -374,6 +377,7 @@ a:hover{
   text-transform: uppercase;
   color: #999999; 
   margin-bottom: 8px; 
+  white-space: nowrap;
 }
 
 .spotify-header i {
@@ -386,6 +390,7 @@ a:hover{
   gap: 12px;
   align-items: center;
   width: 100%;
+  min-width: 0; /* Important fix for flexbox blowout */
 }
 
 .spotify-img {
@@ -394,6 +399,7 @@ a:hover{
   object-fit: cover;
   border-radius: 6px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  flex-shrink: 0; /* Para hindi ma-squish yung image */
 }
 
 .spotify-info {
@@ -401,12 +407,11 @@ a:hover{
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: calc(100% - 62px);
-  min-width: 0; /* ITO YUNG FIX PARA HINDI LUMAKI ANG CARD SA MAHABANG TITLE */
+  min-width: 0; /* Important fix for flexbox blowout */
 }
 
 .spotify-title {
-  font-size: 12px; /* Pinaliit para minimalist */
+  font-size: 12px; 
   font-weight: 700;
   color: #ffffff;
   white-space: nowrap;
@@ -414,18 +419,16 @@ a:hover{
   text-overflow: ellipsis;
   margin-bottom: 2px;
   width: 100%;
-  display: block;
 }
 
 .spotify-artist {
-  font-size: 10px; /* Pinaliit para minimalist */
+  font-size: 10px; 
   opacity: 0.6;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   margin-bottom: 8px;
   width: 100%;
-  display: block;
 }
 
 .spotify-progress-container {
@@ -457,8 +460,8 @@ a:hover{
 }
   
 </style>
-  </head>
-  <body>
+</head>
+<body>
 
 <div id="menuOverlay" onclick="toggleSideMenu()" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:99; backdrop-filter:blur(4px);"></div>
 
@@ -527,7 +530,7 @@ a:hover{
 
 <div class="hobby-row">
   
-  <div style="flex: 1.3;">
+  <div style="flex: 1.3; min-width: 0;">
     <h2>Books I've Read</h2>
     <div id="bookCard" class="book-card">
       <img id="bookCover" src="sisyphus.jpg" class="book-img">
@@ -542,7 +545,7 @@ a:hover{
     </div>
   </div>
 
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 0;">
     <h2 style="opacity: 0; user-select: none;">Spotify</h2>
     <div class="spotify-card">
       
@@ -818,4 +821,4 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
   
 </body>
-</html>
+  </html>
