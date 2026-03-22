@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress of Everything</title>
+    <style>
+        /* CSS VARIABLES & RESET */
+        :root {
+            --bg-color: #050505;
+            --card-bg: rgba(15, 15, 15, 0.7);
+            --border-color: #222;
+            --text-main: #f0f0f0;
+            --text-muted: #888;
+            --accent-glow: #4facfe;
+            --accent-gradient: linear-gradient(90deg, #4facfe, #00f2fe);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* SPACE BACKGROUND CANVAS */
+        #space-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* HEADER */
+        header {
+            text-align: center;
+            padding: 80px 20px 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* USER INPUT SECTION */
+        .user-setup {
+            max-width: 800px;
+            margin: 0 auto 60px;
+            padding: 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .user-setup h3 {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .user-setup input {
+            background: #111;
+            border: 1px solid #444;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .user-setup input:focus {
+            border-color: var(--accent-glow);
+        }
+
+        /* MAIN CONTAINER & CATEGORIES */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px 100px;
+        }
+
+        .category-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 60px 0 20px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            letter-spacing: 2px;
+            color: #ccc;
+        }
+
+        /* PROGRESS CARDS */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(5px);
+            transition: transform 0.4s ease, box-shadow 0.4s ease, opacity 0.6s ease;
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(79, 172, 254, 0.1);
+            border-color: #333;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .card-percentage {
+            font-family: monospace;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-glow);
+        }
+
+        /* PROGRESS BAR */
+        .progress-track {
+            width: 100%;
+            height: 8px;
+            background: #1a1a1a;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 12px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-gradient);
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.1s linear;
+            box-shadow: 0 0 10px rgba(79, 172, 254, 0.6);
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* FOOTER CREDIT */
+        .footer-credit {
+            position: fixed;
+            bottom: 15px;
+            right: 20px;
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 500;
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 0.7;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 2rem; }
+            .card-header { flex-direction: column; align-items: flex-start; gap: 5px; }
+            .card-percentage { align-self: flex-end; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="space-canvas"></canvas>
+
+    <header>
+        <h1>Progress</h1>
+        <p>A real-time visualization of everything moving forward.</p>
+    </header>
+
+    <div class="user-setup">
+        <h3>Enter your birthdate for personalized stats</h3>
+        <input type="date" id="birthdate-input">
+    </div>
+
+    <div class="container" id="app-container">
+        </div>
+
+    <div class="footer-credit">made by devxdave ☕</div>
+    <script>
+        // ==========================================
+        // 1. BACKGROUND PARTICLES (SPACE EFFECT)
+        // ==========================================
+        const canvas = document.getElementById('space-canvas');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initStars();
+        }
+
+        function initStars() {
+            stars = [];
+            const numStars = Math.floor((canvas.width * canvas.height) / 8000);
+            for (let i = 0; i < numStars; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 1.5,
+                    speed: Math.random() * 0.5 + 0.1,
+                    alpha: Math.random()
+                });
+            }
+        }
+
+        function animateStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#ffffff';
+            
+            stars.forEach(star => {
+                ctx.globalAlpha = star.alpha;
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Move stars upwards slowly to simulate forward motion
+                star.y -= star.speed;
+                if (star.y < 0) {
+                    star.y = canvas.height;
+                    star.x = Math.random() * canvas.width;
+                }
+            });
+            requestAnimationFrame(animateStars);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        animateStars();
+
+        // ==========================================
+        // 2. DATA LOGIC & CALCULATIONS
+        // ==========================================
+        let userBirthdate = null;
+        const birthInput = document.getElementById('birthdate-input');
+        
+        // Load saved birthdate if exists
+        if(localStorage.getItem('userBirthdate')) {
+            birthInput.value = localStorage.getItem('userBirthdate');
+            userBirthdate = new Date(birthInput.value);
+        }
+
+        birthInput.addEventListener('change', (e) => {
+            userBirthdate = new Date(e.target.value);
+            localStorage.setItem('userBirthdate', e.target.value);
+        });
+
+        // Helper calculation functions
+        const msPerDay = 1000 * 60 * 60 * 24;
+        const msPerYear = msPerDay * 365.25;
+
+        function formatPct(value, decimals = 2) {
+            return Math.min(Math.max(value, 0), 100).toFixed(decimals) + '%';
+        }
+
+        const progressConfig = [
+            {
+                category: "TIME PROGRESS",
+                items: [
+                    {
+                        title: "Current Minute",
+                        desc: "Seconds passed in the current minute.",
+                        update: (now) => {
+                            const pct = ((now.getSeconds() + now.getMilliseconds() / 1000) / 60) * 100;
+                            return { pct, text: formatPct(pct, 1) };
+                        }
+                    },
+                    {
+                        title: "Current Hour",
+                        desc: "Minutes passed in the current hour.",
+                        update: (now) => {
+                            const pct = ((now.getMinutes() * 60 + now.getSeconds()) / 3600) * 100;
+                            return { pct, text: formatPct(pct, 2) };
+                        }
+                    },
+                    {
+                        title: "Current Day",
+                        desc: "Hours passed today.",
+                        update: (now) => {
+                            const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                            const pct = ((now - start) / msPerDay) * 100;
+                            return { pct, text: formatPct(pct, 4) };
+                        }
+                    },
+                    {
+                        title: "Current Week",
+                        desc: "Days passed this week (Monday start).",
+                        update: (now) => {
+                            let day = now.getDay() || 7; // Make Sunday=7, Monday=1
+                            const startOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - day + 1);
+                            const pct = ((now - startOfWeek) / (msPerDay * 7)) * 100;
+                            return { pct, text: formatPct(pct, 5) };
+                        }
+                    },
+                    {
+                        title: "Current Month",
+                        desc: "Days passed this month.",
+                        update: (now) => {
+                            const start = new Date(now.getFullYear(), now.getMonth(), 1);
+                            const end = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+                            const pct = ((now - start) / (end - start)) * 100;
+                            return { pct, text: formatPct(pct, 6) };
+                        }
+                    },
+                    {
+                        title: "Current Year",
+                        desc: "Progress of the current year.",
+                        update: (now) => {
+                            const start = new Date(now.getFullYear(), 0, 1);
+                            const end = new Date(now.getFullYear() + 1, 0, 1);
+                            const pct = ((now - start) / (end - start)) * 100;
+                            return { pct, text: formatPct(pct, 7) };
+                        }
+                    },
+                    {
+                        title: "Current Decade",
+                        desc: "Progress of the 2020s.",
+                        update: (now) => {
+                            const start = new Date(2020, 0, 1);
+                            const end = new Date(2030, 0, 1);
+                            const pct = ((now - start) / (end - start)) * 100;
+                            return { pct, text: formatPct(pct, 8) };
+                        }
+                    },
+                    {
+                        title: "Current Century",
+                        desc: "Progress of the 21st century.",
+                        update: (now) => {
+                            const start = new Date(2001, 0, 1);
+                            const end = new Date(2101, 0, 1);
+                            const pct = ((now - start) / (end - start)) * 100;
+                            return { pct, text: formatPct(pct, 9) };
+                        }
+                    }
+                ]
+            },
+            {
+                category: "HUMAN LIFE PROGRESS",
+                items: [
+                    {
+                        title: "Human Average Lifespan",
+                        desc: "Based on the global average lifespan of 73.4 years.",
+                        update: (now) => {
+                            const start = new Date(now.getFullYear(), 0, 1);
+                            const msSinceYearStart = now - start;
+                            // Showing year progress to simulate life ticking globally
+                            const pct = (msSinceYearStart / (73.4 * msPerYear)) * 100;
+                            return { pct: pct * 100, text: formatPct(pct, 9) + " of a lifetime this year" };
+                        }
+                    },
+                    {
+                        title: "Your Lifetime Progress",
+                        desc: "Assuming an optimistic 85-year lifespan.",
+                        update: (now) => {
+                            if (!userBirthdate) return { pct: 0, text: "Awaiting Input..." };
+                            const expectedEnd = new Date(userBirthdate.getTime() + (85 * msPerYear));
+                            const pct = ((now - userBirthdate) / (expectedEnd - userBirthdate)) * 100;
+                            return { pct, text: formatPct(pct, 8) };
+                        }
+                    },
+                    {
+                        title: "Current School Year",
+                        desc: "Standard school year (Sept 1 to Jun 30).",
+                        update: (now) => {
+                            let startYear = now.getMonth() >= 8 ? now.getFullYear() : now.getFullYear() - 1;
+                            const start = new Date(startYear, 8, 1); // Sept 1
+                            const end = new Date(startYear + 1, 5, 30); // Jun 30
+                            if (now > end) return { pct: 100, text: "100.00% (Summer Break)" };
+                            const pct = ((now - start) / (end - start)) * 100;
+                            return { pct, text: formatPct(pct, 6) };
+                        }
+                    }
+                ]
+            },
+            {
+                category: "EARTH PROGRESS",
+                items: [
+                    {
+                        title: "Earth Rotation",
+                        desc: "Current progress of Earth's 24-hour daily spin.",
+                        update: (now) => {
+                            const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                            const pct = ((now - start) / msPerDay) * 100;
+                            return { pct, text: formatPct(pct, 5) };
+                        }
+                    },
+                    {
+                        title: "Seasons Progress",
+                        desc: "Progress of the current astronomical season (91.25 days).",
+                        update: (now) => {
+                            // Rough approximation of season quarters
+                            const startYear = new Date(now.getFullYear(), 0, 1);
+                            const daysPassed = (now - startYear) / msPerDay;
+                            const seasonDays = 365.25 / 4;
+                            const currentSeasonProgress = daysPassed % seasonDays;
+                            const pct = (currentSeasonProgress / seasonDays) * 100;
+                            return { pct, text: formatPct(pct, 7) };
+                        }
+                    },
+                    {
+                        title: "Moon Phase",
+                        desc: "Progress of the 29.53-day lunar cycle.",
+                        update: (now) => {
+                            const knownNewMoon = new Date(2024, 0, 11, 11, 57); // Jan 11 2024
+                            const lunarCycleMs = 29.53059 * msPerDay;
+                            const elapsed = now - knownNewMoon;
+                            const currentCycleProgress = elapsed % lunarCycleMs;
+                            const pct = (currentCycleProgress / lunarCycleMs) * 100;
+                            return { pct, text: formatPct(pct, 6) };
+                        }
+                    }
+                ]
+            },
+            {
+                category: "SOLAR SYSTEM PROGRESS",
+                items: [
+                    {
+                        title: "Earth's Orbit",
+                        desc: "Orbit around the Sun (365.25 days).",
+                        update: (now) => {
+                            const start = new Date(now.getFullYear(), 0, 1);
+                            const end = new Date(now.getFullYear() + 1, 0, 1);
+                            const pct = ((now - start) / (end - start)) * 100;
+                            return { pct, text: formatPct(pct, 7) };
+                        }
+                    },
+                    {
+                        title: "Mars Orbit",
+                        desc: "Orbit around the Sun (687 Earth days).",
+                        update: (now) => {
+                            const orbitMs = 687 * msPerDay;
+                            const pct = ((now.getTime() % orbitMs) / orbitMs) * 100;
+                            return { pct, text: formatPct(pct, 8) };
+                        }
+                    },
+                    {
+                        title: "Jupiter Orbit",
+                        desc: "Orbit around the Sun (4,333 Earth days).",
+                        update: (now) => {
+                            const orbitMs = 4333 * msPerDay;
+                            const pct = ((now.getTime() % orbitMs) / orbitMs) * 100;
+                            return { pct, text: formatPct(pct, 9) };
+                        }
+                    }
+                ]
+            },
+            {
+                category: "UNIVERSE SCALE PROGRESS",
+                items: [
+                    {
+                        title: "Age of the Universe",
+                        desc: "13.8 billion years out of the estimated 100 billion year Stelliferous Era.",
+                        update: (now) => {
+                            const currentYearMs = now - new Date(now.getFullYear(), 0, 1);
+                            const ageMs = (13800000000 * msPerYear) + currentYearMs;
+                            const totalMs = 100000000000 * msPerYear;
+                            const pct = (ageMs / totalMs) * 100;
+                            // Forced decimal movement to show real-time progress on cosmic scales
+                            return { pct, text: formatPct(pct, 12) };
+                        }
+                    },
+                    {
+                        title: "Sun Life Cycle",
+                        desc: "The Sun is 4.6 billion years old out of its 10 billion year lifespan.",
+                        update: (now) => {
+                            const currentYearMs = now - new Date(now.getFullYear(), 0, 1);
+                            const ageMs = (4600000000 * msPerYear) + currentYearMs;
+                            const totalMs = 10000000000 * msPerYear;
+                            const pct = (ageMs / totalMs) * 100;
+                            return { pct, text: formatPct(pct, 11) };
+                        }
+                    },
+                    {
+                        title: "Milky Way Rotation",
+                        desc: "Galactic year progress (225 million Earth years).",
+                        update: (now) => {
+                            const orbitMs = 225000000 * msPerYear;
+                            const currentYearMs = now - new Date(now.getFullYear(), 0, 1);
+                            const simulatedMs = (4600000000 * msPerYear) + currentYearMs;
+                            const pct = ((simulatedMs % orbitMs) / orbitMs) * 100;
+                            return { pct, text: formatPct(pct, 10) };
+                        }
+                    }
+                ]
+            }
+        ];
+
+        // ==========================================
+        // 3. UI GENERATION & RENDERING
+        // ==========================================
+        const appContainer = document.getElementById('app-container');
+        const updateQueue = [];
+
+        progressConfig.forEach((section, sIndex) => {
+            // Create Section Title
+            const titleEl = document.createElement('h2');
+            titleEl.className = 'category-title';
+            titleEl.textContent = section.category;
+            appContainer.appendChild(titleEl);
+
+            // Create Cards
+            section.items.forEach((item, iIndex) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                
+                const header = document.createElement('div');
+                header.className = 'card-header';
+                
+                const title = document.createElement('div');
+                title.className = 'card-title';
+                title.textContent = item.title;
+                
+                const pctLabel = document.createElement('div');
+                pctLabel.className = 'card-percentage';
+                pctLabel.textContent = '0.00%';
+                
+                header.appendChild(title);
+                header.appendChild(pctLabel);
+                
+                const track = document.createElement('div');
+                track.className = 'progress-track';
+                
+                const fill = document.createElement('div');
+                fill.className = 'progress-fill';
+                track.appendChild(fill);
+                
+                const desc = document.createElement('div');
+                desc.className = 'card-desc';
+                desc.textContent = item.desc;
+
+                card.appendChild(header);
+                card.appendChild(track);
+                card.appendChild(desc);
+                appContainer.appendChild(card);
+
+                // Add to Update Queue
+                updateQueue.push({
+                    element: card,
+                    fillEl: fill,
+                    pctEl: pctLabel,
+                    updateFunc: item.update
+                });
+            });
+        });
+
+        // ==========================================
+        // 4. ANIMATION LOOP & SCROLL OBSERVER
+        // ==========================================
+        function tick() {
+            const now = new Date();
+            updateQueue.forEach(item => {
+                const data = item.updateFunc(now);
+                item.fillEl.style.width = `${Math.min(Math.max(data.pct, 0), 100)}%`;
+                item.pctEl.textContent = data.text;
+            });
+            requestAnimationFrame(tick);
+        }
+
+        tick(); // Start real-time loop
+
+        // Scroll Fade-in Animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.card').forEach(card => {
+            observer.observe(card);
+        });
+
+    </script>
+</body>
+      </html>
