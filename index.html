@@ -364,21 +364,20 @@ a:hover{
   background: #1a1a1a;
 }
 
-/* Mas maliit at malinis na "Listening to Spotify" header */
 .spotify-header {
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: 8px; /* Pinaliit na size */
-  font-weight: 600; /* Minimalist weight */
+  font-size: 8px; 
+  font-weight: 600; 
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  color: #999999; /* Clean grey color */
-  margin-bottom: 8px; /* Mas malapit sa image para compact */
+  color: #999999; 
+  margin-bottom: 8px; 
 }
 
 .spotify-header i {
-  font-size: 10px; /* Pinaliit na icon */
+  font-size: 10px; 
   color: #ffffff; 
 }
 
@@ -403,25 +402,30 @@ a:hover{
   flex-direction: column;
   justify-content: center;
   width: calc(100% - 62px);
+  min-width: 0; /* ITO YUNG FIX PARA HINDI LUMAKI ANG CARD SA MAHABANG TITLE */
 }
 
 .spotify-title {
-  font-size: 13px;
+  font-size: 12px; /* Pinaliit para minimalist */
   font-weight: 700;
   color: #ffffff;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   margin-bottom: 2px;
+  width: 100%;
+  display: block;
 }
 
 .spotify-artist {
-  font-size: 11px;
+  font-size: 10px; /* Pinaliit para minimalist */
   opacity: 0.6;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   margin-bottom: 8px;
+  width: 100%;
+  display: block;
 }
 
 .spotify-progress-container {
@@ -814,4 +818,4 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
   
 </body>
-  </html>
+</html>
