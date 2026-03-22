@@ -27,23 +27,12 @@ body {
   min-height: 100vh;
 }
 
-/* TOP BAR */
-.app-bar{
-  padding:40px 25px 25px;
-  text-align:center;
-  background:#111111;
-  border-bottom:1px solid #1f1f1f;
-}
+/* TOP BAR & CONTENT */
+.app-bar { padding:40px 25px 25px; text-align:center; background:#111111; border-bottom:1px solid #1f1f1f; }
+.content { padding:20px; max-width:600px; margin:auto; }
 
-/* CONTENT */
-.content{
-  padding:20px;
-  max-width:600px;
-  margin:auto;
-}
-
-/* CARD */
-.card{
+/* CARD STYLE */
+.card {
   background: rgba(17,17,17,0.6);
   border:1px solid #1f1f1f;
   border-radius:18px;
@@ -53,333 +42,77 @@ body {
   transition:0.3s ease;
   backdrop-filter: blur(8px);
 }
+.card:hover { transform:translateY(-4px); background:#1a1a1a; }
 
-.card:hover{
-  transform:translateY(-4px);
-  background:#1a1a1a;
-}
-
-/* MINIMALIST HEADER STYLE */
 .content h2 {
-  font-size: 10px;          
-  margin-bottom: 10px;
-  letter-spacing: 2.5px;    
-  opacity: 0.5;             
-  font-weight: 700;
-  text-transform: uppercase; 
-  color: #ffffff;
-  padding-left: 5px;
+  font-size: 10px; margin-bottom: 10px; letter-spacing: 2.5px; opacity: 0.5; font-weight: 700; text-transform: uppercase; color: #ffffff; padding-left: 5px;
 }
 
-a{
-  color:#ffffff;
-  text-decoration:none;
-}
-
-a:hover{
-  opacity:0.7;
-}
+a { color:#ffffff; text-decoration:none; }
+a:hover { opacity:0.7; }
 
 /* WATCHLIST */
 .watchlist .folder {
-  background: linear-gradient(145deg, #0a0a0a, #141414); 
-  border: 1px solid #1f1f1f;
-  padding: 18px;
-  border-radius: 15px;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  transition: 0.3s ease;
+  background: linear-gradient(145deg, #0a0a0a, #141414); border: 1px solid #1f1f1f; padding: 18px; border-radius: 15px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; transition: 0.3s ease;
 }
+.watchlist .folder:hover { background: #1a1a1a; transform: translateX(5px); border-color: #333; }
 
-.watchlist .folder:hover {
-  background: #1a1a1a;
-  transform: translateX(5px);
-  border-color: #333;
-}
+/* PROFILE HEADER */
+.profile-header { position: relative; padding: 80px 20px 25px; text-align: center; background: #000000; border-bottom: 1px solid #1a1a1a; display: flex; flex-direction: column; align-items: center; }
+.profile-pic-container { position: relative; display: inline-block; margin-bottom: 12px; }
+.profile-img { width: 110px; height: 110px; border-radius: 50%; border: 3px solid #1f1f1f; object-fit: cover; display: block; }
 
-/* HEADER INFO */
-.profile-header {
-  position: relative;
-  padding: 80px 20px 25px; 
-  text-align: center;
-  background: #000000;
-  border-bottom: 1px solid #1a1a1a;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* PROFILE WRAPPER & STATUS DOT */
-.profile-pic-container {
-  position: relative;
-  display: inline-block;
-  margin-bottom: 12px;
-}
-
-.profile-img {
-  width: 110px;
-  height: 110px;
-  border-radius: 50%;
-  border: 3px solid #1f1f1f;
-  object-fit: cover;
-  display: block; 
-}
-
-/* FB/IG Style Status Dot with Icon Centered */
+/* FB/IG STATUS */
 .status-dot {
-  position: absolute;
-  bottom: 4px;
-  right: 4px;
-  width: 28px;   /* Slightly bigger to fit the icon */
-  height: 28px;
-  border-radius: 50%;
-  border: 4px solid #000000; 
-  cursor: pointer;
-  z-index: 10;
-  transition: transform 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffffff;
-  font-size: 11px; /* Size of the icon inside the dot */
+  position: absolute; bottom: 4px; right: 4px; width: 28px; height: 28px; border-radius: 50%; border: 4px solid #000000; cursor: pointer; z-index: 10; transition: transform 0.2s ease; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 11px;
 }
+.status-dot:hover { transform: scale(1.1); }
+.dot-alive { background-color: #31A24C; }
+.dot-dead { background-color: #E41E3F; }
 
-.status-dot:hover {
-  transform: scale(1.1);
-}
-
-.dot-alive {
-  background-color: #31A24C; /* Messenger Green */
-}
-
-.dot-dead {
-  background-color: #E41E3F; /* Muted Red */
-}
-
-/* Clickable Tooltip for Status */
 .status-tooltip {
-  position: absolute;
-  bottom: -25px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #1f1f1f;
-  color: #fff;
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
-  white-space: nowrap;
-  border: 1px solid #333;
-  pointer-events: none;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  z-index: 20;
+  position: absolute; bottom: -25px; left: 50%; transform: translateX(-50%); background: #1f1f1f; color: #fff; padding: 6px 12px; border-radius: 8px; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0; visibility: hidden; transition: all 0.3s ease; white-space: nowrap; border: 1px solid #333; pointer-events: none; box-shadow: 0 4px 10px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 6px; z-index: 20;
 }
+.status-tooltip.show { opacity: 1; visibility: visible; bottom: -32px; }
+.profile-header h1 { font-size:20px; letter-spacing:1px; }
 
-.status-tooltip.show {
-  opacity: 1;
-  visibility: visible;
-  bottom: -32px; 
-}
+/* SIDE MENU */
+.menu-icon { position: fixed; top: 20px; right: 25px; font-size: 22px; cursor: pointer; opacity: 0.8; transition: 0.2s ease; z-index: 90; }
+.menu-icon:hover { transform: scale(1.1); opacity: 1; }
+.menu-item { display: flex; align-items: center; gap: 15px; padding: 14px 18px; border-radius: 12px; font-size: 15px; font-weight: 500; color: rgba(255,255,255,0.7); transition: 0.3s ease; text-decoration: none; }
+.menu-item i { width: 20px; font-size: 18px; opacity: 0.8; }
+.menu-item:hover { background: rgba(255,255,255,0.05); color: #ffffff; transform: translateX(5px); }
+.menu-item.active { background: rgba(255,255,255,0.1); color: #ffffff; border: 1px solid rgba(255,255,255,0.1); }
 
-.profile-header h1{
-  font-size:20px;
-  letter-spacing:1px;
-}
+/* WATCHING PROGRESS */
+.watch-progress-container { margin-top: 10px; }
+.watch-bar-bg { height: 4px; background: rgba(255, 255, 255, 0.1); border-radius: 10px; overflow: hidden; margin-bottom: 4px; }
+.watch-bar-fill { height: 100%; background: #ffffff; box-shadow: 0 0 8px rgba(255, 255, 255, 0.5); transition: width 0.4s ease; }
+.watch-time-info { display: flex; justify-content: space-between; font-size: 10px; opacity: 0.5; letter-spacing: 0.5px; color: #ffffff; }
 
-/* MENU ICON */
-.menu-icon {
-  position: fixed; 
-  top: 20px;    
-  right: 25px;  
-  font-size: 22px; 
-  cursor: pointer;
-  opacity: 0.8;
-  transition: 0.2s ease;
-  z-index: 90;  
-}
-
-.menu-icon:hover {
-  transform: scale(1.1);
-  opacity: 1;
-}
-
-.menu-item {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 14px 18px;
-  border-radius: 12px;
-  font-size: 15px;
-  font-weight: 500;
-  color: rgba(255,255,255,0.7);
-  transition: 0.3s ease;
-  text-decoration: none;
-}
-
-.menu-item i {
-  width: 20px;
-  font-size: 18px;
-  opacity: 0.8;
-}
-
-.menu-item:hover {
-  background: rgba(255,255,255,0.05);
-  color: #ffffff;
-  transform: translateX(5px);
-}
-
-.menu-item.active {
-  background: rgba(255,255,255,0.1);
-  color: #ffffff;
-  border: 1px solid rgba(255,255,255,0.1);
-}
-
-/* WATCHING PROGRESS STYLE */
-.watch-progress-container {
-  margin-top: 10px;
-}
-
-.watch-bar-bg {
-  height: 4px;
-  background: rgba(255, 255, 255, 0.1); 
-  border-radius: 10px;
-  overflow: hidden;
-  margin-bottom: 4px;
-}
-
-.watch-bar-fill {
-  height: 100%;
-  background: #ffffff; 
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
-  transition: width 0.4s ease;
-}
-
-.watch-time-info {
-  display: flex;
-  justify-content: space-between;
-  font-size: 10px;
-  opacity: 0.5;
-  letter-spacing: 0.5px;
-  color: #ffffff;
-}
-
-/* HOBBY ROW (BOOKS + QUOTE) */
-.hobby-row {
-  display: flex;
-  gap: 15px;
-  align-items: stretch;
-  margin-bottom: 30px;
-}
+/* HOBBIES ROW */
+.hobby-row { display: flex; gap: 15px; align-items: stretch; margin-bottom: 30px; }
 
 /* BOOK CARD */
-.book-card {
-  background: rgba(17,17,17,0.6);
-  border: 1px solid #1f1f1f;
-  border-radius: 18px;
-  padding: 15px;
-  display: flex;
-  gap: 12px;
-  position: relative;
-  cursor: pointer;
-  transition: 0.3s;
-  overflow: hidden;
-  min-height: 115px;
-  touch-action: pan-y;
-  align-items: center;
-}
+.book-card { background: rgba(17,17,17,0.6); border: 1px solid #1f1f1f; border-radius: 18px; padding: 15px; display: flex; gap: 12px; position: relative; cursor: pointer; transition: 0.3s; overflow: hidden; min-height: 115px; touch-action: pan-y; align-items: center; }
+.book-card:hover { background: #1a1a1a; }
+.book-img { width: 60px; height: 85px; object-fit: cover; border-radius: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+.book-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.book-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.book-author { font-size: 11px; opacity: 0.6; margin-bottom: 8px; }
+.book-rating { color: #ffb400; font-size: 12px; }
+.swap-hint { position: absolute; bottom: 8px; right: 12px; font-size: 10px; opacity: 0.3; }
 
-.book-card:hover {
-  background: #1a1a1a;
+/* SPOTIFY NOW PLAYING CARD */
+.spotify-card {
+  background: rgba(17,17,17,0.6); border: 1px solid #1f1f1f; border-radius: 18px; padding: 15px; display: flex; align-items: center; gap: 12px; min-height: 115px; position: relative; overflow: hidden; text-decoration: none; color: #ffffff; transition: 0.3s ease;
 }
-  
-.book-img {
-  width: 60px;
-  height: 85px;
-  object-fit: cover;
-  border-radius: 6px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-}
-
-.book-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.book-title {
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 4px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.book-author {
-  font-size: 11px;
-  opacity: 0.6;
-  margin-bottom: 8px;
-}
-
-.book-rating {
-  color: #ffb400; 
-  font-size: 12px;
-}
-
-.swap-hint {
-  position: absolute;
-  bottom: 8px;
-  right: 12px;
-  font-size: 10px;
-  opacity: 0.3;
-}
-
-/* QUOTE CARD */
-.quote-card {
-  background: rgba(17,17,17,0.6);
-  border: 1px solid #1f1f1f;
-  border-radius: 18px;
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  min-height: 115px;
-  position: relative;
-}
-
-#dailyQuote {
-  font-size: 10px; 
-  line-height: 1.5;
-  font-style: italic;
-  opacity: 0.8;
-  border-left: 2px solid rgba(255,255,255,0.3);
-  padding-left: 8px;
-  text-align: left;
-  margin-bottom: 6px;
-}
-
-.quote-author {
-  font-size: 8px; 
-  font-weight: 700;
-  letter-spacing: 1px;
-  opacity: 0.5;
-  text-transform: uppercase;
-  padding-left: 10px;
-}
-  
+.spotify-card:hover { background: #1a1a1a; transform: translateY(-2px); }
+.spotify-art { width: 55px; height: 55px; border-radius: 8px; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+.spotify-info { flex: 1; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+.spotify-title { font-size: 13px; font-weight: 700; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.spotify-artist { font-size: 10px; opacity: 0.6; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.spotify-icon { position: absolute; top: 12px; right: 12px; color: #1DB954; font-size: 14px; }
 </style>
 </head>
 
@@ -388,11 +121,9 @@ a:hover{
 <div id="menuOverlay" onclick="toggleSideMenu()" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:99; backdrop-filter:blur(4px);"></div>
 
 <div id="sideMenu" style="position:fixed; top:0; right:-260px; width:260px; height:100%; background:#0a0a0a; border-left:1px solid #1f1f1f; z-index:100; transition:0.4s cubic-bezier(0.4, 0, 0.2, 1); padding:60px 25px; box-shadow: -10px 0 30px rgba(0,0,0,0.5);">
-  
   <div onclick="toggleSideMenu()" style="position:absolute; top:20px; right:20px; font-size:22px; cursor:pointer; opacity:0.5; color:white;">
     <i class="fas fa-times"></i>
   </div>
-
   <nav style="display:flex; flex-direction:column; gap:8px; margin-top:20px;">
     <a href="index.html" class="menu-item active"><i class="fas fa-home"></i> Home</a>
     <a href="aboutme.html" class="menu-item"><i class="fas fa-user"></i> About me</a>
@@ -408,13 +139,11 @@ a:hover{
   <div class="menu-icon" onclick="toggleSideMenu()">
     <i class="fas fa-bars"></i>
   </div>
-
   <div class="profile-pic-container">
     <img src="AlbertCamus.jpg" class="profile-img" alt="Profile">
     <div id="statusDot" class="status-dot" onclick="toggleStatus()"></div>
     <div id="statusTooltip" class="status-tooltip"></div>
   </div>
-  
   <h1>Dave Christopher</h1>
 </div>
 
@@ -422,28 +151,19 @@ a:hover{
 
 <div id="watchingWrapper" style="margin-bottom: 25px; display: none;">
   <h2></h2>
-  
   <div id="watchingCard" class="card" style="margin-bottom: 0; padding: 18px; min-height: 125px;">
     <div style="display:flex; gap:15px; align-items:center;">
       <img id="watchImage" src="" style="width:70px; height:100px; object-fit:cover; border-radius:8px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); display: none;" />
-      
       <div style="flex:1;">
         <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
           <i id="watchIcon" class="fas fa-film" style="font-size: 10px; color: #ffffff; opacity: 0.8;"></i>
           <span id="watchCategory" style="font-size: 10px; letter-spacing: 2px; font-weight: 700; color: #ffffff; opacity: 0.8;">MOVIE</span>
         </div>
-        
         <div id="watchTitle" style="font-size: 18px; font-weight: 600; color: #ffffff; margin-bottom: 2px;"></div>
         <div id="watchGenre" style="font-size: 13px; opacity: 0.6; margin-bottom: 8px;"></div>
-
         <div class="watch-progress-container">
-          <div class="watch-bar-bg">
-            <div id="watchProgress" class="watch-bar-fill" style="width: 0%;"></div>
-          </div>
-          <div class="watch-time-info">
-            <span id="watchCurrent">00:00</span>
-            <span id="watchTotal">0:00</span>
-          </div>
+          <div class="watch-bar-bg"><div id="watchProgress" class="watch-bar-fill" style="width: 0%;"></div></div>
+          <div class="watch-time-info"><span id="watchCurrent">00:00</span><span id="watchTotal">0:00</span></div>
         </div>
       </div>
     </div>
@@ -451,12 +171,10 @@ a:hover{
 </div>
 
 <div class="hobby-row">
-  
   <div style="flex: 1.3;">
     <h2>Books I've Read</h2>
     <div id="bookCard" class="book-card">
       <img id="bookCover" src="sisyphus.jpg" class="book-img">
-      
       <div class="book-info">
         <div id="bookCount" style="font-size: 9px; opacity: 0.5; margin-bottom: 2px; letter-spacing: 1px;"></div>
         <div id="bookTitle" class="book-title">Loading...</div>
@@ -468,41 +186,33 @@ a:hover{
   </div>
 
   <div style="flex: 1;">
-    <h2>Daily Quote</h2>
-    <div class="quote-card">
-      <p id="dailyQuote">Loading...</p>
-      <span id="quoteAuthor" class="quote-author"></span>
-    </div>
+    <h2>Now Playing</h2>
+    <a href="#" target="_blank" id="spotifyLink" class="spotify-card">
+      <i class="fab fa-spotify spotify-icon"></i>
+      <img id="spotifyArt" src="https://i.scdn.co/image/ab67616d0000b273b00667dbab0a6c0b31e9c991" class="spotify-art" alt="Album Art">
+      <div class="spotify-info">
+        <div id="spotifyTitle" class="spotify-title">Not Playing</div>
+        <div id="spotifyArtist" class="spotify-artist">Spotify</div>
+      </div>
+    </a>
   </div>
-
 </div>
   
 <div style="margin-bottom: 30px;">
   <h2 style="padding-left: 2px;">Watchlist</h2>
-  
   <div class="watchlist">
-    <a href="kdrama.html">
-      <div class="folder"><span><i class="fas fa-tv" style="margin-right: 12px; opacity: 0.7;"></i> K-Drama</span></div>
-    </a>
-
-    <a href="kmovie.html">
-      <div class="folder"><span><i class="fas fa-film" style="margin-right: 12px; opacity: 0.7;"></i> K-Movie</span></div>
-    </a>
-
-    <a href="movie.html">
-      <div class="folder"><span><i class="fas fa-clapperboard" style="margin-right: 12px; opacity: 0.7;"></i> Movie & Series</span></div>
-    </a>
+    <a href="kdrama.html"><div class="folder"><span><i class="fas fa-tv" style="margin-right: 12px; opacity: 0.7;"></i> K-Drama</span></div></a>
+    <a href="kmovie.html"><div class="folder"><span><i class="fas fa-film" style="margin-right: 12px; opacity: 0.7;"></i> K-Movie</span></div></a>
+    <a href="movie.html"><div class="folder"><span><i class="fas fa-clapperboard" style="margin-right: 12px; opacity: 0.7;"></i> Movie & Series</span></div></a>
   </div>
 </div>
 
-</div>
-
-<script>
+  </div>
+  <script>
 /* ===== SIDE MENU SCRIPT ===== */
 function toggleSideMenu() {
   const menu = document.getElementById("sideMenu");
   const overlay = document.getElementById("menuOverlay");
-
   if (menu.style.right === "0px") {
     menu.style.right = "-260px";
     overlay.style.display = "none";
@@ -516,62 +226,44 @@ function toggleSideMenu() {
 function toggleStatus() {
   const tooltip = document.getElementById("statusTooltip");
   tooltip.classList.toggle("show");
-  
-  // Auto-hide after 3 seconds
-  setTimeout(() => {
-    tooltip.classList.remove("show");
-  }, 3000);
+  setTimeout(() => { tooltip.classList.remove("show"); }, 3000);
 }
 
 /* ===== LOOPING PERSISTENT NOW WATCHING ===== */
 let watchInterval;
-
 function setWatching(title, category, genre, defaultStartSeconds, totalSeconds, imageUrl) {
   const wrapper = document.getElementById("watchingWrapper");
-  
   if (!title || title.trim() === "" || !imageUrl) {
     wrapper.style.display = "none";
     clearInterval(watchInterval);
     return;
   }
-
   wrapper.style.display = "block";
   document.getElementById("watchImage").src = imageUrl;
   document.getElementById("watchImage").style.display = "block";
   document.getElementById("watchTitle").textContent = title;
   document.getElementById("watchGenre").textContent = genre;
   document.getElementById("watchCategory").textContent = "WATCHING " + category.toUpperCase();
-  
   clearInterval(watchInterval);
 
   let savedTitle = localStorage.getItem("watchTitle");
   let now = defaultStartSeconds;
-
   if (savedTitle === title) {
     let savedTime = localStorage.getItem("watchTime");
-    if (savedTime !== null) {
-      now = parseInt(savedTime, 10);
-    }
+    if (savedTime !== null) { now = parseInt(savedTime, 10); }
   } else {
     localStorage.setItem("watchTitle", title);
     localStorage.setItem("watchTime", now);
   }
 
   function updateUI() {
-    if (now >= totalSeconds) {
-      now = 0; 
-    } else {
-      now++;
-    }
-
+    if (now >= totalSeconds) { now = 0; } else { now++; }
     localStorage.setItem("watchTime", now);
-
     const percent = (now / totalSeconds) * 100;
     document.getElementById("watchProgress").style.width = percent + "%";
     document.getElementById("watchCurrent").textContent = formatTime(now);
     document.getElementById("watchTotal").textContent = formatTime(totalSeconds);
   }
-
   updateUI();
   watchInterval = setInterval(updateUI, 1000); 
 }
@@ -582,7 +274,6 @@ function formatTime(seconds) {
   return m + ":" + (s < 10 ? "0" : "") + s;
 }
 
-// TEST CALL:
 document.addEventListener("DOMContentLoaded", function() {
   setWatching("Hear Me: Our Summer", "K-Movie", "Romance", 1000, 7200, "Hear_Me-_Our_Summer-p.jpeg");
 });
@@ -608,108 +299,81 @@ function updateBookDisplay(index) {
   const coverEl = document.getElementById("bookCover");
   const ratingEl = document.getElementById("bookRating");
 
-  titleEl.style.opacity = 0;
-  authorEl.style.opacity = 0;
-  coverEl.style.opacity = 0;
-
+  titleEl.style.opacity = 0; authorEl.style.opacity = 0; coverEl.style.opacity = 0;
   setTimeout(() => {
-    titleEl.textContent = book.title;
-    authorEl.textContent = book.author;
-    coverEl.src = book.cover;
-    
+    titleEl.textContent = book.title; authorEl.textContent = book.author; coverEl.src = book.cover;
     let starHtml = "";
     for(let i = 1; i <= 5; i++) {
-      if(i <= Math.floor(book.rating)) {
-        starHtml += '<i class="fas fa-star"></i> ';
-      } else if(book.rating % 1 !== 0 && i === Math.ceil(book.rating)) {
-        starHtml += '<i class="fas fa-star-half-alt"></i> ';
-      } else {
-        starHtml += '<i class="far fa-star"></i> ';
-      }
+      if(i <= Math.floor(book.rating)) { starHtml += '<i class="fas fa-star"></i> '; } 
+      else if(book.rating % 1 !== 0 && i === Math.ceil(book.rating)) { starHtml += '<i class="fas fa-star-half-alt"></i> '; } 
+      else { starHtml += '<i class="far fa-star"></i> '; }
     }
     starHtml += `<span style="color:white; opacity:0.6; font-size:10px; margin-left:4px;">${book.stars}</span>`;
     ratingEl.innerHTML = starHtml;
-
-    titleEl.style.opacity = 1;
-    authorEl.style.opacity = 0.6;
-    coverEl.style.opacity = 1;
+    titleEl.style.opacity = 1; authorEl.style.opacity = 0.6; coverEl.style.opacity = 1;
   }, 150);
 }
 
 function handleGesture() {
-  if (touchendX < touchstartX - 50) {
-    currentBookIndex = (currentBookIndex + 1) % myBooks.length;
-    updateBookDisplay(currentBookIndex);
-  }
-  if (touchendX > touchstartX + 50) {
-    currentBookIndex = (currentBookIndex - 1 + myBooks.length) % myBooks.length;
-    updateBookDisplay(currentBookIndex);
-  }
+  if (touchendX < touchstartX - 50) { currentBookIndex = (currentBookIndex + 1) % myBooks.length; updateBookDisplay(currentBookIndex); }
+  if (touchendX > touchstartX + 50) { currentBookIndex = (currentBookIndex - 1 + myBooks.length) % myBooks.length; updateBookDisplay(currentBookIndex); }
 }
 
 const bookCard = document.getElementById('bookCard');
 bookCard.addEventListener('touchstart', e => { touchstartX = e.changedTouches[0].screenX; });
 bookCard.addEventListener('touchend', e => { touchendX = e.changedTouches[0].screenX; handleGesture(); });
 
-/* ===== COMBINED QUOTES SCRIPT ===== */
-const philosophyQuotes = [
-  // My Own Quotes
-  { text: "To desire someone is to trap yourself in a prison of thought. The mind clings, though the world cares nothing for your longing.", author: "Dave Christopher" },
-  { text: "There are no good people. Only people pretending, stumbling through a world that does not notice.", author: "Dave Christopher" },
-  { text: "Do not believe too easily in those you meet. People are actors in a world that does not care if you are fooled.", author: "Dave Christopher" },
-  { text: "When you are young and yet understand the world, it is a cruel weight.", author: "Dave Christopher" },
-  { text: "When you overthink, what you believe to be true may only exist in your mind. Sometimes it is not true at all—this is the world, and the world has no truth.", author: "Dave Christopher" },
-  { text: "If you ever like someone, do not confess. The world doesn’t reward honesty; it only watches silently.", author: "Dave Christopher" },
-  { text: "You can feel immense pity for others, yet somehow pity yourself more because you do not even know who you are.", author: "Dave Christopher" },
-  { text: "Do not be kind to others. Be as cruel as they are to you.", author: "Dave Christopher" },
-  { text: "Being a nerd is the best thing I have done in my life, for it gave me knowledge of the world that others ignore.", author: "Dave Christopher" },
-  
-  // Atheism & Philosophy Quotes
-  { text: "We are all atheists about most of the gods that humanity has ever believed in. Some of us just go one god further.", author: "Richard Dawkins" },
-  { text: "I think, therefore I am.", author: "René Descartes" },
-  { text: "Without music, life would be a mistake.", author: "Friedrich Nietzsche" },
-  { text: "One must imagine Sisyphus happy.", author: "Albert Camus" },
-  { text: "Imagination is more important than knowledge.", author: "Albert Einstein" },
-  { text: "To be yourself in a world that is constantly trying to make you something else is the greatest accomplishment.", author: "Ralph Waldo Emerson" },
-  { text: "Knowledge is power.", author: "Francis Bacon" },
-  { text: "Simplicity is the ultimate sophistication.", author: "Leonardo da Vinci" },
-  { text: "God is dead. God remains dead. And we have killed him.", author: "Friedrich Nietzsche" },
-  { text: "Life has no meaning the moment you lose the illusion of being eternal.", author: "Jean-Paul Sartre" },
-  { text: "There is but one truly serious philosophical problem, and that is suicide.", author: "Albert Camus" },
-  { text: "The absurd is born of this confrontation between the human need and the unreasonable silence of the world.", author: "Albert Camus" },
-  { text: "I rebel—therefore we exist.", author: "Albert Camus" },
-  { text: "The struggle itself toward the heights is enough to fill a man's heart.", author: "Albert Camus" },
-  { text: "The greatest wealth is to live content with little.", author: "Plato" },
-  { text: "The only thing I know is that I know nothing.", author: "Socrates" },
-  { text: "Happiness depends upon ourselves.", author: "Aristotle" }
-];
+/* ===== SPOTIFY NOW PLAYING (VIA LANYARD) ===== */
+const DISCORD_ID = "1065896159928909824";
+
+async function fetchSpotifyStatus() {
+  try {
+    const response = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
+    const data = await response.json();
+
+    const spotifyTitle = document.getElementById("spotifyTitle");
+    const spotifyArtist = document.getElementById("spotifyArtist");
+    const spotifyArt = document.getElementById("spotifyArt");
+    const spotifyLink = document.getElementById("spotifyLink");
+    const spotifyIcon = document.querySelector(".spotify-icon");
+
+    if (data.success && data.data.spotify) {
+      const spotify = data.data.spotify;
+      spotifyTitle.textContent = spotify.song;
+      spotifyArtist.textContent = spotify.artist;
+      spotifyArt.src = spotify.album_art_url;
+      spotifyLink.href = `https://open.spotify.com/track/${spotify.track_id}`;
+      spotifyIcon.style.color = "#1DB954"; 
+    } else {
+      spotifyTitle.textContent = "Not Playing";
+      spotifyArtist.textContent = "Spotify";
+      spotifyArt.src = "https://i.scdn.co/image/ab67616d0000b273b00667dbab0a6c0b31e9c991"; 
+      spotifyLink.href = "#";
+      spotifyIcon.style.color = "gray";
+    }
+  } catch (error) { console.error("Error fetching Spotify status:", error); }
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   updateBookDisplay(0); 
   
-  // Random Quote Generator
-  const randomQuote = philosophyQuotes[Math.floor(Math.random() * philosophyQuotes.length)];
-  document.getElementById("dailyQuote").textContent = `"${randomQuote.text}"`;
-  document.getElementById("quoteAuthor").textContent = `— ${randomQuote.author}`;
+  // SPOTIFY FETCHING
+  fetchSpotifyStatus();
+  setInterval(fetchSpotifyStatus, 5000);
 
-  // ALIVE / DEAD Status Logic Initialization
+  // ALIVE / DEAD STATUS
   const daysThreshold = 14; 
   const lastModifiedDate = new Date(document.lastModified);
   const currentDate = new Date();
-  
-  // Calculate difference in days
   const daysSinceUpdate = (currentDate - lastModifiedDate) / (1000 * 60 * 60 * 24);
-  
   const dotEl = document.getElementById("statusDot");
   const tooltipEl = document.getElementById("statusTooltip");
   
   if (daysSinceUpdate > daysThreshold) {
-    // DEAD STATUS
     dotEl.classList.add("dot-dead");
     dotEl.innerHTML = '<i class="fas fa-skull"></i>';
     tooltipEl.innerHTML = '<i class="fas fa-skull" style="color:#E41E3F;"></i> DEAD';
   } else {
-    // ALIVE STATUS
     dotEl.classList.add("dot-alive");
     dotEl.innerHTML = '<i class="fas fa-heartbeat"></i>';
     tooltipEl.innerHTML = '<i class="fas fa-heartbeat" style="color:#31A24C;"></i> ALIVE';
