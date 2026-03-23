@@ -17,7 +17,6 @@
 }
 
 body {
-  /* Minimalist Black Background (No Green Gradient) */
   background-color: #000000;
   color: #ffffff;
   font-family: 'Quicksand', sans-serif;
@@ -25,7 +24,7 @@ body {
   overflow-x: hidden;
 }
 
-/* FIXED MENU ICON - MINIMALIST */
+/* FIXED MENU ICON */
 .menu-icon {
   position: fixed;
   top: 30px;
@@ -128,19 +127,41 @@ body {
   font-weight: 500;
 }
 
-/* PLAYLISTS SECTION */
-h2.section-title {
-  font-size: 18px;
-  font-weight: 700;
-  margin-bottom: 20px;
+/* TAB NAVIGATION */
+.tabs {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #1a1a1a;
+  padding-bottom: 10px;
 }
 
+.tab-btn {
+  background: none;
+  border: none;
+  color: #a7a7a7;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s ease;
+  padding: 0;
+}
+
+.tab-btn:hover {
+  color: #ffffff;
+}
+
+.tab-btn.active {
+  color: #ffffff;
+}
+
+/* PLAYLISTS SECTION */
 .playlist-list {
   display: flex;
   flex-direction: column;
 }
 
-/* GINAWANG ANCHOR TAG ANG PLAYLIST ITEMS PARA CLICKABLE */
 .playlist-item {
   display: flex;
   align-items: center;
@@ -188,6 +209,124 @@ h2.section-title {
   font-weight: 500;
 }
 
+/* WRAPPED GRID SECTION (2 PER ROW) */
+#wrappedSection {
+  display: none; 
+  animation: fadeIn 0.4s ease;
+}
+
+.wrapped-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Dito ginawang dalawa kada row */
+  gap: 15px;
+}
+
+.wrapped-item {
+  width: 100%;
+  aspect-ratio: 9/16;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #1a1a1a;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.wrapped-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease, filter 0.3s;
+  filter: brightness(0.9);
+}
+
+.wrapped-item:hover img {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+/* LIGHTBOX (FULLSCREEN IMAGE VIEWER) */
+.lightbox {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 3000;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  backdrop-filter: blur(10px);
+}
+
+.lightbox-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 95vw;
+  max-height: 95vh;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -45px;
+  right: 0;
+  color: #fff;
+  font-size: 35px;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: 0.3s;
+  z-index: 10;
+}
+
+.lightbox-close:hover {
+  opacity: 1;
+}
+
+/* WRAPPER PARA SA WATERMARK SA LOOB NG IMAGE */
+.lightbox-image-wrapper {
+  position: relative;
+  display: inline-block;
+  border-radius: 12px;
+  overflow: hidden; /* Para hindi lumagpas ang watermark */
+  box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+  animation: zoomIn 0.3s ease;
+}
+
+.lightbox img {
+  max-width: 90vw;
+  max-height: 85vh; /* Pinalaki para kitang-kita */
+  object-fit: contain;
+  display: block; /* Tinatanggal ang extra space sa ilalim ng image */
+}
+
+/* WATERMARK SA LOOB (RIGHT SIDE, BOTTOM) */
+.lightbox-watermark {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  color: rgba(255, 255, 255, 0.65); /* Minimalist opacity */
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  pointer-events: none; /* Para hindi ma-click */
+  text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.8); /* Para mabasa kahit puti ang image */
+  font-family: 'Quicksand', sans-serif;
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes zoomIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
 </style>
 </head>
 <body>
@@ -223,10 +362,12 @@ h2.section-title {
     </div>
   </div>
 
-  <h2 class="section-title">Playlists</h2>
+  <div class="tabs">
+    <button class="tab-btn active" id="tab-playlists" onclick="switchTab('playlists')">Playlists</button>
+    <button class="tab-btn" id="tab-wrapped" onclick="switchTab('wrapped')">2025 Wrapped</button>
+  </div>
   
-  <div class="playlist-list">
-    
+  <div id="playlistSection" class="playlist-list">
     <a href="https://open.spotify.com/playlist/4AQuxx3QL9CzETOmloAWqK?si=YGT5g7EORHKkOGFpXLhzpQ" target="_blank" class="playlist-item">
       <img src="1.jpg" class="playlist-cover" alt="Playlist Cover">
       <div class="playlist-details">
@@ -234,7 +375,6 @@ h2.section-title {
         <span class="playlist-saves">1 save</span>
       </div>
     </a>
-
     <a href="https://open.spotify.com/playlist/4Ao3CaomRZEskoF92dxXCw?si=nwZQmTSUQlmcw6_Z2AE_0w" target="_blank" class="playlist-item">
       <img src="2.jpg" class="playlist-cover" alt="Playlist Cover">
       <div class="playlist-details">
@@ -242,7 +382,6 @@ h2.section-title {
         <span class="playlist-saves">1 save</span>
       </div>
     </a>
-
     <a href="https://open.spotify.com/playlist/0m31ibzGFIy9ZFZGpFAJ0Z?si=aG0nDII5SuSkP5bINnTX3A&pi=s4vf1rJXQ1O7h" target="_blank" class="playlist-item">
       <img src="3.jpg" class="playlist-cover" alt="Playlist Cover">
       <div class="playlist-details">
@@ -250,7 +389,6 @@ h2.section-title {
         <span class="playlist-saves">1 save</span>
       </div>
     </a>
-
     <a href="https://open.spotify.com/playlist/3vIZh9KfPn3S2LHkLqYFdE?si=VRNz0vS3TM2gIrlug9uYAA&pi=YZ0_9R_ZSKCOm" target="_blank" class="playlist-item">
       <img src="4.jpg" class="playlist-cover" alt="Playlist Cover">
       <div class="playlist-details">
@@ -258,7 +396,6 @@ h2.section-title {
         <span class="playlist-saves">1 save</span>
       </div>
     </a>
-
     <a href="https://open.spotify.com/playlist/1qTeqXF60nffiTZ43y5gv5?si=s2xK8p8oSFC13SU4cDcY2w" target="_blank" class="playlist-item">
       <img src="5.jpg" class="playlist-cover" alt="Playlist Cover">
       <div class="playlist-details">
@@ -266,7 +403,6 @@ h2.section-title {
         <span class="playlist-saves">1 save</span>
       </div>
     </a>
-
     <a href="https://open.spotify.com/playlist/7CrAzRsjAUb77VIcUDC72m?si=fdXQDWBSTf29-DsKIMTnYA" target="_blank" class="playlist-item">
       <img src="6.jpg" class="playlist-cover" alt="Playlist Cover">
       <div class="playlist-details">
@@ -274,7 +410,6 @@ h2.section-title {
         <span class="playlist-saves">1 save</span>
       </div>
     </a>
-
     <a href="https://open.spotify.com/playlist/4nwHXMnm1P95MAe2n3elwJ?si=GZLdTd97RpaibfZ1YIzzGw" target="_blank" class="playlist-item">
       <img src="7.jpg" class="playlist-cover" alt="Playlist Cover">
       <div class="playlist-details">
@@ -282,7 +417,6 @@ h2.section-title {
         <span class="playlist-saves">1 save</span>
       </div>
     </a>
-
     <a href="https://open.spotify.com/playlist/7aY6wjEm8ibJj4IbRn1lF3?si=OpUkYgclQ2Gwod-EDtu4-g" target="_blank" class="playlist-item">
       <img src="8.jpg" class="playlist-cover" alt="Playlist Cover">
       <div class="playlist-details">
@@ -290,7 +424,6 @@ h2.section-title {
         <span class="playlist-saves">1 save</span>
       </div>
     </a>
-
     <a href="https://open.spotify.com/playlist/4idUQ0m6YPyWCswxXYtxgD?si=vD2YtGWbTkG9uuJDBZuckQ" target="_blank" class="playlist-item">
       <img src="9.jpg" class="playlist-cover" alt="Playlist Cover">
       <div class="playlist-details">
@@ -298,7 +431,6 @@ h2.section-title {
         <span class="playlist-saves">1 save</span>
       </div>
     </a>
-
     <a href="https://open.spotify.com/playlist/3syzoiNaTn0oWFAaH0yp3o?si=cb6w9OjbRy-DR6zs8jA6jA" target="_blank" class="playlist-item">
       <img src="10.jpg" class="playlist-cover" alt="Playlist Cover">
       <div class="playlist-details">
@@ -306,7 +438,6 @@ h2.section-title {
         <span class="playlist-saves">1 save</span>
       </div>
     </a>
-
     <a href="https://open.spotify.com/playlist/7HtIYmIfCEYJVkoH21AcC8?si=ZR7dnxpBS7-VveU7Bp8zMQ" target="_blank" class="playlist-item">
       <img src="11.jpg" class="playlist-cover" alt="Playlist Cover">
       <div class="playlist-details">
@@ -314,12 +445,46 @@ h2.section-title {
         <span class="playlist-saves">7 saves</span>
       </div>
     </a>
+  </div>
 
+  <div id="wrappedSection">
+    <div class="wrapped-grid">
+      <div class="wrapped-item" onclick="openLightbox('wrapped1.jpg')"><img src="wrapped1.jpg" alt="Wrapped 1"></div>
+      <div class="wrapped-item" onclick="openLightbox('wrapped2.jpg')"><img src="wrapped2.jpg" alt="Wrapped 2"></div>
+      <div class="wrapped-item" onclick="openLightbox('wrapped3.jpg')"><img src="wrapped3.jpg" alt="Wrapped 3"></div>
+      <div class="wrapped-item" onclick="openLightbox('wrapped4.jpg')"><img src="wrapped4.jpg" alt="Wrapped 4"></div>
+      <div class="wrapped-item" onclick="openLightbox('wrapped5.jpg')"><img src="wrapped5.jpg" alt="Wrapped 5"></div>
+      <div class="wrapped-item" onclick="openLightbox('wrapped6.jpg')"><img src="wrapped6.jpg" alt="Wrapped 6"></div>
+      <div class="wrapped-item" onclick="openLightbox('wrapped7.jpg')"><img src="wrapped7.jpg" alt="Wrapped 7"></div>
+      <div class="wrapped-item" onclick="openLightbox('wrapped8.jpg')"><img src="wrapped8.jpg" alt="Wrapped 8"></div>
+      <div class="wrapped-item" onclick="openLightbox('wrapped9.jpg')"><img src="wrapped9.jpg" alt="Wrapped 9"></div>
+      <div class="wrapped-item" onclick="openLightbox('wrapped10.jpg')"><img src="wrapped10.jpg" alt="Wrapped 10"></div>
+      <div class="wrapped-item" onclick="openLightbox('wrapped11.jpg')"><img src="wrapped11.jpg" alt="Wrapped 11"></div>
+      <div class="wrapped-item" onclick="openLightbox('wrapped12.jpg')"><img src="wrapped12.jpg" alt="Wrapped 12"></div>
+      <div class="wrapped-item" onclick="openLightbox('wrapped13.jpg')"><img src="wrapped13.jpg" alt="Wrapped 13"></div>
+      <div class="wrapped-item" onclick="openLightbox('wrapped14.jpg')"><img src="wrapped14.jpg" alt="Wrapped 14"></div>
+      <div class="wrapped-item" onclick="openLightbox('wrapped15.jpg')"><img src="wrapped15.jpg" alt="Wrapped 15"></div>
+      <div class="wrapped-item" onclick="openLightbox('wrapped16.jpg')"><img src="wrapped16.jpg" alt="Wrapped 16"></div>
+      <div class="wrapped-item" onclick="openLightbox('wrapped17.jpg')"><img src="wrapped17.jpg" alt="Wrapped 17"></div>
+    </div>
   </div>
 
 </div>
 
+<div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-content">
+    <span class="lightbox-close" onclick="closeLightbox(event)">×</span>
+    
+    <div class="lightbox-image-wrapper">
+      <img id="lightbox-img" src="" alt="Enlarged Wrapped">
+      <div class="lightbox-watermark">by devxdave ☕</div>
+    </div>
+    
+  </div>
+</div>
+
 <script>
+// Menu Toggle
 function toggleSideMenu() {
   const menu = document.getElementById("sideMenu");
   const overlay = document.getElementById("menuOverlay");
@@ -331,7 +496,45 @@ function toggleSideMenu() {
     overlay.style.display = "block";
   }
 }
+
+// Tab Switching Logic
+function switchTab(tabName) {
+  const playlistSec = document.getElementById('playlistSection');
+  const wrappedSec = document.getElementById('wrappedSection');
+  const tabPlaylists = document.getElementById('tab-playlists');
+  const tabWrapped = document.getElementById('tab-wrapped');
+
+  if (tabName === 'playlists') {
+    playlistSec.style.display = 'flex';
+    wrappedSec.style.display = 'none';
+    tabPlaylists.classList.add('active');
+    tabWrapped.classList.remove('active');
+  } else if (tabName === 'wrapped') {
+    playlistSec.style.display = 'none';
+    wrappedSec.style.display = 'block';
+    tabWrapped.classList.add('active');
+    tabPlaylists.classList.remove('active');
+  }
+}
+
+// Lightbox Logic (Enlarge Image)
+function openLightbox(imageSrc) {
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  
+  lightboxImg.src = imageSrc;
+  lightbox.style.display = 'flex';
+  document.body.style.overflow = 'hidden'; 
+}
+
+function closeLightbox(event) {
+  // Para mag-close kapag pinindot ang background or ang ekis na button
+  if (event.target.id === 'lightbox' || event.target.className === 'lightbox-close') {
+    document.getElementById('lightbox').style.display = 'none';
+    document.body.style.overflow = 'auto';
+  }
+}
 </script>
 
 </body>
-  </html>
+      </html>
