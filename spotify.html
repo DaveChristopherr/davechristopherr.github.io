@@ -217,7 +217,7 @@ body {
 
 .wrapped-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Dito ginawang dalawa kada row */
+  grid-template-columns: repeat(2, 1fr); 
   gap: 15px;
 }
 
@@ -290,16 +290,16 @@ body {
   position: relative;
   display: inline-block;
   border-radius: 12px;
-  overflow: hidden; /* Para hindi lumagpas ang watermark */
+  overflow: hidden; 
   box-shadow: 0 10px 40px rgba(0,0,0,0.8);
   animation: zoomIn 0.3s ease;
 }
 
 .lightbox img {
   max-width: 90vw;
-  max-height: 85vh; /* Pinalaki para kitang-kita */
+  max-height: 85vh; 
   object-fit: contain;
-  display: block; /* Tinatanggal ang extra space sa ilalim ng image */
+  display: block; 
 }
 
 /* WATERMARK SA LOOB (RIGHT SIDE, BOTTOM) */
@@ -307,12 +307,13 @@ body {
   position: absolute;
   bottom: 15px;
   right: 15px;
-  color: rgba(255, 255, 255, 0.65); /* Minimalist opacity */
+  color: #000000; /* Ginawang Black */
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.5px;
-  pointer-events: none; /* Para hindi ma-click */
-  text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.8); /* Para mabasa kahit puti ang image */
+  pointer-events: none; 
+  /* Manipis na white shadow para mabasa pa rin kahit madilim ang image */
+  text-shadow: 0px 0px 4px rgba(255, 255, 255, 0.8); 
   font-family: 'Quicksand', sans-serif;
 }
 
@@ -449,23 +450,23 @@ body {
 
   <div id="wrappedSection">
     <div class="wrapped-grid">
-      <div class="wrapped-item" onclick="openLightbox('wrapped1.jpg')"><img src="wrapped1.jpg" alt="Wrapped 1"></div>
-      <div class="wrapped-item" onclick="openLightbox('wrapped2.png')"><img src="wrapped2.png" alt="Wrapped 2"></div>
-      <div class="wrapped-item" onclick="openLightbox('wrapped3.jpg')"><img src="wrapped3.jpg" alt="Wrapped 3"></div>
-      <div class="wrapped-item" onclick="openLightbox('wrapped4.jpg')"><img src="wrapped4.jpg" alt="Wrapped 4"></div>
-      <div class="wrapped-item" onclick="openLightbox('wrapped5.jpg')"><img src="wrapped5.jpg" alt="Wrapped 5"></div>
-      <div class="wrapped-item" onclick="openLightbox('wrapped6.jpg')"><img src="wrapped6.jpg" alt="Wrapped 6"></div>
-      <div class="wrapped-item" onclick="openLightbox('wrapped7.jpg')"><img src="wrapped7.jpg" alt="Wrapped 7"></div>
-      <div class="wrapped-item" onclick="openLightbox('wrapped8.jpg')"><img src="wrapped8.jpg" alt="Wrapped 8"></div>
-      <div class="wrapped-item" onclick="openLightbox('wrapped9.jpg')"><img src="wrapped9.jpg" alt="Wrapped 9"></div>
-      <div class="wrapped-item" onclick="openLightbox('wrapped10.jpg')"><img src="wrapped10.jpg" alt="Wrapped 10"></div>
-      <div class="wrapped-item" onclick="openLightbox('wrapped11.jpg')"><img src="wrapped11.jpg" alt="Wrapped 11"></div>
-      <div class="wrapped-item" onclick="openLightbox('wrapped12.jpg')"><img src="wrapped12.jpg" alt="Wrapped 12"></div>
-      <div class="wrapped-item" onclick="openLightbox('wrapped13.jpg')"><img src="wrapped13.jpg" alt="Wrapped 13"></div>
-      <div class="wrapped-item" onclick="openLightbox('wrapped14.jpg')"><img src="wrapped14.jpg" alt="Wrapped 14"></div>
-      <div class="wrapped-item" onclick="openLightbox('wrapped15.jpg')"><img src="wrapped15.jpg" alt="Wrapped 15"></div>
-      <div class="wrapped-item" onclick="openLightbox('wrapped16.jpg')"><img src="wrapped16.jpg" alt="Wrapped 16"></div>
-      <div class="wrapped-item" onclick="openLightbox('wrapped17.png')"><img src="wrapped17.png" alt="Wrapped 17"></div>
+      <div class="wrapped-item" onclick="openLightbox(0)"><img src="wrapped1.jpg" alt="Wrapped 1"></div>
+      <div class="wrapped-item" onclick="openLightbox(1)"><img src="wrapped2.png" alt="Wrapped 2"></div>
+      <div class="wrapped-item" onclick="openLightbox(2)"><img src="wrapped3.jpg" alt="Wrapped 3"></div>
+      <div class="wrapped-item" onclick="openLightbox(3)"><img src="wrapped4.jpg" alt="Wrapped 4"></div>
+      <div class="wrapped-item" onclick="openLightbox(4)"><img src="wrapped5.jpg" alt="Wrapped 5"></div>
+      <div class="wrapped-item" onclick="openLightbox(5)"><img src="wrapped6.jpg" alt="Wrapped 6"></div>
+      <div class="wrapped-item" onclick="openLightbox(6)"><img src="wrapped7.jpg" alt="Wrapped 7"></div>
+      <div class="wrapped-item" onclick="openLightbox(7)"><img src="wrapped8.jpg" alt="Wrapped 8"></div>
+      <div class="wrapped-item" onclick="openLightbox(8)"><img src="wrapped9.jpg" alt="Wrapped 9"></div>
+      <div class="wrapped-item" onclick="openLightbox(9)"><img src="wrapped10.jpg" alt="Wrapped 10"></div>
+      <div class="wrapped-item" onclick="openLightbox(10)"><img src="wrapped11.jpg" alt="Wrapped 11"></div>
+      <div class="wrapped-item" onclick="openLightbox(11)"><img src="wrapped12.jpg" alt="Wrapped 12"></div>
+      <div class="wrapped-item" onclick="openLightbox(12)"><img src="wrapped13.jpg" alt="Wrapped 13"></div>
+      <div class="wrapped-item" onclick="openLightbox(13)"><img src="wrapped14.jpg" alt="Wrapped 14"></div>
+      <div class="wrapped-item" onclick="openLightbox(14)"><img src="wrapped15.jpg" alt="Wrapped 15"></div>
+      <div class="wrapped-item" onclick="openLightbox(15)"><img src="wrapped16.jpg" alt="Wrapped 16"></div>
+      <div class="wrapped-item" onclick="openLightbox(16)"><img src="wrapped17.png" alt="Wrapped 17"></div>
     </div>
   </div>
 
@@ -477,7 +478,7 @@ body {
     
     <div class="lightbox-image-wrapper">
       <img id="lightbox-img" src="" alt="Enlarged Wrapped">
-      <div class="lightbox-watermark">by devxdave ☕</div>
+      <div class="lightbox-watermark">devxdave ☕</div>
     </div>
     
   </div>
@@ -517,24 +518,60 @@ function switchTab(tabName) {
   }
 }
 
-// Lightbox Logic (Enlarge Image)
-function openLightbox(imageSrc) {
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightbox-img');
-  
-  lightboxImg.src = imageSrc;
-  lightbox.style.display = 'flex';
+// SWIPE AND LIGHTBOX LOGIC
+let currentImageIndex = 0;
+const wrappedImages = [
+  "wrapped1.jpg", "wrapped2.png", "wrapped3.jpg", "wrapped4.jpg",
+  "wrapped5.jpg", "wrapped6.jpg", "wrapped7.jpg", "wrapped8.jpg",
+  "wrapped9.jpg", "wrapped10.jpg", "wrapped11.jpg", "wrapped12.jpg",
+  "wrapped13.jpg", "wrapped14.jpg", "wrapped15.jpg", "wrapped16.jpg",
+  "wrapped17.png"
+];
+
+function openLightbox(index) {
+  currentImageIndex = index;
+  document.getElementById('lightbox-img').src = wrappedImages[currentImageIndex];
+  document.getElementById('lightbox').style.display = 'flex';
   document.body.style.overflow = 'hidden'; 
 }
 
 function closeLightbox(event) {
-  // Para mag-close kapag pinindot ang background or ang ekis na button
   if (event.target.id === 'lightbox' || event.target.className === 'lightbox-close') {
     document.getElementById('lightbox').style.display = 'none';
     document.body.style.overflow = 'auto';
   }
 }
+
+// Mobile Swipe Detector
+let touchStartX = 0;
+let touchEndX = 0;
+const lightboxElement = document.getElementById('lightbox');
+
+lightboxElement.addEventListener('touchstart', e => {
+  touchStartX = e.changedTouches[0].screenX;
+});
+
+lightboxElement.addEventListener('touchend', e => {
+  touchEndX = e.changedTouches[0].screenX;
+  handleSwipe();
+});
+
+function handleSwipe() {
+  const threshold = 50; // Gaano kahaba ang swipe bago lumipat
+  if (touchEndX < touchStartX - threshold) {
+    // Swipe Left -> Next Image
+    currentImageIndex++;
+    if (currentImageIndex >= wrappedImages.length) currentImageIndex = 0;
+    document.getElementById('lightbox-img').src = wrappedImages[currentImageIndex];
+  }
+  if (touchEndX > touchStartX + threshold) {
+    // Swipe Right -> Previous Image
+    currentImageIndex--;
+    if (currentImageIndex < 0) currentImageIndex = wrappedImages.length - 1;
+    document.getElementById('lightbox-img').src = wrappedImages[currentImageIndex];
+  }
+}
 </script>
 
 </body>
-      </html>
+    </html>
