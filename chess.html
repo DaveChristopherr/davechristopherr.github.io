@@ -234,67 +234,55 @@ body {
   letter-spacing: 0.5px;
 }
 
-/* CARD IMAGE THUMBNAIL */
-.card-thumbnail {
+/* TWO IMAGES PER CARD - SIDE BY SIDE */
+.card-images-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.img-wrapper {
   position: relative;
   width: 100%;
   border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
-  background: #000;
+  background: #030303;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.card-thumbnail img {
+.img-wrapper img {
   width: 100%;
-  max-height: 280px;
-  object-fit: contain; /* Shows full image properly */
+  height: 180px;
+  object-fit: contain; /* Keeps the whole image visible */
   display: block;
   opacity: 0.85;
   transition: opacity 0.3s;
 }
 
-.card-thumbnail:hover img {
+.img-wrapper:hover img {
   opacity: 1;
 }
 
-/* GALLERY INDICATOR ON CARD */
-.gallery-icon {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: rgba(0, 0, 0, 0.7);
-  color: #fff;
-  font-size: 11px;
-  padding: 4px 8px;
-  border-radius: 6px;
-  pointer-events: none;
-  font-weight: 600;
-  backdrop-filter: blur(2px);
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-/* WATERMARK */
+/* ELEGANT WATERMARK */
 .watermark {
   position: absolute;
   bottom: 8px;
   right: 8px;
-  font-size: 10px;
+  font-size: 9px;
   color: rgba(255,255,255,0.9);
   background: rgba(0, 0, 0, 0.6);
-  padding: 4px 8px;
-  border-radius: 6px;
+  padding: 4px 6px;
+  border-radius: 4px;
   pointer-events: none;
   font-weight: 600;
   backdrop-filter: blur(2px);
   letter-spacing: 0.5px;
 }
 
-/* SWIPEABLE LIGHTBOX (FULL SCREEN) */
+/* LIGHTBOX (Enlarged Image) */
 #lightbox {
   display: none;
   position: fixed;
@@ -309,34 +297,11 @@ body {
   flex-direction: column;
 }
 
-.lightbox-carousel {
-  display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  width: 100%;
-  height: 100%;
-  scrollbar-width: none;
-}
-
-.lightbox-carousel::-webkit-scrollbar {
-  display: none;
-}
-
-.lightbox-slide {
-  min-width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  scroll-snap-align: center;
-  position: relative;
-}
-
-.lightbox-slide img {
+#lightbox-img {
   max-width: 95%;
   max-height: 85%;
-  object-fit: contain;
   border-radius: 8px;
+  object-fit: contain;
 }
 
 .lightbox-close {
@@ -348,19 +313,17 @@ body {
   cursor: pointer;
   opacity: 0.5;
   transition: 0.3s;
-  z-index: 1000;
 }
 
 .lightbox-close:hover {
   opacity: 1;
 }
 
-.swipe-hint {
-  position: absolute;
-  bottom: 30px;
-  color: rgba(255,255,255,0.5);
+.lightbox-watermark {
+  margin-top: 15px;
   font-size: 12px;
-  pointer-events: none;
+  color: rgba(255,255,255,0.6);
+  font-weight: 500;
   letter-spacing: 1px;
 }
 
@@ -443,46 +406,71 @@ body {
       
       <div class="player-card">
         <div class="player-name"><span class="title-badge">IM</span> Player Name 1</div>
-        <div class="card-thumbnail" onclick="openGallery('rod.jpg', 'rod1.jpg')">
-          <img src="rod.jpg" alt="Game Preview">
-          <div class="gallery-icon"><i class="fas fa-clone"></i> 1/2</div>
-          <div class="watermark">devxdave ☕</div>
+        <div class="card-images-container">
+          <div class="img-wrapper" onclick="openLightbox(this)">
+            <img src="rod.jpg" alt="Game 1">
+            <div class="watermark">devxdave ☕</div>
+          </div>
+          <div class="img-wrapper" onclick="openLightbox(this)">
+            <img src="rod1.jpg" alt="Game 2">
+            <div class="watermark">devxdave ☕</div>
+          </div>
         </div>
       </div>
 
       <div class="player-card">
         <div class="player-name"><span class="title-badge">IM</span> Player Name 2</div>
-        <div class="card-thumbnail" onclick="openGallery('serg.jpg', 'serg1.jpg')">
-          <img src="serg.jpg" alt="Game Preview">
-          <div class="gallery-icon"><i class="fas fa-clone"></i> 1/2</div>
-          <div class="watermark">devxdave ☕</div>
+        <div class="card-images-container">
+          <div class="img-wrapper" onclick="openLightbox(this)">
+            <img src="serg.jpg" alt="Game 1">
+            <div class="watermark">devxdave ☕</div>
+          </div>
+          <div class="img-wrapper" onclick="openLightbox(this)">
+            <img src="serg1.jpg" alt="Game 2">
+            <div class="watermark">devxdave ☕</div>
+          </div>
         </div>
       </div>
 
       <div class="player-card">
         <div class="player-name"><span class="title-badge">FM</span> Player Name 3</div>
-        <div class="card-thumbnail" onclick="openGallery('side.jpg', 'side1.jpg')">
-          <img src="side.jpg" alt="Game Preview">
-          <div class="gallery-icon"><i class="fas fa-clone"></i> 1/2</div>
-          <div class="watermark">devxdave ☕</div>
+        <div class="card-images-container">
+          <div class="img-wrapper" onclick="openLightbox(this)">
+            <img src="side.jpg" alt="Game 1">
+            <div class="watermark">devxdave ☕</div>
+          </div>
+          <div class="img-wrapper" onclick="openLightbox(this)">
+            <img src="side1.jpg" alt="Game 2">
+            <div class="watermark">devxdave ☕</div>
+          </div>
         </div>
       </div>
 
       <div class="player-card">
         <div class="player-name"><span class="title-badge">CM</span> Player Name 4</div>
-        <div class="card-thumbnail" onclick="openGallery('last.jpg', 'last1.jpg')">
-          <img src="last.jpg" alt="Game Preview">
-          <div class="gallery-icon"><i class="fas fa-clone"></i> 1/2</div>
-          <div class="watermark">devxdave ☕</div>
+        <div class="card-images-container">
+          <div class="img-wrapper" onclick="openLightbox(this)">
+            <img src="last.jpg" alt="Game 1">
+            <div class="watermark">devxdave ☕</div>
+          </div>
+          <div class="img-wrapper" onclick="openLightbox(this)">
+            <img src="last1.jpg" alt="Game 2">
+            <div class="watermark">devxdave ☕</div>
+          </div>
         </div>
       </div>
 
       <div class="player-card">
         <div class="player-name"><span class="title-badge">CM</span> Player Name 5</div>
-        <div class="card-thumbnail" onclick="openGallery('lastt.jpg', 'lastt1.jpg')">
-          <img src="lastt.jpg" alt="Game Preview">
-          <div class="gallery-icon"><i class="fas fa-clone"></i> 1/2</div>
-          <div class="watermark">devxdave ☕</div>
+        <div class="card-images-container">
+          <div class="img-wrapper" onclick="openLightbox(this)">
+            <img src="lastt.jpg" alt="Game 1">
+            <div class="watermark">devxdave ☕</div>
+          </div>
+          <div class="img-wrapper" onclick="openLightbox(this)">
+            <img src="lastt1.jpg" alt="Game 2">
+            <div class="watermark">devxdave ☕</div>
+          </div>
         </div>
       </div>
 
@@ -497,9 +485,8 @@ body {
 
 <div id="lightbox" onclick="closeLightbox(event)">
   <i class="fas fa-times lightbox-close" onclick="closeLightbox(event)"></i>
-  <div class="lightbox-carousel" id="lightboxCarousel">
-    </div>
-  <div class="swipe-hint"><i class="fas fa-arrows-alt-h"></i> Swipe to see more</div>
+  <img id="lightbox-img" src="" alt="Enlarged Game">
+  <div class="lightbox-watermark">devxdave ☕</div>
 </div>
 
 <script>
@@ -515,30 +502,13 @@ function toggleSideMenu() {
   }
 }
 
-function openGallery(img1, img2) {
-  const carousel = document.getElementById('lightboxCarousel');
-  
-  // Create slides dynamically with watermarks inside the image slide
-  carousel.innerHTML = `
-    <div class="lightbox-slide">
-      <div style="position: relative;">
-        <img src="${img1}" alt="Game 1">
-        <div class="watermark" style="bottom: 12px; right: 12px;">devxdave ☕</div>
-      </div>
-    </div>
-    <div class="lightbox-slide">
-      <div style="position: relative;">
-        <img src="${img2}" alt="Game 2">
-        <div class="watermark" style="bottom: 12px; right: 12px;">devxdave ☕</div>
-      </div>
-    </div>
-  `;
-  
+function openLightbox(element) {
+  const imgSrc = element.querySelector('img').src;
+  document.getElementById('lightbox-img').src = imgSrc;
   document.getElementById('lightbox').style.display = 'flex';
 }
 
 function closeLightbox(e) {
-  // Close only if the dark background or the 'X' icon is clicked
   if (e.target.id === 'lightbox' || e.target.classList.contains('lightbox-close')) {
     document.getElementById('lightbox').style.display = 'none';
   }
@@ -546,4 +516,4 @@ function closeLightbox(e) {
 </script>
 
 </body>
-  </html>
+</html>
