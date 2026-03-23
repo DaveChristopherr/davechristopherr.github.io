@@ -359,14 +359,14 @@ a:hover{
   min-height: 115px;
   position: relative;
   transition: 0.3s;
-  overflow: hidden; /* Dito pinipigilan mag-overflow yung laman */
+  overflow: hidden; 
+  cursor: pointer; /* Dinagdag para alam na pwedeng pindutin */
 }
 
 .spotify-card:hover {
   background: #1a1a1a;
 }
 
-/* Mas maliit at malinis na "Listening to Spotify" header */
 .spotify-header {
   display: flex;
   align-items: center;
@@ -390,7 +390,7 @@ a:hover{
   gap: 12px;
   align-items: center;
   width: 100%;
-  min-width: 0; /* Important fix for flexbox blowout */
+  min-width: 0; 
 }
 
 .spotify-img {
@@ -399,7 +399,7 @@ a:hover{
   object-fit: cover;
   border-radius: 6px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-  flex-shrink: 0; /* Para hindi ma-squish yung image */
+  flex-shrink: 0; 
 }
 
 .spotify-info {
@@ -407,7 +407,7 @@ a:hover{
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-width: 0; /* Important fix for flexbox blowout */
+  min-width: 0; 
 }
 
 .spotify-title {
@@ -419,6 +419,7 @@ a:hover{
   text-overflow: ellipsis;
   margin-bottom: 2px;
   width: 100%;
+  display: block;
 }
 
 .spotify-artist {
@@ -429,6 +430,7 @@ a:hover{
   text-overflow: ellipsis;
   margin-bottom: 8px;
   width: 100%;
+  display: block;
 }
 
 .spotify-progress-container {
@@ -458,10 +460,122 @@ a:hover{
   opacity: 0.5;
   font-family: monospace;
 }
+
+/* SPOTIFY EXPANDED MODAL (POPUP) */
+#spotifyModal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(5px);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#spotifyModal.show {
+  display: flex;
+  opacity: 1;
+}
+
+.spotify-modal-card {
+  background: #111111;
+  border: 1px solid #1f1f1f;
+  border-radius: 18px;
+  padding: 22px;
+  width: 85%;
+  max-width: 320px; /* Minimalist width */
+  box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+  transform: scale(0.95);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+#spotifyModal.show .spotify-modal-card {
+  transform: scale(1);
+}
+
+.modal-spotify-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #999999;
+  text-transform: uppercase;
+}
+
+.modal-spotify-info-row {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.modal-spotify-img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  flex-shrink: 0;
+}
+
+.modal-spotify-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.modal-spotify-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.3;
+  margin-bottom: 4px;
+  /* Dito nag-wrap ang mahabang title */
+  white-space: normal; 
+}
+
+.modal-spotify-artist {
+  font-size: 12px;
+  color: #999999;
+}
   
 </style>
 </head>
 <body>
+
+<div id="spotifyModal" onclick="closeSpotifyModal(event)">
+  <div class="spotify-modal-card" onclick="event.stopPropagation()">
+    <div class="modal-spotify-header">
+      <i class="fab fa-spotify" style="color:#ffffff;"></i> LISTENING TO SPOTIFY
+    </div>
+    
+    <div class="modal-spotify-info-row">
+      <img id="modalSpotifyCover" src="" class="modal-spotify-img" alt="Album Cover">
+      <div class="modal-spotify-text">
+        <div id="modalSpotifyTitle" class="modal-spotify-title">Loading...</div>
+        <div id="modalSpotifyArtist" class="modal-spotify-artist">Artist</div>
+      </div>
+    </div>
+
+    <div class="spotify-progress-container">
+      <div class="spotify-bar-bg">
+        <div id="modalSpotifyProgress" class="spotify-bar-fill"></div>
+      </div>
+      <div class="spotify-time-info">
+        <span id="modalSpotifyCurrent">0:00</span>
+        <span id="modalSpotifyTotal">0:00</span>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div id="menuOverlay" onclick="toggleSideMenu()" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:99; backdrop-filter:blur(4px);"></div>
 
@@ -547,7 +661,7 @@ a:hover{
 
   <div style="flex: 1; min-width: 0;">
     <h2 style="opacity: 0; user-select: none;">Spotify</h2>
-    <div class="spotify-card">
+    <div class="spotify-card" onclick="openSpotifyModal()">
       
       <div class="spotify-header">
         <i class="fab fa-spotify"></i> LISTENING TO SPOTIFY
@@ -596,6 +710,23 @@ a:hover{
 </div>
 
 <script>
+/* ===== MODAL SCRIPT (SPOTIFY) ===== */
+function openSpotifyModal() {
+  const modal = document.getElementById('spotifyModal');
+  modal.style.display = 'flex';
+  setTimeout(() => {
+    modal.classList.add('show');
+  }, 10);
+}
+
+function closeSpotifyModal(e) {
+  const modal = document.getElementById('spotifyModal');
+  modal.classList.remove('show');
+  setTimeout(() => {
+    modal.style.display = 'none';
+  }, 300);
+}
+
 /* ===== SIDE MENU SCRIPT ===== */
 function toggleSideMenu() {
   const menu = document.getElementById("sideMenu");
@@ -772,9 +903,16 @@ document.addEventListener("DOMContentLoaded", () => {
   
   // SPOTIFY LOGIC
   const randomSong = spotifySongs[Math.floor(Math.random() * spotifySongs.length)];
+  
+  // Update Mini Card
   document.getElementById("spotifyTitle").textContent = randomSong.title;
   document.getElementById("spotifyArtist").textContent = randomSong.artist;
   document.getElementById("spotifyCover").src = randomSong.cover;
+
+  // Update Modal Card
+  document.getElementById("modalSpotifyTitle").textContent = randomSong.title;
+  document.getElementById("modalSpotifyArtist").textContent = randomSong.artist;
+  document.getElementById("modalSpotifyCover").src = randomSong.cover;
 
   const totalSeconds = randomSong.duration;
   let currentSeconds = Math.floor(Math.random() * (totalSeconds - 40)); 
@@ -787,6 +925,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   document.getElementById("spotifyTotal").textContent = formatSpotifyTime(totalSeconds);
+  document.getElementById("modalSpotifyTotal").textContent = formatSpotifyTime(totalSeconds);
 
   setInterval(() => {
     if (currentSeconds < totalSeconds) {
@@ -795,8 +934,14 @@ document.addEventListener("DOMContentLoaded", () => {
       currentSeconds = 0; 
     }
     const percent = (currentSeconds / totalSeconds) * 100;
+    
+    // Update Mini Card Time
     document.getElementById("spotifyProgress").style.width = percent + "%";
     document.getElementById("spotifyCurrent").textContent = formatSpotifyTime(currentSeconds);
+    
+    // Update Modal Time
+    document.getElementById("modalSpotifyProgress").style.width = percent + "%";
+    document.getElementById("modalSpotifyCurrent").textContent = formatSpotifyTime(currentSeconds);
   }, 1000);
 
   // ALIVE / DEAD Status Logic
