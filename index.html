@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
   
 *{
   box-sizing:border-box;
@@ -213,22 +213,7 @@ a:hover{
   opacity: 1;
 }
 
-/* SIDE MENU */
-#sideMenu {
-  position: fixed;
-  top: 0;
-  right: -260px;
-  width: 260px;
-  height: 100%;
-  background: #0a0a0a;
-  border-left: 1px solid #1f1f1f;
-  z-index: 100;
-  transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 60px 25px;
-  box-shadow: -10px 0 30px rgba(0,0,0,0.5);
-}
-
-/* MINIMALIST MENU ITEMS */
+/* MINIMALIST MENU ITEMS (Katulad ng nasa aboutme) */
 .menu-item {
   display: flex;
   align-items: center;
@@ -238,27 +223,15 @@ a:hover{
   font-size: 15px;
   font-weight: 500;
   color: rgba(255,255,255,0.7);
-  transition: 0.3s ease;
+  transition: 0.3s;
   text-decoration: none;
   margin-bottom: 8px;
 }
 
 .menu-item:hover, .menu-item.active {
   background: rgba(255,255,255,0.1);
-  color: #ffffff;
+  color: #fff;
   border: 1px solid rgba(255,255,255,0.05);
-}
-
-#menuOverlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.7);
-  z-index: 99;
-  backdrop-filter: blur(4px);
 }
 
 /* WATCHING PROGRESS STYLE */
@@ -562,9 +535,138 @@ a:hover{
   font-size: 12px;
   color: #999999;
 }
+
+/* ===== LOADING SCREEN ===== */
+#dc-loader {
+  position: fixed;
+  inset: 0;
+  background: #000000;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  transition: opacity 0.7s ease;
+}
+
+#dc-loader.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* floating icon grid */
+.dc-icons {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.dc-icon {
+  position: absolute;
+  font-size: 22px;
+  opacity: 0;
+  color: rgba(255,255,255,0.12);
+  animation: dc-float 4s ease-in-out infinite;
+  user-select: none;
+}
+
+/* stagger positions */
+.dc-icon:nth-child(1)  { top: 12%;  left: 8%;   animation-delay: 0s;    font-size: 26px; }
+.dc-icon:nth-child(2)  { top: 20%;  right: 10%; animation-delay: 0.4s;  font-size: 18px; }
+.dc-icon:nth-child(3)  { top: 68%;  left: 6%;   animation-delay: 0.8s;  font-size: 20px; }
+.dc-icon:nth-child(4)  { top: 75%;  right: 8%;  animation-delay: 1.2s;  font-size: 24px; }
+.dc-icon:nth-child(5)  { top: 38%;  left: 4%;   animation-delay: 0.6s;  font-size: 16px; }
+.dc-icon:nth-child(6)  { top: 48%;  right: 5%;  animation-delay: 1.0s;  font-size: 19px; }
+.dc-icon:nth-child(7)  { top: 85%;  left: 22%;  animation-delay: 0.2s;  font-size: 17px; }
+.dc-icon:nth-child(8)  { top: 8%;   left: 42%;  animation-delay: 1.4s;  font-size: 15px; }
+.dc-icon:nth-child(9)  { top: 88%;  right: 22%; animation-delay: 0.9s;  font-size: 21px; }
+.dc-icon:nth-child(10) { top: 55%;  left: 15%;  animation-delay: 1.6s;  font-size: 14px; }
+
+@keyframes dc-float {
+  0%   { opacity: 0;    transform: translateY(0px)   rotate(0deg);   }
+  30%  { opacity: 1;                                                   }
+  60%  { opacity: 0.7;  transform: translateY(-12px) rotate(4deg);   }
+  100% { opacity: 0;    transform: translateY(-22px) rotate(-3deg);  }
+}
+
+/* center content */
+.dc-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  z-index: 1;
+  animation: dc-enter 0.9s ease forwards;
+}
+
+@keyframes dc-enter {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+.dc-name {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.dc-line {
+  width: 28px;
+  height: 1px;
+  background: rgba(255,255,255,0.25);
+  margin: 2px 0 6px;
+}
+
+.dc-subtitle {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 2.5px;
+  color: rgba(255,255,255,0.45);
+  text-transform: lowercase;
+  height: 16px;
+  transition: opacity 0.4s ease;
+}
+
+.dc-subtitle.hidden {
+  opacity: 0;
+}
+  
 </style>
   </head>
   <body>
+
+<!-- ===== LOADING SCREEN ===== -->
+<div id="dc-loader" aria-hidden="true">
+
+  <!-- floating ambient icons -->
+  <div class="dc-icons">
+    <span class="dc-icon">φ</span>
+    <span class="dc-icon">☕</span>
+    <span class="dc-icon">&lt;/&gt;</span>
+    <span class="dc-icon">♞</span>
+    <span class="dc-icon">∞</span>
+    <span class="dc-icon">📖</span>
+    <span class="dc-icon">φ</span>
+    <span class="dc-icon">☕</span>
+    <span class="dc-icon">♞</span>
+    <span class="dc-icon">&lt;/&gt;</span>
+  </div>
+
+  <!-- center content -->
+  <div class="dc-center">
+    <div class="dc-name">Dave Christopher</div>
+    <div class="dc-line"></div>
+    <div class="dc-subtitle" id="dcSubtitle">philosophy &amp; code</div>
+  </div>
+
+</div>
+<!-- ===== END LOADING SCREEN ===== -->
 
 <div id="spotifyModal" onclick="closeSpotifyModal(event)">
   <div class="spotify-modal-card" onclick="event.stopPropagation()">
@@ -592,9 +694,10 @@ a:hover{
   </div>
 </div>
 
-<div id="menuOverlay" onclick="toggleSideMenu()"></div>
+<div id="menuOverlay" onclick="toggleSideMenu()" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:99; backdrop-filter:blur(4px);"></div>
 
-<div id="sideMenu">
+<div id="sideMenu" style="position:fixed; top:0; right:-260px; width:260px; height:100%; background:#0a0a0a; border-left:1px solid #1f1f1f; z-index:100; transition:0.4s cubic-bezier(0.4, 0, 0.2, 1); padding:60px 25px; box-shadow: -10px 0 30px rgba(0,0,0,0.5);">
+  
   <div onclick="toggleSideMenu()" style="position:absolute; top:20px; right:20px; font-size:22px; cursor:pointer; opacity:0.5; color:white;">
     <i class="fas fa-times"></i>
   </div>
@@ -626,103 +729,139 @@ a:hover{
 
 <div class="content">
 
-  <div id="watchingWrapper" style="margin-bottom: 25px; display: none;">
-    <h2></h2>
-    
-    <div id="watchingCard" class="card" style="margin-bottom: 0; padding: 18px; min-height: 125px;">
-      <div style="display:flex; gap:15px; align-items:center;">
-        <img id="watchImage" src="" style="width:70px; height:100px; object-fit:cover; border-radius:8px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); display: none;" />
+<div id="watchingWrapper" style="margin-bottom: 25px; display: none;">
+  <h2></h2>
+  
+  <div id="watchingCard" class="card" style="margin-bottom: 0; padding: 18px; min-height: 125px;">
+    <div style="display:flex; gap:15px; align-items:center;">
+      <img id="watchImage" src="" style="width:70px; height:100px; object-fit:cover; border-radius:8px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); display: none;" />
+      
+      <div style="flex:1;">
+        <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+          <i id="watchIcon" class="fas fa-film" style="font-size: 10px; color: #ffffff; opacity: 0.8;"></i>
+          <span id="watchCategory" style="font-size: 10px; letter-spacing: 2px; font-weight: 700; color: #ffffff; opacity: 0.8;">MOVIE</span>
+        </div>
         
-        <div style="flex:1;">
-          <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
-            <i id="watchIcon" class="fas fa-film" style="font-size: 10px; color: #ffffff; opacity: 0.8;"></i>
-            <span id="watchCategory" style="font-size: 10px; letter-spacing: 2px; font-weight: 700; color: #ffffff; opacity: 0.8;">MOVIE</span>
-          </div>
-          
-          <div id="watchTitle" style="font-size: 18px; font-weight: 600; color: #ffffff; margin-bottom: 2px;"></div>
-          <div id="watchGenre" style="font-size: 13px; opacity: 0.6; margin-bottom: 8px;"></div>
+        <div id="watchTitle" style="font-size: 18px; font-weight: 600; color: #ffffff; margin-bottom: 2px;"></div>
+        <div id="watchGenre" style="font-size: 13px; opacity: 0.6; margin-bottom: 8px;"></div>
 
-          <div class="watch-progress-container">
-            <div class="watch-bar-bg">
-              <div id="watchProgress" class="watch-bar-fill" style="width: 0%;"></div>
-            </div>
-            <div class="watch-time-info">
-              <span id="watchCurrent">00:00</span>
-              <span id="watchTotal">0:00</span>
-            </div>
+        <div class="watch-progress-container">
+          <div class="watch-bar-bg">
+            <div id="watchProgress" class="watch-bar-fill" style="width: 0%;"></div>
+          </div>
+          <div class="watch-time-info">
+            <span id="watchCurrent">00:00</span>
+            <span id="watchTotal">0:00</span>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="hobby-row">
-    <div style="flex: 1.3; min-width: 0;">
-      <h2>Books I've Read</h2>
-      <div id="bookCard" class="book-card">
-        <img id="bookCover" src="download.webp" class="book-img">
-        
-        <div class="book-info">
-          <div id="bookCount" style="font-size: 9px; opacity: 0.5; margin-bottom: 2px; letter-spacing: 1px;"></div>
-          <div id="bookTitle" class="book-title">Loading...</div>
-          <div id="bookAuthor" class="book-author">Author</div>
-          <div id="bookRating" class="book-rating"></div>
-        </div>
-        <div class="swap-hint"><i class="fas fa-arrows-alt-h"></i> Swipe</div>
+<div class="hobby-row">
+  
+  <div style="flex: 1.3; min-width: 0;">
+    <h2>Books I've Read</h2>
+    <div id="bookCard" class="book-card">
+      <img id="bookCover" src="download.webp" class="book-img">
+      
+      <div class="book-info">
+        <div id="bookCount" style="font-size: 9px; opacity: 0.5; margin-bottom: 2px; letter-spacing: 1px;"></div>
+        <div id="bookTitle" class="book-title">Loading...</div>
+        <div id="bookAuthor" class="book-author">Author</div>
+        <div id="bookRating" class="book-rating"></div>
       </div>
+      <div class="swap-hint"><i class="fas fa-arrows-alt-h"></i> Swipe</div>
     </div>
+  </div>
 
-    <div style="flex: 1; min-width: 0;">
-      <h2 style="opacity: 0; user-select: none;">Spotify</h2>
-      <div class="spotify-card" onclick="openSpotifyModal()">
-        
-        <div class="spotify-header">
-          <i class="fab fa-spotify"></i> LISTENING TO SPOTIFY
-        </div>
-        
-        <div class="spotify-content">
-          <img id="spotifyCover" src="" class="spotify-img" alt="Album Cover">
-          <div class="spotify-info">
-            <div id="spotifyTitle" class="spotify-title">Loading...</div>
-            <div id="spotifyArtist" class="spotify-artist">Artist</div>
-            <div class="spotify-progress-container">
-              <div class="spotify-bar-bg">
-                <div id="spotifyProgress" class="spotify-bar-fill"></div>
-              </div>
-              <div class="spotify-time-info">
-                <span id="spotifyCurrent">0:00</span>
-                <span id="spotifyTotal">0:00</span>
-              </div>
+  <div style="flex: 1; min-width: 0;">
+    <h2 style="opacity: 0; user-select: none;">Spotify</h2>
+    <div class="spotify-card" onclick="openSpotifyModal()">
+      
+      <div class="spotify-header">
+        <i class="fab fa-spotify"></i> LISTENING TO SPOTIFY
+      </div>
+      
+      <div class="spotify-content">
+        <img id="spotifyCover" src="" class="spotify-img" alt="Album Cover">
+        <div class="spotify-info">
+          <div id="spotifyTitle" class="spotify-title">Loading...</div>
+          <div id="spotifyArtist" class="spotify-artist">Artist</div>
+          <div class="spotify-progress-container">
+            <div class="spotify-bar-bg">
+              <div id="spotifyProgress" class="spotify-bar-fill"></div>
+            </div>
+            <div class="spotify-time-info">
+              <span id="spotifyCurrent">0:00</span>
+              <span id="spotifyTotal">0:00</span>
             </div>
           </div>
         </div>
-
       </div>
-    </div>
-  </div>
-    
-  <div style="margin-bottom: 30px;">
-    <h2 style="padding-left: 2px;">Watchlist</h2>
-    
-    <div class="watchlist">
-      <a href="kdrama.html">
-        <div class="folder"><span><i class="fas fa-tv" style="margin-right: 12px; opacity: 0.7;"></i> K-Drama</span></div>
-      </a>
 
-      <a href="kmovie.html">
-        <div class="folder"><span><i class="fas fa-film" style="margin-right: 12px; opacity: 0.7;"></i> K-Movie</span></div>
-      </a>
-
-      <a href="movie.html">
-        <div class="folder"><span><i class="fas fa-clapperboard" style="margin-right: 12px; opacity: 0.7;"></i> Movie & Series</span></div>
-      </a>
     </div>
   </div>
 
 </div>
+  
+<div style="margin-bottom: 30px;">
+  <h2 style="padding-left: 2px;">Watchlist</h2>
+  
+  <div class="watchlist">
+    <a href="kdrama.html">
+      <div class="folder"><span><i class="fas fa-tv" style="margin-right: 12px; opacity: 0.7;"></i> K-Drama</span></div>
+    </a>
+
+    <a href="kmovie.html">
+      <div class="folder"><span><i class="fas fa-film" style="margin-right: 12px; opacity: 0.7;"></i> K-Movie</span></div>
+    </a>
+
+    <a href="movie.html">
+      <div class="folder"><span><i class="fas fa-clapperboard" style="margin-right: 12px; opacity: 0.7;"></i> Movie & Series</span></div>
+    </a>
+  </div>
+</div>
+
+</div>
 
 <script>
-/* ===== MODAL SCRIPT (SPOTIFY) ===== */
+/* ===== LOADING SCREEN SCRIPT ===== */
+(function() {
+  const subtitles = [
+    "philosophy & code",
+    "thinking about existence",
+    "building things with code",
+    "coffee, books, logic",
+    "chess & camus",
+    "searching for meaning"
+  ];
+
+  let idx = 0;
+  const el = document.getElementById("dcSubtitle");
+
+  // cycle subtitles every 800ms with fade
+  const cycleInterval = setInterval(function() {
+    el.classList.add("hidden");
+    setTimeout(function() {
+      idx = (idx + 1) % subtitles.length;
+      el.textContent = subtitles[idx];
+      el.classList.remove("hidden");
+    }, 400);
+  }, 900);
+
+  // after 3 seconds: fade out loader, stop cycling
+  setTimeout(function() {
+    clearInterval(cycleInterval);
+    const loader = document.getElementById("dc-loader");
+    loader.classList.add("fade-out");
+    setTimeout(function() {
+      loader.style.display = "none";
+    }, 750);
+  }, 3000);
+})();
+
 function openSpotifyModal() {
   const modal = document.getElementById('spotifyModal');
   modal.style.display = 'flex';
@@ -823,7 +962,7 @@ function formatTime(seconds) {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-  setWatching("Taxi Driver 2", "K-DRAMA", "Crime / Action", 1000, 4900, "Taxi_Driver_2-p1.jpg");
+  setWatching(" Taxi Driver 2", "K-DRAMA", "Crime / Action", 1000, 4900, "Taxi_Driver_2-p1.jpg");
 });
 
 /* ===== BOOKS CAROUSEL SCRIPT ===== */
@@ -913,12 +1052,15 @@ const spotifySongs = [
 document.addEventListener("DOMContentLoaded", () => {
   updateBookDisplay(0); 
   
+  // SPOTIFY LOGIC
   const randomSong = spotifySongs[Math.floor(Math.random() * spotifySongs.length)];
   
+  // Update Mini Card
   document.getElementById("spotifyTitle").textContent = randomSong.title;
   document.getElementById("spotifyArtist").textContent = randomSong.artist;
   document.getElementById("spotifyCover").src = randomSong.cover;
 
+  // Update Modal Card
   document.getElementById("modalSpotifyTitle").textContent = randomSong.title;
   document.getElementById("modalSpotifyArtist").textContent = randomSong.artist;
   document.getElementById("modalSpotifyCover").src = randomSong.cover;
@@ -944,13 +1086,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     const percent = (currentSeconds / totalSeconds) * 100;
     
+    // Update Mini Card Time
     document.getElementById("spotifyProgress").style.width = percent + "%";
     document.getElementById("spotifyCurrent").textContent = formatSpotifyTime(currentSeconds);
     
+    // Update Modal Time
     document.getElementById("modalSpotifyProgress").style.width = percent + "%";
     document.getElementById("modalSpotifyCurrent").textContent = formatSpotifyTime(currentSeconds);
   }, 1000);
 
+  // ALIVE / DEAD Status Logic
   const daysThreshold = 3; 
   const lastModifiedDate = new Date(document.lastModified);
   const currentDate = new Date();
@@ -972,4 +1117,4 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
   
 </body>
-</html>
+    </html>
