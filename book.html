@@ -10,95 +10,147 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
 
+:root {
+  --bg:          #000000;
+  --surface:     #080808;
+  --surface-2:   #0d0d0d;
+  --surface-3:   #111111;
+  --border:      #181818;
+  --border-hover:#222222;
+  --text:        #ffffff;
+  --text-muted:  rgba(255,255,255,0.45);
+  --text-dim:    rgba(255,255,255,0.22);
+  --accent:      rgba(255,255,255,0.04);
+  --radius-sm:   10px;
+  --radius-md:   14px;
+  --radius-lg:   18px;
+  --shadow-sm:   0 1px 4px rgba(0,0,0,0.6), 0 4px 16px rgba(0,0,0,0.35);
+  --shadow-md:   0 8px 32px rgba(0,0,0,0.7), 0 2px 8px rgba(0,0,0,0.5);
+  --shadow-lg:   0 24px 64px rgba(0,0,0,0.85), 0 8px 24px rgba(0,0,0,0.6);
+  --transition:  0.28s cubic-bezier(0.4,0,0.2,1);
+}
+
 *{
   box-sizing:border-box;
   margin:0;
   padding:0;
   font-family:'Quicksand', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background: #000000;
-  color: #ffffff;
+  background: var(--bg);
+  color: var(--text);
   min-height: 100vh;
   display: flex;
   justify-content: center;
   position: relative;
   overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
-/* FIXED MENU ICON - MINIMALIST */
+/* ─── FADE-IN ON LOAD ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+.content > * {
+  animation: fadeUp 0.6s ease both;
+}
+.content > *:nth-child(1) { animation-delay: 0.06s; }
+.content > *:nth-child(2) { animation-delay: 0.14s; }
+.content > *:nth-child(3) { animation-delay: 0.22s; }
+.content > *:nth-child(4) { animation-delay: 0.30s; }
+
+/* ─── MENU ICON ─── */
 .menu-icon {
   position: fixed;
-  top: 30px;
-  right: 30px;
-  font-size: 22px;
+  top: 20px;
+  right: 22px;
+  font-size: 19px;
   cursor: pointer;
+  opacity: 0.5;
+  transition: opacity var(--transition), transform var(--transition);
   z-index: 101;
-  color: #ffffff;
-  opacity: 0.7;
-  transition: 0.3s ease;
+  color: var(--text);
 }
 
 .menu-icon:hover {
-  opacity: 1;
   transform: scale(1.1);
+  opacity: 1;
 }
 
-/* SIDE MENU */
+/* ─── SIDE MENU ─── */
 #sideMenu {
   position: fixed;
   top: 0;
-  right: -260px;
+  right: -270px;
   width: 260px;
   height: 100%;
-  background: #0a0a0a;
-  border-left: 1px solid #1f1f1f;
-  z-index: 110;
-  transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 60px 25px;
-  box-shadow: -10px 0 30px rgba(0,0,0,0.8);
-}
-
-.menu-item {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 14px 18px;
-  border-radius: 12px;
-  font-size: 15px;
-  font-weight: 500;
-  color: rgba(255,255,255,0.7);
-  transition: 0.3s;
-  text-decoration: none;
-  margin-bottom: 8px;
-}
-
-.menu-item:hover, .menu-item.active {
-  background: rgba(255,255,255,0.1);
-  color: #fff;
-  border: 1px solid rgba(255,255,255,0.05);
+  background: #060606;
+  border-left: 1px solid var(--border);
+  z-index: 1200;
+  transition: right 0.38s cubic-bezier(0.4,0,0.2,1);
+  padding: 56px 18px 36px;
+  box-shadow: -20px 0 60px rgba(0,0,0,0.9);
+  overflow-y: auto;
 }
 
 #menuOverlay {
   display: none;
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.7);
-  z-index: 105;
-  backdrop-filter: blur(5px);
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.65);
+  z-index: 1150;
+  backdrop-filter: blur(6px);
+  animation: fadeUp 0.2s ease both;
 }
 
-/* CONTENT CONTAINER */
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 13px 15px;
+  border-radius: var(--radius-md);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.5);
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
+  text-decoration: none;
+  margin-bottom: 3px;
+  border: 1px solid transparent;
+  letter-spacing: 0.2px;
+}
+
+.menu-item i {
+  font-size: 12.5px;
+  width: 15px;
+  text-align: center;
+  opacity: 0.65;
+  transition: opacity var(--transition);
+}
+
+.menu-item:hover,
+.menu-item.active {
+  background: rgba(255,255,255,0.04);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.menu-item:hover i,
+.menu-item.active i {
+  opacity: 1;
+}
+
+/* ─── CONTENT CONTAINER ─── */
 .content {
   width: 100%;
-  max-width: 600px;
+  max-width: 580px;
   margin-top: 60px;
-  padding: 20px;
-  padding-bottom: 80px;
+  padding: 28px 18px 80px;
 }
 
 .header-section {
@@ -112,48 +164,65 @@ h1 {
   font-weight: 700; 
   text-transform: uppercase; 
   margin-bottom: 8px; 
+  color: var(--text);
 }
 
 .subtitle { 
   font-size: 10px; 
-  opacity: 0.5; 
+  color: var(--text-muted); 
   letter-spacing: 3px; 
   text-transform: uppercase; 
   font-weight: 600; 
 }
 
-/* TAB BUTTONS */
+/* ─── TAB BUTTONS ─── */
 .tab-container {
   display: flex;
   justify-content: center;
   gap: 25px;
   margin-bottom: 35px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
 }
 
 .tab-btn {
-  background: transparent; 
-  color: rgba(255, 255, 255, 0.4); 
+  background: none;
   border: none;
-  border-bottom: 1px solid transparent;
-  padding: 8px 5px; 
-  font-size: 10px; 
-  font-weight: 700; 
-  cursor: pointer; 
-  transition: all 0.3s ease;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition);
+  padding: 0 0 10px 0;
   text-transform: uppercase;
   letter-spacing: 2px;
+  position: relative;
+}
+
+.tab-btn::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 0%;
+  height: 1px;
+  background-color: var(--text);
+  transition: width var(--transition);
 }
 
 .tab-btn:hover { 
-  color: #ffffff;
+  color: var(--text);
 }
 
 .tab-btn.active {
-  color: #ffffff; 
-  border-bottom: 1px solid #ffffff;
+  color: var(--text); 
 }
 
-/* TAB SECTIONS ANIMATION */
+.tab-btn.active::after {
+  width: 100%;
+}
+
+/* ─── TAB SECTIONS ANIMATION ─── */
 .book-section {
   display: none;
 }
@@ -168,19 +237,21 @@ h1 {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* WIP BOOK CARD (My Book) */
+/* ─── WIP BOOK CARD (My Book) ─── */
 .wip-card {
-  background: rgba(10, 10, 10, 0.6);
-  border: 1px dashed rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
+  background: var(--surface-2);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-lg);
   padding: 40px 30px;
   text-align: center;
   margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
+  position: relative;
 }
 
 .wip-icon {
   font-size: 35px;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--text-muted);
   margin-bottom: 20px;
 }
 
@@ -190,10 +261,11 @@ h1 {
   letter-spacing: 2px;
   text-transform: uppercase;
   margin-bottom: 15px;
+  color: var(--text);
 }
 
 .wip-text {
-  font-size: 13px;
+  font-size: 13.5px;
   line-height: 1.8;
   color: rgba(255, 255, 255, 0.7);
   font-weight: 500;
@@ -202,43 +274,66 @@ h1 {
 
 .wip-badge {
   display: inline-block;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--surface);
+  border: 1px solid var(--border);
   padding: 6px 14px;
   border-radius: 50px;
-  font-size: 9px;
+  font-size: 9.5px;
   font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: #a7a7a7;
+  color: var(--text-muted);
 }
 
-/* FAVORITE BOOK CARDS */
+/* ─── FAVORITE BOOK CARDS ─── */
 .fav-book-card {
-  background: rgba(10, 10, 10, 0.6);
-  border: 1px solid #1a1a1a;
-  border-radius: 16px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
   padding: 20px;
   margin-bottom: 18px;
   display: flex;
   gap: 20px;
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  transition:
+    box-shadow var(--transition),
+    border-color var(--transition),
+    background var(--transition),
+    transform var(--transition);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.fav-book-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+  pointer-events: none;
 }
 
 .fav-book-card:hover {
   transform: translateY(-3px);
-  border-color: #333333;
-  background: rgba(255, 255, 255, 0.03);
+  border-color: var(--border-hover);
+  background: var(--surface-3);
+  box-shadow: var(--shadow-md);
 }
 
 .book-cover {
   width: 85px;
   height: 125px;
   object-fit: cover;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   box-shadow: 0 4px 15px rgba(0,0,0,0.6);
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid var(--border);
   flex-shrink: 0;
+  transition: transform var(--transition);
+}
+
+.fav-book-card:hover .book-cover {
+  transform: scale(1.03);
 }
 
 .book-details {
@@ -250,13 +345,14 @@ h1 {
 .book-title {
   font-size: 16px;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text);
   margin-bottom: 4px;
+  letter-spacing: 0.2px;
 }
 
 .book-author {
-  font-size: 11px;
-  color: #888888;
+  font-size: 10.5px;
+  color: var(--text-muted);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -264,37 +360,45 @@ h1 {
 }
 
 .book-rating {
-  color: #ffb400;
-  font-size: 9px;
+  color: #e8a838;
+  font-size: 9.5px;
   margin-bottom: 12px;
   letter-spacing: 1px;
 }
 
 .book-review {
-  font-size: 12px;
-  line-height: 1.6;
+  font-size: 12.5px;
+  line-height: 1.7;
   color: rgba(255, 255, 255, 0.7);
   font-style: italic;
-  border-left: 2px solid rgba(255, 255, 255, 0.2);
-  padding-left: 10px;
+  border-left: 2px solid var(--border);
+  padding-left: 12px;
 }
 
-/* MOBILE RESPONSIVE PARA SA BOOK CARDS */
+/* ─── MOBILE RESPONSIVE ─── */
 @media (max-width: 480px) {
+  .content {
+    padding: 24px 16px 60px;
+  }
   .fav-book-card {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    gap: 16px;
+    padding: 24px 20px;
+  }
+  .book-cover {
+    width: 100px;
+    height: 145px;
   }
   .book-review {
     border-left: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid var(--border);
     padding-left: 0;
-    padding-top: 12px;
-    margin-top: 5px;
+    padding-top: 16px;
+    margin-top: 6px;
   }
 }
-
 </style>
 </head>
 
@@ -307,10 +411,10 @@ h1 {
 <div id="menuOverlay" onclick="toggleSideMenu()"></div>
 
 <div id="sideMenu">
-  <div onclick="toggleSideMenu()" style="position:absolute; top:20px; right:20px; font-size:22px; cursor:pointer; opacity:0.5;">
+  <div onclick="toggleSideMenu()" style="position:absolute; top:18px; right:18px; font-size:19px; cursor:pointer; opacity:0.35; color:white; transition:opacity 0.2s ease;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='0.35'">
     <i class="fas fa-times"></i>
   </div>
-  <nav style="margin-top:20px;">
+  <nav style="margin-top:18px;">
     <a href="index.html" class="menu-item"><i class="fas fa-home"></i> Home</a>
     <a href="aboutme.html" class="menu-item"><i class="fas fa-user"></i> About me</a>
     <a href="quotes.html" class="menu-item"><i class="fas fa-quote-left"></i> Quotes</a>
@@ -446,7 +550,7 @@ function toggleSideMenu() {
   const menu = document.getElementById("sideMenu");
   const overlay = document.getElementById("menuOverlay");
   if (menu.style.right === "0px") {
-    menu.style.right = "-260px";
+    menu.style.right = "-270px";
     overlay.style.display = "none";
   } else {
     menu.style.right = "0px";
@@ -479,4 +583,4 @@ function switchTab(tabId) {
 </script>
 
 </body>
-</html>
+  </html>
