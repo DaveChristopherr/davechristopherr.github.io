@@ -25,7 +25,7 @@ body {
   background: #000000;
   color: #ffffff;
   min-height: 100vh;
-  overflow: hidden; /* Naka-hidden muna habang naglo-load */
+  overflow: hidden; 
 }
 
 /* =========================================
@@ -55,6 +55,16 @@ body {
   height: 100%;
   z-index: 0; 
   pointer-events: none; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.symbols-scale {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.3s ease;
 }
 
 .symbol {
@@ -126,6 +136,18 @@ body {
   animation-delay: 1.5s;
 }
 
+.loading-phrases {
+  margin-top: 30px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  height: 15px; 
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  z-index: 10;
+}
+
 @keyframes wakeUp {
   0% { filter: blur(15px); transform: scale(1.2); opacity: 0; letter-spacing: 20px; }
   100% { filter: blur(0); transform: scale(1); opacity: 1; letter-spacing: 8px; }
@@ -141,22 +163,42 @@ body {
   50% { opacity: 0; }
 }
 
-.loading-phrases {
-  margin-top: 30px;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 6px;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.4);
-  height: 15px; 
-  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
-  z-index: 10;
+@keyframes fadeInCursor {
+  to { opacity: 1; }
 }
 
 .fade-out {
   opacity: 0;
   visibility: hidden;
   transform: scale(1.05); 
+}
+
+/* =========================================
+   MOBILE RESPONSIVE DESIGN (FOR LOADER)
+   ========================================= */
+@media (max-width: 600px) {
+  .logo-box {
+    font-size: 28px;
+    gap: 8px;
+    animation: wakeUpMobile 2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards, breathe 3s infinite alternate ease-in-out 2s;
+  }
+  @keyframes wakeUpMobile {
+    0% { filter: blur(12px); transform: scale(1.1); opacity: 0; letter-spacing: 15px; }
+    100% { filter: blur(0); transform: scale(1); opacity: 1; letter-spacing: 5px; }
+  }
+  .terminal-cursor {
+    height: 26px;
+    margin-left: 6px;
+  }
+  .loading-phrases {
+    font-size: 8px;
+    letter-spacing: 4px;
+    margin-top: 25px;
+  }
+  /* I-scale down yung background symbols para hindi siksikan sa phone */
+  .symbols-scale {
+    transform: scale(0.65);
+  }
 }
 
 /* MAIN CONTENT REVEAL ANIMATION */
@@ -171,16 +213,11 @@ body {
   transform: translateY(0);
 }
 
-/* Cursor Fade In */
-@keyframes fadeInCursor {
-  to { opacity: 1; }
-}
 
 /* =========================================
    ORIGINAL INDEX.HTML STYLES
    ========================================= */
 
-/* TOP BAR */
 .app-bar{
   padding:40px 25px 25px;
   text-align:center;
@@ -188,14 +225,12 @@ body {
   border-bottom:1px solid #1f1f1f;
 }
 
-/* CONTENT */
 .content{
   padding:20px;
   max-width:600px;
   margin:auto;
 }
 
-/* CARD */
 .card{
   background: rgba(17,17,17,0.6);
   border:1px solid #1f1f1f;
@@ -212,7 +247,6 @@ body {
   background:#1a1a1a;
 }
 
-/* MINIMALIST HEADER STYLE */
 .content h2 {
   font-size: 10px;          
   margin-bottom: 10px;
@@ -233,7 +267,6 @@ a:hover{
   opacity:0.7;
 }
 
-/* WATCHLIST */
 .watchlist .folder {
   background: linear-gradient(145deg, #0a0a0a, #141414); 
   border: 1px solid #1f1f1f;
@@ -252,7 +285,6 @@ a:hover{
   border-color: #333;
 }
 
-/* HEADER INFO */
 .profile-header {
   position: relative;
   padding: 80px 20px 25px; 
@@ -264,7 +296,6 @@ a:hover{
   align-items: center;
 }
 
-/* PROFILE WRAPPER & STATUS DOT */
 .profile-pic-container {
   position: relative;
   display: inline-block;
@@ -280,7 +311,6 @@ a:hover{
   display: block; 
 }
 
-/* FB/IG Style Status Dot */
 .status-dot {
   position: absolute;
   bottom: 4px;
@@ -303,15 +333,9 @@ a:hover{
   transform: scale(1.1);
 }
 
-.dot-alive {
-  background-color: #31A24C; 
-}
+.dot-alive { background-color: #31A24C; }
+.dot-dead { background-color: #E41E3F; }
 
-.dot-dead {
-  background-color: #E41E3F; 
-}
-
-/* Clickable Tooltip */
 .status-tooltip {
   position: absolute;
   bottom: -25px;
@@ -349,7 +373,6 @@ a:hover{
   letter-spacing:1px;
 }
 
-/* MENU ICON */
 .menu-icon {
   position: fixed; 
   top: 20px;    
@@ -366,7 +389,6 @@ a:hover{
   opacity: 1;
 }
 
-/* SIDE MENU */
 #sideMenu {
   position: fixed;
   top: 0;
@@ -381,7 +403,6 @@ a:hover{
   box-shadow: -10px 0 30px rgba(0,0,0,0.5);
 }
 
-/* MINIMALIST MENU ITEMS (Fixed Size) */
 .menu-item {
   display: flex;
   align-items: center;
@@ -414,7 +435,6 @@ a:hover{
   backdrop-filter: blur(4px);
 }
 
-/* WATCHING PROGRESS STYLE */
 .watch-progress-container {
   margin-top: 10px;
 }
@@ -443,7 +463,6 @@ a:hover{
   color: #ffffff;
 }
 
-/* HOBBY ROW (BOOKS + SPOTIFY) */
 .hobby-row {
   display: flex;
   gap: 15px;
@@ -452,7 +471,6 @@ a:hover{
   width: 100%;
 }
 
-/* BOOK CARD */
 .book-card {
   background: rgba(17,17,17,0.6);
   border: 1px solid #1f1f1f;
@@ -517,7 +535,6 @@ a:hover{
   opacity: 0.3;
 }
 
-/* MINIMALIST DISCORD SPOTIFY CARD */
 .spotify-card {
   background: rgba(17,17,17,0.6);
   border: 1px solid #1f1f1f;
@@ -631,7 +648,6 @@ a:hover{
   font-family: monospace;
 }
 
-/* SPOTIFY EXPANDED MODAL (POPUP) */
 #spotifyModal {
   display: none;
   position: fixed;
@@ -722,22 +738,24 @@ a:hover{
 <div id="loader-wrapper">
   
   <div class="bg-symbols">
-    <div class="box-x blur-sm" style="top: 20%; left: 15%; animation-duration: 8s; animation-delay: 0s;">x</div>
-    <div class="box-x blur-md" style="top: 75%; left: 80%; animation-duration: 10s; animation-delay: 2s; width: 45px; height: 45px; font-size: 18px;">x</div>
-    <div class="box-x blur-lg" style="top: 50%; left: 85%; animation-duration: 9s; animation-delay: 1s; width: 25px; height: 25px; font-size: 10px;">x</div>
+    <div class="symbols-scale">
+      <div class="box-x blur-sm" style="top: 20%; left: 15%; animation-duration: 8s; animation-delay: 0s;">x</div>
+      <div class="box-x blur-md" style="top: 75%; left: 80%; animation-duration: 10s; animation-delay: 2s; width: 45px; height: 45px; font-size: 18px;">x</div>
+      <div class="box-x blur-lg" style="top: 50%; left: 85%; animation-duration: 9s; animation-delay: 1s; width: 25px; height: 25px; font-size: 10px;">x</div>
 
-    <i class="fas fa-book-open symbol blur-sm" style="top: 30%; left: 8%; font-size: 35px; animation-duration: 9s; animation-delay: 1.5s;"></i>
-    <i class="fas fa-brain symbol blur-md" style="top: 80%; left: 25%; font-size: 50px; animation-duration: 11s; animation-delay: 0.5s;"></i>
-    <div class="symbol blur-lg" style="top: 40%; left: 18%; font-size: 50px; animation-duration: 8s; animation-delay: 3s;">∅</div>
-    <div class="symbol" style="top: 15%; left: 75%; font-size: 55px; animation-duration: 12s; animation-delay: 2s;">Ψ</div>
-    <i class="fas fa-moon symbol blur-sm" style="top: 65%; left: 10%; font-size: 40px; animation-duration: 10s; animation-delay: 4s;"></i>
-    <i class="fas fa-chess-knight symbol blur-md" style="top: 25%; left: 55%; font-size: 45px; animation-duration: 9.5s; animation-delay: 1s;"></i>
+      <i class="fas fa-book-open symbol blur-sm" style="top: 30%; left: 8%; font-size: 35px; animation-duration: 9s; animation-delay: 1.5s;"></i>
+      <i class="fas fa-brain symbol blur-md" style="top: 80%; left: 25%; font-size: 50px; animation-duration: 11s; animation-delay: 0.5s;"></i>
+      <div class="symbol blur-lg" style="top: 40%; left: 18%; font-size: 50px; animation-duration: 8s; animation-delay: 3s;">∅</div>
+      <div class="symbol" style="top: 15%; left: 75%; font-size: 55px; animation-duration: 12s; animation-delay: 2s;">Ψ</div>
+      <i class="fas fa-moon symbol blur-sm" style="top: 65%; left: 10%; font-size: 40px; animation-duration: 10s; animation-delay: 4s;"></i>
+      <i class="fas fa-chess-knight symbol blur-md" style="top: 25%; left: 55%; font-size: 45px; animation-duration: 9.5s; animation-delay: 1s;"></i>
 
-    <i class="fas fa-mug-hot symbol blur-sm" style="top: 60%; left: 70%; font-size: 35px; animation-duration: 8.5s; animation-delay: 2.5s;"></i>
-    <div class="symbol blur-md" style="top: 85%; left: 55%; font-size: 45px; animation-duration: 10s; animation-delay: 0s; font-weight: 300;">&lt;/&gt;</div>
-    <div class="symbol blur-lg" style="top: 20%; left: 35%; font-size: 55px; animation-duration: 9s; animation-delay: 1.5s; font-weight: 300;">{ }</div>
-    <div class="symbol" style="top: 45%; left: 80%; font-size: 40px; animation-duration: 11s; animation-delay: 3s; font-weight: 300;">!=</div>
-    <div class="symbol blur-sm" style="top: 10%; left: 45%; font-size: 30px; animation-duration: 7s; animation-delay: 0.5s; font-weight: 400;">;</div>
+      <i class="fas fa-mug-hot symbol blur-sm" style="top: 60%; left: 70%; font-size: 35px; animation-duration: 8.5s; animation-delay: 2.5s;"></i>
+      <div class="symbol blur-md" style="top: 85%; left: 55%; font-size: 45px; animation-duration: 10s; animation-delay: 0s; font-weight: 300;">&lt;/&gt;</div>
+      <div class="symbol blur-lg" style="top: 20%; left: 35%; font-size: 55px; animation-duration: 9s; animation-delay: 1.5s; font-weight: 300;">{ }</div>
+      <div class="symbol" style="top: 45%; left: 80%; font-size: 40px; animation-duration: 11s; animation-delay: 3s; font-weight: 300;">!=</div>
+      <div class="symbol blur-sm" style="top: 10%; left: 45%; font-size: 30px; animation-duration: 7s; animation-delay: 0.5s; font-weight: 400;">;</div>
+    </div>
   </div>
 
   <div class="logo-container">
