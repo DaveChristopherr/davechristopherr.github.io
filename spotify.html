@@ -57,6 +57,7 @@ body {
   box-shadow: -10px 0 30px rgba(0,0,0,0.8);
 }
 
+/* MINIMALIST MENU ITEMS */
 .menu-item {
   display: flex;
   align-items: center;
@@ -307,12 +308,11 @@ body {
   position: absolute;
   bottom: 15px;
   right: 15px;
-  color: #000000; /* Ginawang Black */
+  color: #000000; 
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.5px;
   pointer-events: none; 
-  /* Manipis na white shadow para mabasa pa rin kahit madilim ang image */
   text-shadow: 0px 0px 4px rgba(255, 255, 255, 0.8); 
   font-family: 'Quicksand', sans-serif;
 }
@@ -349,7 +349,7 @@ body {
     <a href="favorites.html" class="menu-item"><i class="fas fa-heart"></i> Favorites</a>
     <a href="spotify.html" class="menu-item active"><i class="fab fa-spotify"></i> Spotify</a>
     <a href="chess.html" class="menu-item"><i class="fas fa-chess-knight"></i> Chess</a>
-    <a href="projects.html" class="menu-item"><i class="fas fa-code"></i> Projects</a>
+    <a href="projects.html" class="menu-item"><i class="fas fa-code"></i> Stuff</a>
   </nav>
 </div>
 
@@ -557,15 +557,13 @@ lightboxElement.addEventListener('touchend', e => {
 });
 
 function handleSwipe() {
-  const threshold = 50; // Gaano kahaba ang swipe bago lumipat
+  const threshold = 50; 
   if (touchEndX < touchStartX - threshold) {
-    // Swipe Left -> Next Image
     currentImageIndex++;
     if (currentImageIndex >= wrappedImages.length) currentImageIndex = 0;
     document.getElementById('lightbox-img').src = wrappedImages[currentImageIndex];
   }
   if (touchEndX > touchStartX + threshold) {
-    // Swipe Right -> Previous Image
     currentImageIndex--;
     if (currentImageIndex < 0) currentImageIndex = wrappedImages.length - 1;
     document.getElementById('lightbox-img').src = wrappedImages[currentImageIndex];
@@ -574,4 +572,4 @@ function handleSwipe() {
 </script>
 
 </body>
-    </html>
+  </html>
