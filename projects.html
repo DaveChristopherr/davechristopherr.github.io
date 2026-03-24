@@ -61,6 +61,7 @@ body {
   box-shadow: -10px 0 30px rgba(0,0,0,0.8);
 }
 
+/* MINIMALIST MENU ITEMS */
 .menu-item {
   display: flex;
   align-items: center;
@@ -392,18 +393,18 @@ p.project-desc {
   </div>
  <nav style="margin-top:20px;">
     <a href="index.html" class="menu-item"><i class="fas fa-home"></i> Home</a>
-    <a href="about.html" class="menu-item"><i class="fas fa-user"></i> About me</a>
+    <a href="aboutme.html" class="menu-item"><i class="fas fa-user"></i> About me</a>
     <a href="quotes.html" class="menu-item"><i class="fas fa-quote-left"></i> Quotes</a>
     <a href="favorites.html" class="menu-item"><i class="fas fa-heart"></i> Favorites</a>
     <a href="spotify.html" class="menu-item"><i class="fab fa-spotify"></i> Spotify</a>
     <a href="chess.html" class="menu-item"><i class="fas fa-chess-knight"></i> Chess</a>
-    <a href="projects.html" class="menu-item active"><i class="fas fa-code"></i> Projects</a>
+    <a href="projects.html" class="menu-item active"><i class="fas fa-code"></i> Stuff</a>
   </nav>
 </div>
 
 <div class="content">
   <div class="header-section">
-    <h1>PROJECTS</h1>
+    <h1>STUFF</h1>
     <div class="subtitle">Projects & Tech Stack</div>
   </div>
 
@@ -440,7 +441,7 @@ p.project-desc {
   </div>
 
   <div class="section-header">
-    <span class="section-label" style="margin-bottom: 0;">Featured Projects</span>
+    <span class="section-label" style="margin-bottom: 0;">Featured Stuff</span>
     <div class="filter-container">
       <button class="filter-btn active" data-filter="all">All</button>
       <button class="filter-btn" data-filter="website">Website</button>
@@ -652,7 +653,7 @@ p.project-desc {
           <span class="tech-bubble">JavaScript</span>
         </div>
     </a>
-    
+
     <a href="love-alarm.html" target="_blank" class="card" data-category="stuff">
         <div class="project-header">
           <div class="project-title-wrapper">
@@ -670,7 +671,7 @@ p.project-desc {
           <span class="tech-bubble">JavaScript</span>
         </div>
     </a>
-    
+
     <a href="https://davechristopherr.github.io/FlappyJeans-/" target="_blank" class="card" data-category="game">
       <div class="project-header">
         <div class="project-title-wrapper">
@@ -691,7 +692,7 @@ p.project-desc {
   </div>
 </div>
 
-<script>
+  <script>
 function toggleSideMenu() {
   const menu = document.getElementById("sideMenu");
   const overlay = document.getElementById("menuOverlay");
@@ -713,7 +714,7 @@ function toggleNote() {
   chevron.classList.toggle("rotate");
 }
 
-// FILTER SYSTEM LOGIC
+    // FILTER SYSTEM LOGIC
 document.addEventListener("DOMContentLoaded", () => {
   const filterBtns = document.querySelectorAll(".filter-btn");
   const projectCards = document.querySelectorAll(".card");
@@ -743,4 +744,4 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 
 </body>
-          </html>
+</html>
