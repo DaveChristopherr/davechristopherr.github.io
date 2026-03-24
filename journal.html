@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Journal | Dave Christopher</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:'Quicksand', sans-serif;
+}
+
+body {
+  background: #000000;
+  color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* FIXED MENU ICON */
+.menu-icon {
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 101;
+  color: #ffffff;
+  opacity: 0.7;
+  transition: 0.3s ease;
+}
+
+.menu-icon:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* SIDE MENU */
+#sideMenu {
+  position: fixed;
+  top: 0;
+  right: -260px;
+  width: 260px;
+  height: 100%;
+  background: #0a0a0a;
+  border-left: 1px solid #1f1f1f;
+  z-index: 110;
+  transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 60px 25px;
+  box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+  overflow-y: auto; 
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.7);
+  transition: 0.3s;
+  text-decoration: none;
+  margin-bottom: 8px;
+}
+
+.menu-item:hover, .menu-item.active {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+#menuOverlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  z-index: 105;
+  backdrop-filter: blur(5px);
+}
+
+/* CONTENT CONTAINER */
+.content {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 60px;
+  padding: 20px;
+  padding-bottom: 80px;
+}
+
+.header-section {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+h1 { 
+  font-size: 24px; 
+  letter-spacing: 4px; 
+  font-weight: 700; 
+  text-transform: uppercase; 
+  margin-bottom: 8px; 
+}
+
+.subtitle { 
+  font-size: 10px; 
+  opacity: 0.5; 
+  letter-spacing: 3px; 
+  text-transform: uppercase; 
+  font-weight: 600; 
+}
+
+/* EMPTY JOURNAL STATE */
+.empty-journal-card {
+  background: rgba(10, 10, 10, 0.6);
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  padding: 50px 30px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.bg-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 150px;
+  color: rgba(255, 255, 255, 0.02);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.journal-icon {
+  font-size: 35px;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 25px;
+  position: relative;
+  z-index: 1;
+}
+
+.journal-title {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin-bottom: 15px;
+  position: relative;
+  z-index: 1;
+}
+
+.journal-text {
+  font-size: 13px;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+  margin-bottom: 30px;
+  position: relative;
+  z-index: 1;
+}
+
+.journal-date-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #a7a7a7;
+  position: relative;
+  z-index: 1;
+}
+
+/* FAKE LOCKED ENTRY */
+.locked-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 40px;
+  padding: 20px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(15,15,15,0.8) 0%, rgba(5,5,5,0) 100%);
+  border-top: 1px solid rgba(255,255,255,0.05);
+  opacity: 0.4;
+  user-select: none;
+}
+
+.entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.entry-date {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #888;
+}
+
+.entry-lock {
+  font-size: 12px;
+  color: #555;
+}
+
+.entry-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.line {
+  height: 8px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 10px;
+}
+
+.line-1 { width: 100%; }
+.line-2 { width: 85%; }
+.line-3 { width: 60%; }
+
+</style>
+</head>
+
+<body>
+
+<div class="menu-icon" onclick="toggleSideMenu()">
+  <i class="fas fa-bars"></i>
+</div>
+
+<div id="menuOverlay" onclick="toggleSideMenu()"></div>
+
+<div id="sideMenu">
+  <div onclick="toggleSideMenu()" style="position:absolute; top:20px; right:20px; font-size:22px; cursor:pointer; opacity:0.5;">
+    <i class="fas fa-times"></i>
+  </div>
+  <nav style="margin-top:20px;">
+    <a href="index.html" class="menu-item"><i class="fas fa-home"></i> Home</a>
+    <a href="aboutme.html" class="menu-item"><i class="fas fa-user"></i> About me</a>
+    <a href="quotes.html" class="menu-item"><i class="fas fa-quote-left"></i> Quotes</a>
+    <a href="favorites.html" class="menu-item"><i class="fas fa-heart"></i> Favorites</a>
+    <a href="spotify.html" class="menu-item"><i class="fab fa-spotify"></i> Spotify</a>
+    <a href="chess.html" class="menu-item"><i class="fas fa-chess-knight"></i> Chess</a>
+    <a href="letterboxd.html" class="menu-item"><i class="fas fa-film"></i> Letterboxd</a>
+    <a href="webtoon.html" class="menu-item"><i class="fas fa-mobile-screen"></i> Webtoon</a>
+    <a href="book.html" class="menu-item"><i class="fas fa-book"></i> Books</a>
+    <a href="journal.html" class="menu-item active"><i class="fas fa-book-journal-whills"></i> Journal</a>
+    <a href="projects.html" class="menu-item"><i class="fas fa-code"></i> Stuff</a>
+  </nav>
+</div>
+
+<div class="content">
+  <div class="header-section">
+    <h1>JOURNAL</h1>
+    <div class="subtitle">Daily Observations</div>
+  </div>
+
+  <div class="empty-journal-card">
+    <i class="fas fa-feather-alt bg-icon"></i>
+    
+    <div class="journal-icon">
+      <i class="fas fa-book-open"></i>
+    </div>
+    
+    <div class="journal-title">The Pages are Blank</div>
+    
+    <div class="journal-text">
+      I haven't written anything on these pages yet. It isn't the right time to start recording the events of my everyday life. <br><br>
+      I will likely begin on the first day of June. Until that day arrives, this journal will remain silent.
+    </div>
+    
+    <div class="journal-date-badge">
+      <i class="far fa-calendar-alt"></i> Expected Start: June 1
+    </div>
+  </div>
+
+  <div class="locked-entry">
+    <div class="entry-header">
+      <div class="entry-date">June 01, 2026</div>
+      <div class="entry-lock"><i class="fas fa-lock"></i></div>
+    </div>
+    <div class="entry-lines">
+      <div class="line line-1"></div>
+      <div class="line line-2"></div>
+      <div class="line line-3"></div>
+    </div>
+  </div>
+
+</div> 
+
+<script>
+function toggleSideMenu() {
+  const menu = document.getElementById("sideMenu");
+  const overlay = document.getElementById("menuOverlay");
+  if (menu.style.right === "0px") {
+    menu.style.right = "-260px";
+    overlay.style.display = "none";
+  } else {
+    menu.style.right = "0px";
+    overlay.style.display = "block";
+  }
+}
+</script>
+
+</body>
+</html>
