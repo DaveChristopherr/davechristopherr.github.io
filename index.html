@@ -25,74 +25,9 @@ body {
   background: #000000;
   color: #ffffff;
   min-height: 100vh;
-  overflow: hidden; /* Prevent scroll habang naglo-load */
 }
 
-/* =========================================
-   CLEAN MINIMALIST LOADER (3 SECONDS)
-   ========================================= */
-#loader-wrapper {
-  position: fixed;
-  top: 0; 
-  left: 0; 
-  width: 100%;
-  height: 100%; 
-  background: #000000; /* Pure black */
-  z-index: 9999; 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.5s ease, visibility 0.5s ease;
-}
-
-.logo-box {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 32px; 
-  font-weight: 700;
-  letter-spacing: 6px; 
-  color: #ffffff;
-  margin-left: 6px; /* Offset for perfect center */
-}
-
-.bracket {
-  color: rgba(255, 255, 255, 0.3);
-  font-weight: 300;
-}
-
-.loading-phrases {
-  margin-top: 20px;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.5);
-  transition: opacity 0.3s ease;
-  text-align: center;
-}
-
-.fade-out {
-  opacity: 0;
-  visibility: hidden;
-}
-
-/* MAIN CONTENT REVEAL ANIMATION */
-.main-content {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.show-content {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* =========================================
-   ORIGINAL INDEX.HTML STYLES
-   ========================================= */
+/* TOP BAR */
 .app-bar{
   padding:40px 25px 25px;
   text-align:center;
@@ -100,12 +35,14 @@ body {
   border-bottom:1px solid #1f1f1f;
 }
 
+/* CONTENT */
 .content{
   padding:20px;
   max-width:600px;
   margin:auto;
 }
 
+/* CARD */
 .card{
   background: rgba(17,17,17,0.6);
   border:1px solid #1f1f1f;
@@ -122,6 +59,7 @@ body {
   background:#1a1a1a;
 }
 
+/* MINIMALIST HEADER STYLE */
 .content h2 {
   font-size: 10px;          
   margin-bottom: 10px;
@@ -142,6 +80,7 @@ a:hover{
   opacity:0.7;
 }
 
+/* WATCHLIST */
 .watchlist .folder {
   background: linear-gradient(145deg, #0a0a0a, #141414); 
   border: 1px solid #1f1f1f;
@@ -160,6 +99,7 @@ a:hover{
   border-color: #333;
 }
 
+/* HEADER INFO */
 .profile-header {
   position: relative;
   padding: 80px 20px 25px; 
@@ -171,6 +111,7 @@ a:hover{
   align-items: center;
 }
 
+/* PROFILE WRAPPER & STATUS DOT */
 .profile-pic-container {
   position: relative;
   display: inline-block;
@@ -186,6 +127,7 @@ a:hover{
   display: block; 
 }
 
+/* FB/IG Style Status Dot */
 .status-dot {
   position: absolute;
   bottom: 4px;
@@ -208,9 +150,15 @@ a:hover{
   transform: scale(1.1);
 }
 
-.dot-alive { background-color: #31A24C; }
-.dot-dead { background-color: #E41E3F; }
+.dot-alive {
+  background-color: #31A24C; 
+}
 
+.dot-dead {
+  background-color: #E41E3F; 
+}
+
+/* Clickable Tooltip */
 .status-tooltip {
   position: absolute;
   bottom: -25px;
@@ -248,6 +196,7 @@ a:hover{
   letter-spacing:1px;
 }
 
+/* MENU ICON */
 .menu-icon {
   position: fixed; 
   top: 20px;    
@@ -264,6 +213,7 @@ a:hover{
   opacity: 1;
 }
 
+/* SIDE MENU */
 #sideMenu {
   position: fixed;
   top: 0;
@@ -278,6 +228,7 @@ a:hover{
   box-shadow: -10px 0 30px rgba(0,0,0,0.5);
 }
 
+/* MINIMALIST MENU ITEMS */
 .menu-item {
   display: flex;
   align-items: center;
@@ -310,6 +261,7 @@ a:hover{
   backdrop-filter: blur(4px);
 }
 
+/* WATCHING PROGRESS STYLE */
 .watch-progress-container {
   margin-top: 10px;
 }
@@ -338,6 +290,7 @@ a:hover{
   color: #ffffff;
 }
 
+/* HOBBY ROW (BOOKS + SPOTIFY) */
 .hobby-row {
   display: flex;
   gap: 15px;
@@ -346,6 +299,7 @@ a:hover{
   width: 100%;
 }
 
+/* BOOK CARD */
 .book-card {
   background: rgba(17,17,17,0.6);
   border: 1px solid #1f1f1f;
@@ -410,6 +364,7 @@ a:hover{
   opacity: 0.3;
 }
 
+/* MINIMALIST DISCORD SPOTIFY CARD */
 .spotify-card {
   background: rgba(17,17,17,0.6);
   border: 1px solid #1f1f1f;
@@ -523,6 +478,7 @@ a:hover{
   font-family: monospace;
 }
 
+/* SPOTIFY EXPANDED MODAL (POPUP) */
 #spotifyModal {
   display: none;
   position: fixed;
@@ -610,217 +566,162 @@ a:hover{
   </head>
   <body>
 
-<div id="loader-wrapper">
-  <div class="logo-box">
-    <span class="bracket">&lt;</span> DC <span class="bracket">/&gt;</span>
-  </div>
-  <div id="loading-text" class="loading-phrases">Compiling logic...</div>
-</div>
-
-<div id="mainContent" class="main-content">
-
-  <div id="spotifyModal" onclick="closeSpotifyModal(event)">
-    <div class="spotify-modal-card" onclick="event.stopPropagation()">
-      <div class="modal-spotify-header">
-        <i class="fab fa-spotify" style="color:#ffffff;"></i> LISTENING TO SPOTIFY
-      </div>
-      
-      <div class="modal-spotify-info-row">
-        <img id="modalSpotifyCover" src="" class="modal-spotify-img" alt="Album Cover">
-        <div class="modal-spotify-text">
-          <div id="modalSpotifyTitle" class="modal-spotify-title">Loading...</div>
-          <div id="modalSpotifyArtist" class="modal-spotify-artist">Artist</div>
-        </div>
-      </div>
-
-      <div class="spotify-progress-container">
-        <div class="spotify-bar-bg">
-          <div id="modalSpotifyProgress" class="spotify-bar-fill"></div>
-        </div>
-        <div class="spotify-time-info">
-          <span id="modalSpotifyCurrent">0:00</span>
-          <span id="modalSpotifyTotal">0:00</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="menuOverlay" onclick="toggleSideMenu()"></div>
-
-  <div id="sideMenu">
-    <div onclick="toggleSideMenu()" style="position:absolute; top:20px; right:20px; font-size:22px; cursor:pointer; opacity:0.5; color:white;">
-      <i class="fas fa-times"></i>
-    </div>
-
-    <nav style="margin-top:20px;">
-      <a href="index.html" class="menu-item active"><i class="fas fa-home"></i> Home</a>
-      <a href="aboutme.html" class="menu-item"><i class="fas fa-user"></i> About me</a>
-      <a href="quotes.html" class="menu-item"><i class="fas fa-quote-left"></i> Quotes</a>
-      <a href="favorites.html" class="menu-item"><i class="fas fa-heart"></i> Favorites</a>
-      <a href="spotify.html" class="menu-item"><i class="fab fa-spotify"></i> Spotify</a>
-      <a href="chess.html" class="menu-item"><i class="fas fa-chess-knight"></i> Chess</a>
-      <a href="projects.html" class="menu-item"><i class="fas fa-code"></i> Stuff</a>
-    </nav>
-  </div>
-
-  <div class="profile-header">
-    <div class="menu-icon" onclick="toggleSideMenu()">
-      <i class="fas fa-bars"></i>
-    </div>
-
-    <div class="profile-pic-container">
-      <img src="AlbertCamus.jpg" class="profile-img" alt="Profile">
-      <div id="statusDot" class="status-dot" onclick="toggleStatus()"></div>
-      <div id="statusTooltip" class="status-tooltip"></div>
+<div id="spotifyModal" onclick="closeSpotifyModal(event)">
+  <div class="spotify-modal-card" onclick="event.stopPropagation()">
+    <div class="modal-spotify-header">
+      <i class="fab fa-spotify" style="color:#ffffff;"></i> LISTENING TO SPOTIFY
     </div>
     
-    <h1>Dave Christopher</h1>
+    <div class="modal-spotify-info-row">
+      <img id="modalSpotifyCover" src="" class="modal-spotify-img" alt="Album Cover">
+      <div class="modal-spotify-text">
+        <div id="modalSpotifyTitle" class="modal-spotify-title">Loading...</div>
+        <div id="modalSpotifyArtist" class="modal-spotify-artist">Artist</div>
+      </div>
+    </div>
+
+    <div class="spotify-progress-container">
+      <div class="spotify-bar-bg">
+        <div id="modalSpotifyProgress" class="spotify-bar-fill"></div>
+      </div>
+      <div class="spotify-time-info">
+        <span id="modalSpotifyCurrent">0:00</span>
+        <span id="modalSpotifyTotal">0:00</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="menuOverlay" onclick="toggleSideMenu()"></div>
+
+<div id="sideMenu">
+  <div onclick="toggleSideMenu()" style="position:absolute; top:20px; right:20px; font-size:22px; cursor:pointer; opacity:0.5; color:white;">
+    <i class="fas fa-times"></i>
   </div>
 
-  <div class="content">
+  <nav style="margin-top:20px;">
+    <a href="index.html" class="menu-item active"><i class="fas fa-home"></i> Home</a>
+    <a href="aboutme.html" class="menu-item"><i class="fas fa-user"></i> About me</a>
+    <a href="quotes.html" class="menu-item"><i class="fas fa-quote-left"></i> Quotes</a>
+    <a href="favorites.html" class="menu-item"><i class="fas fa-heart"></i> Favorites</a>
+    <a href="spotify.html" class="menu-item"><i class="fab fa-spotify"></i> Spotify</a>
+    <a href="chess.html" class="menu-item"><i class="fas fa-chess-knight"></i> Chess</a>
+    <a href="projects.html" class="menu-item"><i class="fas fa-code"></i> Stuff</a>
+  </nav>
+</div>
 
-    <div id="watchingWrapper" style="margin-bottom: 25px; display: none;">
-      <h2></h2>
-      
-      <div id="watchingCard" class="card" style="margin-bottom: 0; padding: 18px; min-height: 125px;">
-        <div style="display:flex; gap:15px; align-items:center;">
-          <img id="watchImage" src="" style="width:70px; height:100px; object-fit:cover; border-radius:8px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); display: none;" />
-          
-          <div style="flex:1;">
-            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
-              <i id="watchIcon" class="fas fa-film" style="font-size: 10px; color: #ffffff; opacity: 0.8;"></i>
-              <span id="watchCategory" style="font-size: 10px; letter-spacing: 2px; font-weight: 700; color: #ffffff; opacity: 0.8;">MOVIE</span>
-            </div>
-            
-            <div id="watchTitle" style="font-size: 18px; font-weight: 600; color: #ffffff; margin-bottom: 2px;"></div>
-            <div id="watchGenre" style="font-size: 13px; opacity: 0.6; margin-bottom: 8px;"></div>
-
-            <div class="watch-progress-container">
-              <div class="watch-bar-bg">
-                <div id="watchProgress" class="watch-bar-fill" style="width: 0%;"></div>
-              </div>
-              <div class="watch-time-info">
-                <span id="watchCurrent">00:00</span>
-                <span id="watchTotal">0:00</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="hobby-row">
-      <div style="flex: 1.3; min-width: 0;">
-        <h2>Books I've Read</h2>
-        <div id="bookCard" class="book-card">
-          <img id="bookCover" src="download.webp" class="book-img">
-          
-          <div class="book-info">
-            <div id="bookCount" style="font-size: 9px; opacity: 0.5; margin-bottom: 2px; letter-spacing: 1px;"></div>
-            <div id="bookTitle" class="book-title">Loading...</div>
-            <div id="bookAuthor" class="book-author">Author</div>
-            <div id="bookRating" class="book-rating"></div>
-          </div>
-          <div class="swap-hint"><i class="fas fa-arrows-alt-h"></i> Swipe</div>
-        </div>
-      </div>
-
-      <div style="flex: 1; min-width: 0;">
-        <h2 style="opacity: 0; user-select: none;">Spotify</h2>
-        <div class="spotify-card" onclick="openSpotifyModal()">
-          
-          <div class="spotify-header">
-            <i class="fab fa-spotify"></i> LISTENING TO SPOTIFY
-          </div>
-          
-          <div class="spotify-content">
-            <img id="spotifyCover" src="" class="spotify-img" alt="Album Cover">
-            <div class="spotify-info">
-              <div id="spotifyTitle" class="spotify-title">Loading...</div>
-              <div id="spotifyArtist" class="spotify-artist">Artist</div>
-              <div class="spotify-progress-container">
-                <div class="spotify-bar-bg">
-                  <div id="spotifyProgress" class="spotify-bar-fill"></div>
-                </div>
-                <div class="spotify-time-info">
-                  <span id="spotifyCurrent">0:00</span>
-                  <span id="spotifyTotal">0:00</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-      
-    <div style="margin-bottom: 30px;">
-      <h2 style="padding-left: 2px;">Watchlist</h2>
-      
-      <div class="watchlist">
-        <a href="kdrama.html">
-          <div class="folder"><span><i class="fas fa-tv" style="margin-right: 12px; opacity: 0.7;"></i> K-Drama</span></div>
-        </a>
-
-        <a href="kmovie.html">
-          <div class="folder"><span><i class="fas fa-film" style="margin-right: 12px; opacity: 0.7;"></i> K-Movie</span></div>
-        </a>
-
-        <a href="movie.html">
-          <div class="folder"><span><i class="fas fa-clapperboard" style="margin-right: 12px; opacity: 0.7;"></i> Movie & Series</span></div>
-        </a>
-      </div>
-    </div>
-
+<div class="profile-header">
+  <div class="menu-icon" onclick="toggleSideMenu()">
+    <i class="fas fa-bars"></i>
   </div>
+
+  <div class="profile-pic-container">
+    <img src="AlbertCamus.jpg" class="profile-img" alt="Profile">
+    <div id="statusDot" class="status-dot" onclick="toggleStatus()"></div>
+    <div id="statusTooltip" class="status-tooltip"></div>
+  </div>
+  
+  <h1>Dave Christopher</h1>
+</div>
+
+<div class="content">
+
+  <div id="watchingWrapper" style="margin-bottom: 25px; display: none;">
+    <h2></h2>
+    
+    <div id="watchingCard" class="card" style="margin-bottom: 0; padding: 18px; min-height: 125px;">
+      <div style="display:flex; gap:15px; align-items:center;">
+        <img id="watchImage" src="" style="width:70px; height:100px; object-fit:cover; border-radius:8px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); display: none;" />
+        
+        <div style="flex:1;">
+          <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+            <i id="watchIcon" class="fas fa-film" style="font-size: 10px; color: #ffffff; opacity: 0.8;"></i>
+            <span id="watchCategory" style="font-size: 10px; letter-spacing: 2px; font-weight: 700; color: #ffffff; opacity: 0.8;">MOVIE</span>
+          </div>
+          
+          <div id="watchTitle" style="font-size: 18px; font-weight: 600; color: #ffffff; margin-bottom: 2px;"></div>
+          <div id="watchGenre" style="font-size: 13px; opacity: 0.6; margin-bottom: 8px;"></div>
+
+          <div class="watch-progress-container">
+            <div class="watch-bar-bg">
+              <div id="watchProgress" class="watch-bar-fill" style="width: 0%;"></div>
+            </div>
+            <div class="watch-time-info">
+              <span id="watchCurrent">00:00</span>
+              <span id="watchTotal">0:00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hobby-row">
+    <div style="flex: 1.3; min-width: 0;">
+      <h2>Books I've Read</h2>
+      <div id="bookCard" class="book-card">
+        <img id="bookCover" src="download.webp" class="book-img">
+        
+        <div class="book-info">
+          <div id="bookCount" style="font-size: 9px; opacity: 0.5; margin-bottom: 2px; letter-spacing: 1px;"></div>
+          <div id="bookTitle" class="book-title">Loading...</div>
+          <div id="bookAuthor" class="book-author">Author</div>
+          <div id="bookRating" class="book-rating"></div>
+        </div>
+        <div class="swap-hint"><i class="fas fa-arrows-alt-h"></i> Swipe</div>
+      </div>
+    </div>
+
+    <div style="flex: 1; min-width: 0;">
+      <h2 style="opacity: 0; user-select: none;">Spotify</h2>
+      <div class="spotify-card" onclick="openSpotifyModal()">
+        
+        <div class="spotify-header">
+          <i class="fab fa-spotify"></i> LISTENING TO SPOTIFY
+        </div>
+        
+        <div class="spotify-content">
+          <img id="spotifyCover" src="" class="spotify-img" alt="Album Cover">
+          <div class="spotify-info">
+            <div id="spotifyTitle" class="spotify-title">Loading...</div>
+            <div id="spotifyArtist" class="spotify-artist">Artist</div>
+            <div class="spotify-progress-container">
+              <div class="spotify-bar-bg">
+                <div id="spotifyProgress" class="spotify-bar-fill"></div>
+              </div>
+              <div class="spotify-time-info">
+                <span id="spotifyCurrent">0:00</span>
+                <span id="spotifyTotal">0:00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+    
+  <div style="margin-bottom: 30px;">
+    <h2 style="padding-left: 2px;">Watchlist</h2>
+    
+    <div class="watchlist">
+      <a href="kdrama.html">
+        <div class="folder"><span><i class="fas fa-tv" style="margin-right: 12px; opacity: 0.7;"></i> K-Drama</span></div>
+      </a>
+
+      <a href="kmovie.html">
+        <div class="folder"><span><i class="fas fa-film" style="margin-right: 12px; opacity: 0.7;"></i> K-Movie</span></div>
+      </a>
+
+      <a href="movie.html">
+        <div class="folder"><span><i class="fas fa-clapperboard" style="margin-right: 12px; opacity: 0.7;"></i> Movie & Series</span></div>
+      </a>
+    </div>
+  </div>
+
 </div>
 
 <script>
-/* ===== CLEAN LOADER SCRIPT (3 SECONDS) ===== */
-document.addEventListener("DOMContentLoaded", () => {
-  const loaderWrapper = document.getElementById("loader-wrapper");
-  const mainContent = document.getElementById("mainContent");
-
-  // Check kung nakita na ba yung loader
-  if (sessionStorage.getItem("loaderPlayed")) {
-    loaderWrapper.style.display = "none";
-    document.body.style.overflow = "auto";
-    mainContent.style.transition = "none";
-    mainContent.style.opacity = 1;
-    mainContent.style.transform = "translateY(0)";
-    mainContent.classList.add("show-content");
-  } else {
-    // Normal 3-Second Loading Process
-    const phrases = ["Compiling logic...", "Embracing the void...", "Welcome."];
-    let i = 0;
-    const textEl = document.getElementById("loading-text");
-
-    const textInterval = setInterval(() => {
-      textEl.style.opacity = 0; 
-      setTimeout(() => {
-        i++;
-        if(i < phrases.length) {
-          textEl.innerText = phrases[i];
-          textEl.style.opacity = 1; 
-        }
-      }, 300); // 0.3s fade in delay
-    }, 900); // Palit text every 0.9s
-
-    window.addEventListener("load", () => {
-      setTimeout(() => {
-        clearInterval(textInterval);
-        loaderWrapper.classList.add("fade-out");
-        document.body.style.overflow = "auto";
-        mainContent.classList.add("show-content");
-        
-        sessionStorage.setItem("loaderPlayed", "true");
-        setTimeout(() => { loaderWrapper.style.display = "none"; }, 500);
-      }, 3000); // Saktong 3 seconds
-    });
-  }
-});
-
-
 /* ===== MODAL SCRIPT (SPOTIFY) ===== */
 function openSpotifyModal() {
   const modal = document.getElementById('spotifyModal');
@@ -1012,7 +913,6 @@ const spotifySongs = [
 document.addEventListener("DOMContentLoaded", () => {
   updateBookDisplay(0); 
   
-  // SPOTIFY LOGIC
   const randomSong = spotifySongs[Math.floor(Math.random() * spotifySongs.length)];
   
   document.getElementById("spotifyTitle").textContent = randomSong.title;
@@ -1051,7 +951,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("modalSpotifyCurrent").textContent = formatSpotifyTime(currentSeconds);
   }, 1000);
 
-  // ALIVE / DEAD Status Logic
   const daysThreshold = 3; 
   const lastModifiedDate = new Date(document.lastModified);
   const currentDate = new Date();
@@ -1073,4 +972,4 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
   
 </body>
-          </html>
+</html>
