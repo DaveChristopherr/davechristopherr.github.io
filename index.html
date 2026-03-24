@@ -25,26 +25,36 @@ body {
   background: #000000;
   color: #ffffff;
   min-height: 100vh;
-  overflow: hidden; 
+  overflow: hidden; /* Naka-hidden habang naglo-load */
 }
 
 /* =========================================
-   PREMIUM LOADING SCREEN STYLES
+   MOBILE-PERFECT LOADING SCREEN (3 SECONDS)
    ========================================= */
 #loader-wrapper {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at center, #0a0a0a 0%, #000000 100%);
+  height: 100dvh; /* Gamit ang 100dvh para sakto sa mobile screen */
+  background: radial-gradient(circle at center, #111111 0%, #000000 100%);
   z-index: 9999; 
+  transition: opacity 0.6s ease, visibility 0.6s;
+  overflow: hidden;
+}
+
+/* FORCE CENTER PARA HINDI MAPUNTA SA GILID */
+.loader-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.2s;
-  overflow: hidden;
+  z-index: 10;
+  width: 100%;
 }
 
 .bg-symbols {
@@ -55,16 +65,6 @@ body {
   height: 100%;
   z-index: 0; 
   pointer-events: none; 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.symbols-scale {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  transition: transform 0.3s ease;
 }
 
 .symbol {
@@ -75,87 +75,68 @@ body {
   animation: floatAndFade infinite ease-in-out;
 }
 
-.blur-sm { filter: blur(2px); }
-.blur-md { filter: blur(4px); }
-.blur-lg { filter: blur(6px); }
+.blur-sm { filter: blur(1px); }
+.blur-md { filter: blur(3px); }
 
+/* VOID BOXES */
 .box-x {
   position: absolute;
-  width: 35px;
-  height: 35px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(255, 255, 255, 0.1);
-  font-size: 14px;
-  font-weight: 400;
+  color: rgba(255, 255, 255, 0.15);
+  font-size: 12px;
   border-radius: 4px;
   animation: floatAndFade infinite ease-in-out;
 }
 
 @keyframes floatAndFade {
-  0% { transform: translateY(20px) scale(0.95); opacity: 0; }
-  25% { opacity: 0.05; }
-  50% { transform: translateY(-20px) scale(1.05); opacity: 0.1; }
-  75% { opacity: 0.05; }
-  100% { transform: translateY(20px) scale(0.95); opacity: 0; }
+  0% { transform: translateY(15px) scale(0.9); opacity: 0; }
+  50% { transform: translateY(-15px) scale(1); opacity: 0.15; } /* Tinaasan opacity para makita */
+  100% { transform: translateY(15px) scale(0.9); opacity: 0; }
 }
 
+/* LOGO STYLES */
 .logo-container {
   display: flex;
   align-items: center;
-  z-index: 10;
+  justify-content: center;
 }
 
 .logo-box {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 45px;
+  gap: 8px;
+  font-size: 32px; /* Saktong size para sa mobile */
   font-weight: 700;
-  letter-spacing: 8px;
+  letter-spacing: 6px;
   color: #ffffff;
-  animation: wakeUp 2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards, breathe 3s infinite alternate ease-in-out 2s;
+  animation: wakeUpFast 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
 .bracket {
-  color: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.3);
   font-weight: 300;
 }
 
 .terminal-cursor {
   display: inline-block;
   width: 3px;
-  height: 40px;
+  height: 30px;
   background-color: #ffffff;
-  margin-left: 10px;
-  box-shadow: 0 0 10px rgba(255,255,255,0.5);
-  animation: blink 1s step-end infinite;
+  margin-left: 8px;
+  box-shadow: 0 0 8px rgba(255,255,255,0.6);
+  animation: blink 0.8s step-end infinite;
   opacity: 0;
-  animation-delay: 1.5s;
+  animation-delay: 0.5s;
 }
 
-.loading-phrases {
-  margin-top: 30px;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 6px;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.4);
-  height: 15px; 
-  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
-  z-index: 10;
-}
-
-@keyframes wakeUp {
-  0% { filter: blur(15px); transform: scale(1.2); opacity: 0; letter-spacing: 20px; }
-  100% { filter: blur(0); transform: scale(1); opacity: 1; letter-spacing: 8px; }
-}
-
-@keyframes breathe {
-  0% { text-shadow: 0 0 10px rgba(255,255,255,0.05); transform: translateY(0); }
-  100% { text-shadow: 0 0 25px rgba(255,255,255,0.3); transform: translateY(-3px); }
+@keyframes wakeUpFast {
+  0% { filter: blur(10px); transform: scale(1.1); opacity: 0; letter-spacing: 12px; }
+  100% { filter: blur(0); transform: scale(1); opacity: 1; letter-spacing: 6px; }
 }
 
 @keyframes blink {
@@ -163,49 +144,27 @@ body {
   50% { opacity: 0; }
 }
 
-@keyframes fadeInCursor {
-  to { opacity: 1; }
+.loading-phrases {
+  margin-top: 20px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  height: 15px; 
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .fade-out {
   opacity: 0;
   visibility: hidden;
-  transform: scale(1.05); 
-}
-
-/* =========================================
-   MOBILE RESPONSIVE DESIGN (FOR LOADER)
-   ========================================= */
-@media (max-width: 600px) {
-  .logo-box {
-    font-size: 28px;
-    gap: 8px;
-    animation: wakeUpMobile 2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards, breathe 3s infinite alternate ease-in-out 2s;
-  }
-  @keyframes wakeUpMobile {
-    0% { filter: blur(12px); transform: scale(1.1); opacity: 0; letter-spacing: 15px; }
-    100% { filter: blur(0); transform: scale(1); opacity: 1; letter-spacing: 5px; }
-  }
-  .terminal-cursor {
-    height: 26px;
-    margin-left: 6px;
-  }
-  .loading-phrases {
-    font-size: 8px;
-    letter-spacing: 4px;
-    margin-top: 25px;
-  }
-  /* I-scale down yung background symbols para hindi siksikan sa phone */
-  .symbols-scale {
-    transform: scale(0.65);
-  }
 }
 
 /* MAIN CONTENT REVEAL ANIMATION */
 .main-content {
   opacity: 0;
-  transform: translateY(30px);
-  transition: all 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) 0.5s;
+  transform: translateY(20px);
+  transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s;
 }
 
 .show-content {
@@ -213,6 +172,9 @@ body {
   transform: translateY(0);
 }
 
+@keyframes fadeInCursor {
+  to { opacity: 1; }
+}
 
 /* =========================================
    ORIGINAL INDEX.HTML STYLES
@@ -732,42 +694,41 @@ a:hover{
   color: #999999;
 }
 </style>
-  </head>
-  <body>
+</head>
+<body>
 
 <div id="loader-wrapper">
   
   <div class="bg-symbols">
-    <div class="symbols-scale">
-      <div class="box-x blur-sm" style="top: 20%; left: 15%; animation-duration: 8s; animation-delay: 0s;">x</div>
-      <div class="box-x blur-md" style="top: 75%; left: 80%; animation-duration: 10s; animation-delay: 2s; width: 45px; height: 45px; font-size: 18px;">x</div>
-      <div class="box-x blur-lg" style="top: 50%; left: 85%; animation-duration: 9s; animation-delay: 1s; width: 25px; height: 25px; font-size: 10px;">x</div>
+    <div class="box-x blur-sm" style="top: 20%; left: 15%; animation-duration: 4s; animation-delay: 0s;">x</div>
+    <div class="box-x blur-md" style="top: 75%; left: 80%; animation-duration: 5s; animation-delay: 0.5s; width: 40px; height: 40px; font-size: 16px;">x</div>
+    <div class="box-x" style="top: 45%; left: 85%; animation-duration: 3s; animation-delay: 1s; width: 25px; height: 25px; font-size: 10px;">x</div>
 
-      <i class="fas fa-book-open symbol blur-sm" style="top: 30%; left: 8%; font-size: 35px; animation-duration: 9s; animation-delay: 1.5s;"></i>
-      <i class="fas fa-brain symbol blur-md" style="top: 80%; left: 25%; font-size: 50px; animation-duration: 11s; animation-delay: 0.5s;"></i>
-      <div class="symbol blur-lg" style="top: 40%; left: 18%; font-size: 50px; animation-duration: 8s; animation-delay: 3s;">∅</div>
-      <div class="symbol" style="top: 15%; left: 75%; font-size: 55px; animation-duration: 12s; animation-delay: 2s;">Ψ</div>
-      <i class="fas fa-moon symbol blur-sm" style="top: 65%; left: 10%; font-size: 40px; animation-duration: 10s; animation-delay: 4s;"></i>
-      <i class="fas fa-chess-knight symbol blur-md" style="top: 25%; left: 55%; font-size: 45px; animation-duration: 9.5s; animation-delay: 1s;"></i>
+    <i class="fas fa-book-open symbol blur-sm" style="top: 30%; left: 12%; font-size: 30px; animation-duration: 4.5s;"></i>
+    <i class="fas fa-brain symbol blur-md" style="top: 80%; left: 25%; font-size: 45px; animation-duration: 5.5s;"></i>
+    <div class="symbol blur-sm" style="top: 35%; left: 22%; font-size: 40px; animation-duration: 4s;">∅</div>
+    <div class="symbol" style="top: 15%; left: 70%; font-size: 45px; animation-duration: 6s;">Ψ</div>
+    <i class="fas fa-moon symbol blur-sm" style="top: 65%; left: 15%; font-size: 35px; animation-duration: 5s;"></i>
+    <i class="fas fa-chess-knight symbol blur-md" style="top: 25%; left: 60%; font-size: 40px; animation-duration: 4.5s;"></i>
 
-      <i class="fas fa-mug-hot symbol blur-sm" style="top: 60%; left: 70%; font-size: 35px; animation-duration: 8.5s; animation-delay: 2.5s;"></i>
-      <div class="symbol blur-md" style="top: 85%; left: 55%; font-size: 45px; animation-duration: 10s; animation-delay: 0s; font-weight: 300;">&lt;/&gt;</div>
-      <div class="symbol blur-lg" style="top: 20%; left: 35%; font-size: 55px; animation-duration: 9s; animation-delay: 1.5s; font-weight: 300;">{ }</div>
-      <div class="symbol" style="top: 45%; left: 80%; font-size: 40px; animation-duration: 11s; animation-delay: 3s; font-weight: 300;">!=</div>
-      <div class="symbol blur-sm" style="top: 10%; left: 45%; font-size: 30px; animation-duration: 7s; animation-delay: 0.5s; font-weight: 400;">;</div>
-    </div>
+    <i class="fas fa-mug-hot symbol" style="top: 60%; left: 75%; font-size: 30px; animation-duration: 4s;"></i>
+    <div class="symbol blur-md" style="top: 85%; left: 60%; font-size: 40px; animation-duration: 5s; font-weight: 300;">&lt;/&gt;</div>
+    <div class="symbol blur-sm" style="top: 20%; left: 40%; font-size: 45px; animation-duration: 4.5s; font-weight: 300;">{ }</div>
+    <div class="symbol" style="top: 45%; left: 75%; font-size: 35px; animation-duration: 5.5s; font-weight: 300;">!=</div>
   </div>
 
-  <div class="logo-container">
-    <div class="logo-box">
-      <span class="bracket">&lt;</span>
-      DC 
-      <span class="bracket">/&gt;</span>
+  <div class="loader-center">
+    <div class="logo-container">
+      <div class="logo-box">
+        <span class="bracket">&lt;</span>
+        DC 
+        <span class="bracket">/&gt;</span>
+      </div>
+      <span class="terminal-cursor" style="animation: blink 0.8s step-end infinite, fadeInCursor 0.3s forwards 0.5s;"></span>
     </div>
-    <span class="terminal-cursor" style="animation: blink 1s step-end infinite, fadeInCursor 0.5s forwards 1.8s;"></span>
+    
+    <div id="loading-text" class="loading-phrases">Compiling logic...</div>
   </div>
-  
-  <div id="loading-text" class="loading-phrases">Establishing logic...</div>
 </div>
 
 <div id="mainContent" class="main-content">
@@ -927,22 +888,20 @@ a:hover{
 
   </div>
 </div> <script>
-/* ===== PREMIUM LOADER SCRIPT ===== */
+/* ===== PREMIUM LOADER SCRIPT (FAST 3 SECONDS) ===== */
 const phrases = [
-  "Synthesizing thoughts...",
-  "Questioning reality...",
+  "Compiling logic...",
   "Embracing the void...",
-  "Pushing the boulder...",
-  "Executing logic...",
   "Welcome."
 ];
 
 let i = 0;
 const textEl = document.getElementById("loading-text");
 
+// Mabilis na transition kada 0.8s
 const textInterval = setInterval(() => {
   textEl.style.opacity = 0; 
-  textEl.style.transform = "translateY(8px)"; 
+  textEl.style.transform = "translateY(5px)"; 
   
   setTimeout(() => {
     i++;
@@ -951,16 +910,17 @@ const textInterval = setInterval(() => {
       textEl.style.opacity = 1; 
       textEl.style.transform = "translateY(0)"; 
     }
-  }, 600); 
-}, 1600); 
+  }, 250); // Mabilisang fade in
+}, 800); 
 
+// Tiyak na mawawala pagkatapos ng 3 seconds
 window.addEventListener("load", () => {
   setTimeout(() => {
     clearInterval(textInterval);
     document.getElementById("loader-wrapper").classList.add("fade-out");
     document.body.style.overflow = "auto";
     document.getElementById("mainContent").classList.add("show-content");
-  }, 8500); 
+  }, 3000); // Saktong 3 seconds
 });
 
 /* ===== MODAL SCRIPT (SPOTIFY) ===== */
@@ -1213,4 +1173,4 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
   
 </body>
-        </html>
+  </html>
