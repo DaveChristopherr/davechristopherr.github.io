@@ -10,16 +10,38 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
 
+:root {
+  --bg:          #000000;
+  --surface:     #080808;
+  --surface-2:   #0d0d0d;
+  --surface-3:   #111111;
+  --border:      #181818;
+  --border-hover:#222222;
+  --text:        #ffffff;
+  --text-muted:  rgba(255,255,255,0.45);
+  --text-dim:    rgba(255,255,255,0.22);
+  --accent:      rgba(255,255,255,0.04);
+  --radius-sm:   10px;
+  --radius-md:   14px;
+  --radius-lg:   18px;
+  --shadow-sm:   0 1px 4px rgba(0,0,0,0.6), 0 4px 16px rgba(0,0,0,0.35);
+  --shadow-md:   0 8px 32px rgba(0,0,0,0.7), 0 2px 8px rgba(0,0,0,0.5);
+  --shadow-lg:   0 24px 64px rgba(0,0,0,0.85), 0 8px 24px rgba(0,0,0,0.6);
+  --transition:  0.28s cubic-bezier(0.4,0,0.2,1);
+}
+
 *{
   box-sizing:border-box;
   margin:0;
   padding:0;
   font-family:'Quicksand', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background: #000000;
-  color: #ffffff;
+  background: var(--bg);
+  color: var(--text);
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -27,79 +49,106 @@ body {
   overflow-x: hidden;
 }
 
-/* FIXED MENU ICON */
+/* ─── FADE-IN ON LOAD ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+.content > * {
+  animation: fadeUp 0.6s ease both;
+}
+.content > *:nth-child(1) { animation-delay: 0.06s; }
+.content > *:nth-child(2) { animation-delay: 0.14s; }
+.content > *:nth-child(3) { animation-delay: 0.22s; }
+
+/* ─── FIXED MENU ICON ─── */
 .menu-icon {
   position: fixed;
-  top: 30px;
-  right: 30px;
-  font-size: 22px;
+  top: 20px;
+  right: 22px;
+  font-size: 19px;
   cursor: pointer;
+  opacity: 0.5;
+  transition: opacity var(--transition), transform var(--transition);
   z-index: 101;
-  color: #ffffff;
-  opacity: 0.7;
-  transition: 0.3s ease;
+  color: var(--text);
 }
 
 .menu-icon:hover {
-  opacity: 1;
   transform: scale(1.1);
+  opacity: 1;
 }
 
-/* SIDE MENU */
+/* ─── SIDE MENU ─── */
 #sideMenu {
   position: fixed;
   top: 0;
-  right: -260px;
+  right: -270px;
   width: 260px;
   height: 100%;
-  background: #0a0a0a;
-  border-left: 1px solid #1f1f1f;
-  z-index: 110;
-  transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 60px 25px;
-  box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+  background: #060606;
+  border-left: 1px solid var(--border);
+  z-index: 1200;
+  transition: right 0.38s cubic-bezier(0.4,0,0.2,1);
+  padding: 56px 18px 36px;
+  box-shadow: -20px 0 60px rgba(0,0,0,0.9);
   overflow-y: auto; 
-}
-
-.menu-item {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 14px 18px;
-  border-radius: 12px;
-  font-size: 15px;
-  font-weight: 500;
-  color: rgba(255,255,255,0.7);
-  transition: 0.3s;
-  text-decoration: none;
-  margin-bottom: 8px;
-}
-
-.menu-item:hover, .menu-item.active {
-  background: rgba(255,255,255,0.1);
-  color: #fff;
-  border: 1px solid rgba(255,255,255,0.05);
 }
 
 #menuOverlay {
   display: none;
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.7);
-  z-index: 105;
-  backdrop-filter: blur(5px);
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.65);
+  z-index: 1150;
+  backdrop-filter: blur(6px);
+  animation: fadeUp 0.2s ease both;
 }
 
-/* CONTENT CONTAINER */
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 13px 15px;
+  border-radius: var(--radius-md);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.5);
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
+  text-decoration: none;
+  margin-bottom: 3px;
+  border: 1px solid transparent;
+  letter-spacing: 0.2px;
+}
+
+.menu-item i {
+  font-size: 12.5px;
+  width: 15px;
+  text-align: center;
+  opacity: 0.65;
+  transition: opacity var(--transition);
+}
+
+.menu-item:hover,
+.menu-item.active {
+  background: rgba(255,255,255,0.04);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.menu-item:hover i,
+.menu-item.active i {
+  opacity: 1;
+}
+
+/* ─── CONTENT CONTAINER ─── */
 .content {
   width: 100%;
-  max-width: 600px;
+  max-width: 580px;
   margin-top: 60px;
-  padding: 20px;
-  padding-bottom: 80px;
+  padding: 28px 18px 80px;
 }
 
 .header-section {
@@ -113,25 +162,36 @@ h1 {
   font-weight: 700; 
   text-transform: uppercase; 
   margin-bottom: 8px; 
+  color: var(--text);
 }
 
 .subtitle { 
   font-size: 10px; 
-  opacity: 0.5; 
+  color: var(--text-muted); 
   letter-spacing: 3px; 
   text-transform: uppercase; 
   font-weight: 600; 
 }
 
-/* EMPTY JOURNAL STATE */
+/* ─── EMPTY JOURNAL STATE ─── */
 .empty-journal-card {
-  background: rgba(10, 10, 10, 0.6);
-  border: 1px dashed rgba(255, 255, 255, 0.15);
-  border-radius: 16px;
+  background: var(--surface-2);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-lg);
   padding: 50px 30px;
   text-align: center;
   position: relative;
   overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.empty-journal-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+  pointer-events: none;
 }
 
 .bg-icon {
@@ -140,14 +200,14 @@ h1 {
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 150px;
-  color: rgba(255, 255, 255, 0.02);
+  color: rgba(255, 255, 255, 0.015);
   z-index: 0;
   pointer-events: none;
 }
 
 .journal-icon {
   font-size: 35px;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--text-muted);
   margin-bottom: 25px;
   position: relative;
   z-index: 1;
@@ -158,16 +218,16 @@ h1 {
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: #ffffff;
+  color: var(--text);
   margin-bottom: 15px;
   position: relative;
   z-index: 1;
 }
 
 .journal-text {
-  font-size: 13px;
+  font-size: 13.5px;
   line-height: 1.8;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.7);
   font-weight: 500;
   margin-bottom: 30px;
   position: relative;
@@ -178,31 +238,32 @@ h1 {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
   padding: 8px 18px;
   border-radius: 50px;
-  font-size: 10px;
+  font-size: 9.5px;
   font-weight: 700;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: #a7a7a7;
+  color: var(--text-muted);
   position: relative;
   z-index: 1;
 }
 
-/* FAKE LOCKED ENTRY */
+/* ─── FAKE LOCKED ENTRY ─── */
 .locked-entry {
   display: flex;
   flex-direction: column;
   gap: 8px;
   margin-top: 40px;
-  padding: 20px;
-  border-radius: 12px;
-  background: linear-gradient(180deg, rgba(15,15,15,0.8) 0%, rgba(5,5,5,0) 100%);
-  border-top: 1px solid rgba(255,255,255,0.05);
-  opacity: 0.4;
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, var(--surface-2) 0%, transparent 100%);
+  border-top: 1px solid var(--border);
+  opacity: 0.5;
   user-select: none;
+  position: relative;
 }
 
 .entry-header {
@@ -216,23 +277,23 @@ h1 {
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: #888;
+  color: var(--text-muted);
 }
 
 .entry-lock {
   font-size: 12px;
-  color: #555;
+  color: var(--text-muted);
 }
 
 .entry-lines {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  margin-top: 10px;
+  margin-top: 12px;
 }
 
 .line {
-  height: 8px;
+  height: 6px;
   background: rgba(255,255,255,0.05);
   border-radius: 10px;
 }
@@ -241,6 +302,12 @@ h1 {
 .line-2 { width: 85%; }
 .line-3 { width: 60%; }
 
+/* ─── MOBILE TOUCH TARGETS ─── */
+@media (max-width: 480px) {
+  .content {
+    padding: 24px 16px 60px;
+  }
+}
 </style>
 </head>
 
@@ -253,10 +320,10 @@ h1 {
 <div id="menuOverlay" onclick="toggleSideMenu()"></div>
 
 <div id="sideMenu">
-  <div onclick="toggleSideMenu()" style="position:absolute; top:20px; right:20px; font-size:22px; cursor:pointer; opacity:0.5;">
+  <div onclick="toggleSideMenu()" style="position:absolute; top:18px; right:18px; font-size:19px; cursor:pointer; opacity:0.35; color:white; transition:opacity 0.2s ease;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='0.35'">
     <i class="fas fa-times"></i>
   </div>
-  <nav style="margin-top:20px;">
+  <nav style="margin-top:18px;">
     <a href="index.html" class="menu-item"><i class="fas fa-home"></i> Home</a>
     <a href="aboutme.html" class="menu-item"><i class="fas fa-user"></i> About me</a>
     <a href="quotes.html" class="menu-item"><i class="fas fa-quote-left"></i> Quotes</a>
@@ -265,7 +332,7 @@ h1 {
     <a href="chess.html" class="menu-item"><i class="fas fa-chess-knight"></i> Chess</a>
     <a href="letterboxd.html" class="menu-item"><i class="fas fa-film"></i> Letterboxd</a>
     <a href="webtoon.html" class="menu-item"><i class="fas fa-mobile-screen"></i> Webtoon</a>
-    <a href="book.html" class="menu-item"><i class="fas fa-book"></i> Books</a>
+    <a href="book.html" class="menu-item active"><i class="fas fa-book"></i> Books</a>
     <a href="journal.html" class="menu-item active"><i class="fas fa-book-journal-whills"></i> Journal</a>
     <a href="projects.html" class="menu-item"><i class="fas fa-code"></i> Stuff</a>
   </nav>
@@ -315,7 +382,7 @@ function toggleSideMenu() {
   const menu = document.getElementById("sideMenu");
   const overlay = document.getElementById("menuOverlay");
   if (menu.style.right === "0px") {
-    menu.style.right = "-260px";
+    menu.style.right = "-270px";
     overlay.style.display = "none";
   } else {
     menu.style.right = "0px";
@@ -325,4 +392,4 @@ function toggleSideMenu() {
 </script>
 
 </body>
-</html>
+      </html>
