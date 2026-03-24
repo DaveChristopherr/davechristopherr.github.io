@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Favorite Civilization - Ancient Greece</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:'Quicksand', sans-serif;
+}
+
+body {
+  background: #000000;
+  color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* BACK BUTTON */
+.back-btn {
+  position: absolute;
+  top: 30px;
+  left: 25px;
+  font-size: 18px;
+  cursor: pointer;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  transition: 0.3s;
+  z-index: 10;
+}
+
+.back-btn:hover { color: #fff; }
+
+/* MAIN CONTENT */
+.content {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 60px;
+  padding: 20px 20px 80px;
+}
+
+/* IMAGE SECTION */
+.movie-poster-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.movie-poster {
+  width: 200px;
+  height: 240px;
+  object-fit: cover;
+  border-radius: 20px; 
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+  background: #111; 
+}
+
+.header-section {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+h1 { font-size: 26px; letter-spacing: 2px; font-weight: 600; text-transform: uppercase; color: #fff; text-align: center; }
+.subtitle { font-size: 12px; opacity: 0.5; letter-spacing: 3px; text-transform: uppercase; margin-top: 8px; text-align: center; }
+
+/* CARDS - No Blur / No Lag */
+.card {
+  background: rgba(10, 10, 10, 0.6); 
+  border: 1px solid #1f1f1f;
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 20px;
+  line-height: 1.8;
+}
+
+.label { 
+  font-size: 10px; 
+  font-weight: 600; 
+  letter-spacing: 2px; 
+  opacity: 0.4; 
+  text-transform: uppercase; 
+  margin-bottom: 15px; 
+  display: block;
+}
+
+.quote-box {
+  border-left: 2px solid #ffffff; 
+  padding-left: 20px;
+  margin: 25px 0;
+  font-style: italic;
+  opacity: 0.9;
+}
+
+p { font-size: 15px; opacity: 0.8; margin-bottom: 15px; }
+b { color: #fff; }
+
+</style>
+</head>
+
+<body>
+
+<a href="favorites.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+
+<div class="content">
+  <div class="movie-poster-container">
+    <img src="ancient-greece.jpg" alt="Ancient Greece" class="movie-poster">
+  </div>
+
+  <div class="header-section">
+    <h1>Ancient Greece</h1>
+    <div class="subtitle">The Cradle of Reason and Philosophy</div>
+  </div>
+
+  <div class="card">
+    <span class="label">The Foundation of Knowledge</span>
+    <p>
+      If I had to choose a favorite civilization, it would undoubtedly be <b>Ancient Greece</b>. When you really think about it, without them, we probably wouldn't have the vast majority of the knowledge and logic we rely on today.
+    </p>
+
+    <div class="quote-box">
+      "They did not just build temples; they built the very foundation of human thought."
+    </div>
+
+    <p>
+      Before them, the world was largely understood through myths and superstitions. But the Greeks dared to look at the universe and ask "Why?" They introduced pure logic, mathematics, and the idea that the world could be understood through observation rather than blind faith.
+    </p>
+  </div>
+
+  <div class="card">
+    <span class="label">The Minds That Shaped Reality</span>
+    <p>
+      What truly makes this civilization legendary is the people it produced. It is the birthplace of <b>Socrates</b>, who taught humanity the ultimate power of questioning everything. It is the era of the great philosophers who laid down the principles of ethics and reason.
+    </p>
+    <p>
+      And of course, it produced minds like <b>Alexander the Great</b>, who didn't just conquer lands, but carried these profound philosophical ideas across the known world. The intellectual legacy of Ancient Greece is a masterpiece of human logic that still dictates how we think today.
+    </p>
+  </div>
+
+</div>
+
+</body>
+</html>
