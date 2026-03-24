@@ -934,7 +934,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 1000);
 
   // ALIVE / DEAD Status Logic
-  const daysThreshold = 14; 
+  const daysThreshold = 3; 
   const lastModifiedDate = new Date(document.lastModified);
   const currentDate = new Date();
   const daysSinceUpdate = (currentDate - lastModifiedDate) / (1000 * 60 * 60 * 24);
