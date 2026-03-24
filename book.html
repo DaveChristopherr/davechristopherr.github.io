@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Books | Dave Christopher</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:'Quicksand', sans-serif;
+}
+
+body {
+  background: #000000;
+  color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* FIXED MENU ICON - MINIMALIST */
+.menu-icon {
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 101;
+  color: #ffffff;
+  opacity: 0.7;
+  transition: 0.3s ease;
+}
+
+.menu-icon:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* SIDE MENU */
+#sideMenu {
+  position: fixed;
+  top: 0;
+  right: -260px;
+  width: 260px;
+  height: 100%;
+  background: #0a0a0a;
+  border-left: 1px solid #1f1f1f;
+  z-index: 110;
+  transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 60px 25px;
+  box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.7);
+  transition: 0.3s;
+  text-decoration: none;
+  margin-bottom: 8px;
+}
+
+.menu-item:hover, .menu-item.active {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+#menuOverlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  z-index: 105;
+  backdrop-filter: blur(5px);
+}
+
+/* CONTENT CONTAINER */
+.content {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 60px;
+  padding: 20px;
+  padding-bottom: 80px;
+}
+
+.header-section {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+h1 { 
+  font-size: 24px; 
+  letter-spacing: 4px; 
+  font-weight: 700; 
+  text-transform: uppercase; 
+  margin-bottom: 8px; 
+}
+
+.subtitle { 
+  font-size: 10px; 
+  opacity: 0.5; 
+  letter-spacing: 3px; 
+  text-transform: uppercase; 
+  font-weight: 600; 
+}
+
+/* TAB BUTTONS */
+.tab-container {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin-bottom: 35px;
+}
+
+.tab-btn {
+  background: transparent; 
+  color: rgba(255, 255, 255, 0.4); 
+  border: none;
+  border-bottom: 1px solid transparent;
+  padding: 8px 5px; 
+  font-size: 10px; 
+  font-weight: 700; 
+  cursor: pointer; 
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.tab-btn:hover { 
+  color: #ffffff;
+}
+
+.tab-btn.active {
+  color: #ffffff; 
+  border-bottom: 1px solid #ffffff;
+}
+
+/* TAB SECTIONS ANIMATION */
+.book-section {
+  display: none;
+}
+
+.book-section.active-section {
+  display: block;
+  animation: fadeIn 0.4s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* WIP BOOK CARD (My Book) */
+.wip-card {
+  background: rgba(10, 10, 10, 0.6);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 40px 30px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.wip-icon {
+  font-size: 35px;
+  color: rgba(255, 255, 255, 0.3);
+  margin-bottom: 20px;
+}
+
+.wip-title {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+}
+
+.wip-text {
+  font-size: 13px;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.wip-badge {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #a7a7a7;
+}
+
+/* FAVORITE BOOK CARDS */
+.fav-book-card {
+  background: rgba(10, 10, 10, 0.6);
+  border: 1px solid #1a1a1a;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 18px;
+  display: flex;
+  gap: 20px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.fav-book-card:hover {
+  transform: translateY(-3px);
+  border-color: #333333;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.book-cover {
+  width: 85px;
+  height: 125px;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+  border: 1px solid rgba(255,255,255,0.1);
+  flex-shrink: 0;
+}
+
+.book-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.book-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.book-author {
+  font-size: 11px;
+  color: #888888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.book-rating {
+  color: #ffb400;
+  font-size: 9px;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+
+.book-review {
+  font-size: 12px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.7);
+  font-style: italic;
+  border-left: 2px solid rgba(255, 255, 255, 0.2);
+  padding-left: 10px;
+}
+
+/* MOBILE RESPONSIVE PARA SA BOOK CARDS */
+@media (max-width: 480px) {
+  .fav-book-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .book-review {
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-left: 0;
+    padding-top: 12px;
+    margin-top: 5px;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="menu-icon" onclick="toggleSideMenu()">
+  <i class="fas fa-bars"></i>
+</div>
+
+<div id="menuOverlay" onclick="toggleSideMenu()"></div>
+
+<div id="sideMenu">
+  <div onclick="toggleSideMenu()" style="position:absolute; top:20px; right:20px; font-size:22px; cursor:pointer; opacity:0.5;">
+    <i class="fas fa-times"></i>
+  </div>
+  <nav style="margin-top:20px;">
+    <a href="index.html" class="menu-item"><i class="fas fa-home"></i> Home</a>
+    <a href="aboutme.html" class="menu-item"><i class="fas fa-user"></i> About me</a>
+    <a href="quotes.html" class="menu-item"><i class="fas fa-quote-left"></i> Quotes</a>
+    <a href="favorites.html" class="menu-item"><i class="fas fa-heart"></i> Favorites</a>
+    <a href="spotify.html" class="menu-item"><i class="fab fa-spotify"></i> Spotify</a>
+    <a href="chess.html" class="menu-item"><i class="fas fa-chess-knight"></i> Chess</a>
+    <a href="letterboxd.html" class="menu-item"><i class="fas fa-film"></i> Letterboxd</a>
+    <a href="webtoon.html" class="menu-item"><i class="fas fa-mobile-screen"></i> Webtoon</a>
+    <a href="book.html" class="menu-item active"><i class="fas fa-book"></i> Books</a>
+    <a href="projects.html" class="menu-item"><i class="fas fa-code"></i> Stuff</a>
+  </nav>
+</div>
+
+<div class="content">
+  <div class="header-section">
+    <h1>BOOKS</h1>
+    <div class="subtitle">My Writings & Reads</div>
+  </div>
+
+  <div class="tab-container">
+    <button class="tab-btn active" id="btn-own" onclick="switchTab('own')">My Book</button>
+    <button class="tab-btn" id="btn-fav" onclick="switchTab('fav')">Favorite Books</button>
+  </div>
+
+  <div id="myBookSection" class="book-section active-section">
+    <div class="wip-card">
+      <i class="fas fa-pen-nib wip-icon"></i>
+      <div class="wip-title">Untitled Project</div>
+      <p class="wip-text">
+        I am currently writing my own book. It will likely take some time to finish, as I am still a student with other priorities and not yet in a position to dedicate all my time to it.
+      </p>
+      <p class="wip-text">
+        I plan to keep it concise around 100+ pages but it will be dense, reflecting my deepest perspectives on life, reality, and philosophy.
+      </p>
+      <div class="wip-badge"><i class="fas fa-spinner fa-spin" style="margin-right: 5px;"></i> Work in Progress</div>
+    </div>
+  </div>
+
+  <div id="favBooksSection" class="book-section">
+    
+    <div class="fav-book-card">
+      <img src="download.webp" alt="The Myth of Sisyphus" class="book-cover">
+      <div class="book-details">
+        <div class="book-title">The Myth of Sisyphus</div>
+        <div class="book-author">Albert Camus</div>
+        <div class="book-rating">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+        </div>
+        <div class="book-review">
+          "The book that awakened me to absurdism. It taught me how to confront the inherent meaninglessness of the world and still endure with absolute acceptance."
+        </div>
+      </div>
+    </div>
+
+    <div class="fav-book-card">
+      <img src="the_stranger.jpg" alt="The Stranger" class="book-cover">
+      <div class="book-details">
+        <div class="book-title">The Stranger</div>
+        <div class="book-author">Albert Camus</div>
+        <div class="book-rating">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+        </div>
+        <div class="book-review">
+          "A brilliant portrayal of a man who refuses to conform to society's emotional expectations. Quiet, authentic, and utterly indifferent to the judgment of others."
+        </div>
+      </div>
+    </div>
+
+    <div class="fav-book-card">
+      <img src="white_night.jpg" alt="White Nights" class="book-cover">
+      <div class="book-details">
+        <div class="book-title">White Nights</div>
+        <div class="book-author">Fyodor Dostoevsky</div>
+        <div class="book-rating">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+        </div>
+        <div class="book-review">
+          "A tragic tale of loneliness and isolation. I deeply resonate with the concept of the 'dreamer' who exists detached from the waking world."
+        </div>
+      </div>
+    </div>
+
+    <div class="fav-book-card">
+      <img src="metamorphosis.jpg" alt="The Metamorphosis" class="book-cover">
+      <div class="book-details">
+        <div class="book-title">The Metamorphosis</div>
+        <div class="book-author">Franz Kafka</div>
+        <div class="book-rating">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+        </div>
+        <div class="book-review">
+          "A surreal narrative on sudden transformation, and a grim reflection of how the world abandons you the moment you outlive your usefulness."
+        </div>
+      </div>
+    </div>
+
+    <div class="fav-book-card">
+      <img src="gay_science.jpg" alt="The Gay Science" class="book-cover">
+      <div class="book-details">
+        <div class="book-title">The Gay Science</div>
+        <div class="book-author">Friedrich Nietzsche</div>
+        <div class="book-rating">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+        </div>
+        <div class="book-review">
+          "Here, I truly grasped the concept of the death of God and the bold pursuit of forging one's own meaning without the crutch of religion."
+        </div>
+      </div>
+    </div>
+
+    <div class="fav-book-card">
+      <img src="bobby_fischer.jpg" alt="Bobby Fischer Teaches Chess" class="book-cover">
+      <div class="book-details">
+        <div class="book-title">Bobby Fischer Teaches Chess</div>
+        <div class="book-author">Bobby Fischer</div>
+        <div class="book-rating">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+        </div>
+        <div class="book-review">
+          "As someone who plays chess, this provided me with a profound understanding of the game's tactics and raw logic, straight from the mind of a genius."
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div> 
+
+<script>
+// Menu Toggle Script
+function toggleSideMenu() {
+  const menu = document.getElementById("sideMenu");
+  const overlay = document.getElementById("menuOverlay");
+  if (menu.style.right === "0px") {
+    menu.style.right = "-260px";
+    overlay.style.display = "none";
+  } else {
+    menu.style.right = "0px";
+    overlay.style.display = "block";
+  }
+}
+
+// Instant Tab Switcher Script (Zero Lag)
+function switchTab(tabId) {
+  const myBookSection = document.getElementById('myBookSection');
+  const favBooksSection = document.getElementById('favBooksSection');
+  const btnOwn = document.getElementById('btn-own');
+  const btnFav = document.getElementById('btn-fav');
+
+  // Remove active classes instantly
+  btnOwn.classList.remove('active');
+  btnFav.classList.remove('active');
+  myBookSection.classList.remove('active-section');
+  favBooksSection.classList.remove('active-section');
+
+  // Add active classes based on selection
+  if(tabId === 'own') {
+    btnOwn.classList.add('active');
+    myBookSection.classList.add('active-section');
+  } else {
+    btnFav.classList.add('active');
+    favBooksSection.classList.add('active-section');
+  }
+}
+</script>
+
+</body>
+</html>
