@@ -13,321 +13,357 @@
   
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
-  
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:'Quicksand', sans-serif;
+
+:root {
+  --bg:          #000000;
+  --surface:     #0c0c0c;
+  --surface-2:   #111111;
+  --surface-3:   #161616;
+  --border:      #1e1e1e;
+  --border-hover:#2a2a2a;
+  --text:        #ffffff;
+  --text-muted:  rgba(255,255,255,0.45);
+  --text-dim:    rgba(255,255,255,0.25);
+  --accent:      rgba(255,255,255,0.06);
+  --radius-sm:   10px;
+  --radius-md:   14px;
+  --radius-lg:   18px;
+  --shadow-sm:   0 2px 8px rgba(0,0,0,0.4);
+  --shadow-md:   0 8px 28px rgba(0,0,0,0.55);
+  --shadow-lg:   0 20px 60px rgba(0,0,0,0.7);
+  --transition:  0.25s cubic-bezier(0.4,0,0.2,1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Quicksand', sans-serif;
 }
 
 body {
-  background: #000000;
-  color: #ffffff;
+  background: var(--bg);
+  color: var(--text);
   min-height: 100vh;
 }
 
-/* TOP BAR */
-.app-bar{
-  padding:40px 25px 25px;
-  text-align:center;
-  background:#111111;
-  border-bottom:1px solid #1f1f1f;
+/* ─── FADE-IN ON LOAD ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0);    }
 }
 
-/* CONTENT */
-.content{
-  padding:20px;
-  max-width:600px;
-  margin:auto;
+.content > * {
+  animation: fadeUp 0.55s ease both;
+}
+.content > *:nth-child(1) { animation-delay: 0.05s; }
+.content > *:nth-child(2) { animation-delay: 0.12s; }
+.content > *:nth-child(3) { animation-delay: 0.19s; }
+.content > *:nth-child(4) { animation-delay: 0.26s; }
+
+/* ─── CONTENT WRAPPER ─── */
+.content {
+  padding: 24px 20px 48px;
+  max-width: 580px;
+  margin: auto;
 }
 
-/* CARD */
-.card{
-  background: rgba(17,17,17,0.6);
-  border:1px solid #1f1f1f;
-  border-radius:18px;
-  padding:20px;
-  margin-bottom:18px;
-  box-shadow:0 8px 25px rgba(0,0,0,0.4);
-  transition:0.3s ease;
-  backdrop-filter: blur(8px);
-}
-
-.card:hover{
-  transform:translateY(-4px);
-  background:#1a1a1a;
-}
-
-/* MINIMALIST HEADER STYLE */
+/* ─── SECTION LABEL ─── */
 .content h2 {
-  font-size: 10px;          
-  margin-bottom: 10px;
-  letter-spacing: 2.5px;    
-  opacity: 0.5;             
+  font-size: 9.5px;
+  margin-bottom: 11px;
+  letter-spacing: 2.8px;
+  opacity: 0;
   font-weight: 700;
-  text-transform: uppercase; 
-  color: #ffffff;
-  padding-left: 5px;
+  text-transform: uppercase;
+  color: var(--text);
+  padding-left: 2px;
+  animation: fadeUp 0.4s ease 0.08s both;
 }
 
-a{
-  color:#ffffff;
-  text-decoration:none;
+a {
+  color: var(--text);
+  text-decoration: none;
 }
 
-a:hover{
-  opacity:0.7;
+a:hover {
+  opacity: 0.7;
 }
 
-/* WATCHLIST */
-.watchlist .folder {
-  background: linear-gradient(145deg, #0a0a0a, #141414); 
-  border: 1px solid #1f1f1f;
-  padding: 18px;
-  border-radius: 15px;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  transition: 0.3s ease;
+/* ─── BASE CARD ─── */
+.card {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition), border-color var(--transition), background var(--transition), transform var(--transition);
+  backdrop-filter: blur(10px);
 }
 
-.watchlist .folder:hover {
-  background: #1a1a1a;
-  transform: translateX(5px);
-  border-color: #333;
+.card:hover {
+  transform: translateY(-3px);
+  background: var(--surface-3);
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-md);
 }
 
-/* HEADER INFO */
+/* ─── PROFILE HEADER ─── */
 .profile-header {
   position: relative;
-  padding: 80px 20px 25px; 
+  padding: 72px 20px 30px;
   text-align: center;
-  background: #000000;
-  border-bottom: 1px solid #1a1a1a;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
   display: flex;
   flex-direction: column;
   align-items: center;
+  animation: fadeUp 0.6s ease both;
 }
 
-/* PROFILE WRAPPER & STATUS DOT */
 .profile-pic-container {
   position: relative;
   display: inline-block;
-  margin-bottom: 12px;
+  margin-bottom: 15px;
 }
 
 .profile-img {
-  width: 110px;
-  height: 110px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
-  border: 3px solid #1f1f1f;
+  border: 2px solid var(--border-hover);
   object-fit: cover;
-  display: block; 
+  display: block;
+  box-shadow: 0 0 0 5px rgba(255,255,255,0.03), var(--shadow-md);
+  transition: box-shadow var(--transition), border-color var(--transition);
 }
 
-/* FB/IG Style Status Dot */
+.profile-img:hover {
+  border-color: rgba(255,255,255,0.2);
+  box-shadow: 0 0 0 6px rgba(255,255,255,0.05), var(--shadow-lg);
+}
+
+/* ─── STATUS DOT ─── */
 .status-dot {
   position: absolute;
-  bottom: 4px;
-  right: 4px;
-  width: 28px;
-  height: 28px;
+  bottom: 2px;
+  right: 2px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
-  border: 4px solid #000000; 
+  border: 3px solid var(--bg);
   cursor: pointer;
   z-index: 10;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ffffff;
-  font-size: 11px;
+  color: var(--text);
+  font-size: 10px;
 }
 
 .status-dot:hover {
-  transform: scale(1.1);
+  transform: scale(1.15);
 }
 
-.dot-alive {
-  background-color: #31A24C; 
-}
+.dot-alive  { background-color: #3fb950; box-shadow: 0 0 8px rgba(63,185,80,0.5); }
+.dot-dead   { background-color: #f85149; box-shadow: 0 0 8px rgba(248,81,73,0.5); }
 
-.dot-dead {
-  background-color: #E41E3F; 
-}
-
-/* Clickable Tooltip */
+/* ─── STATUS TOOLTIP ─── */
 .status-tooltip {
   position: absolute;
-  bottom: -25px;
+  bottom: -28px;
   left: 50%;
-  transform: translateX(-50%);
-  background: #1f1f1f;
-  color: #fff;
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 10px;
+  transform: translateX(-50%) translateY(4px);
+  background: var(--surface-3);
+  color: var(--text);
+  padding: 5px 11px;
+  border-radius: var(--radius-sm);
+  font-size: 9.5px;
   font-weight: 700;
-  letter-spacing: 1.5px;
+  letter-spacing: 1.8px;
   text-transform: uppercase;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.3s ease;
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
   white-space: nowrap;
-  border: 1px solid #333;
+  border: 1px solid var(--border-hover);
   pointer-events: none;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  box-shadow: var(--shadow-sm);
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   z-index: 20;
 }
 
 .status-tooltip.show {
   opacity: 1;
   visibility: visible;
-  bottom: -32px; 
+  transform: translateX(-50%) translateY(0);
 }
 
-.profile-header h1{
-  font-size:20px;
-  letter-spacing:1px;
+.profile-header h1 {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--text);
+  margin-top: 2px;
 }
 
-/* MENU ICON */
+/* ─── MENU ICON ─── */
 .menu-icon {
-  position: fixed; 
-  top: 20px;    
-  right: 25px;  
-  font-size: 22px; 
+  position: fixed;
+  top: 20px;
+  right: 22px;
+  font-size: 20px;
   cursor: pointer;
-  opacity: 0.8;
-  transition: 0.2s ease;
-  z-index: 90;  
+  opacity: 0.55;
+  transition: opacity var(--transition), transform var(--transition);
+  z-index: 90;
 }
 
 .menu-icon:hover {
-  transform: scale(1.1);
+  transform: scale(1.12);
   opacity: 1;
 }
 
-/* ====================================
-   DITO YUNG NAWALANG CODE NG MENU 
-   ==================================== */
+/* ─── SIDE MENU ─── */
 #sideMenu {
   position: fixed;
   top: 0;
-  right: -260px;
-  width: 260px;
+  right: -270px;
+  width: 265px;
   height: 100%;
-  background: #0a0a0a;
-  border-left: 1px solid #1f1f1f;
+  background: #080808;
+  border-left: 1px solid var(--border);
   z-index: 110;
-  transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 60px 25px;
-  box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+  transition: right 0.38s cubic-bezier(0.4,0,0.2,1);
+  padding: 56px 20px 36px;
+  box-shadow: -16px 0 48px rgba(0,0,0,0.85);
   overflow-y: auto;
 }
 
 #menuOverlay {
   display: none;
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.7);
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
   z-index: 105;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(6px);
+  animation: fadeUp 0.2s ease both;
 }
 
 .menu-item {
   display: flex;
   align-items: center;
-  gap: 15px;
-  padding: 14px 18px;
-  border-radius: 12px;
-  font-size: 15px;
-  font-weight: 500;
-  color: rgba(255,255,255,0.7);
-  transition: 0.3s;
+  gap: 13px;
+  padding: 12px 15px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.55);
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
   text-decoration: none;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
+  border: 1px solid transparent;
+  letter-spacing: 0.2px;
 }
 
-.menu-item:hover, .menu-item.active {
-  background: rgba(255,255,255,0.1);
-  color: #fff;
-  border: 1px solid rgba(255,255,255,0.05);
+.menu-item i {
+  font-size: 13px;
+  width: 16px;
+  text-align: center;
+  opacity: 0.7;
+  transition: opacity var(--transition);
 }
 
-/* WATCHING PROGRESS STYLE */
-.watch-progress-container {
-  margin-top: 10px;
+.menu-item:hover,
+.menu-item.active {
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
+  border-color: var(--border);
 }
+
+.menu-item:hover i,
+.menu-item.active i {
+  opacity: 1;
+}
+
+/* ─── WATCHING PROGRESS ─── */
+.watch-progress-container { margin-top: 10px; }
 
 .watch-bar-bg {
-  height: 4px;
-  background: rgba(255, 255, 255, 0.1); 
+  height: 3px;
+  background: rgba(255,255,255,0.08);
   border-radius: 10px;
   overflow: hidden;
-  margin-bottom: 4px;
+  margin-bottom: 5px;
 }
 
 .watch-bar-fill {
   height: 100%;
-  background: #ffffff; 
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
-  transition: width 0.4s ease;
+  background: rgba(255,255,255,0.7);
+  transition: width 0.6s ease;
+  border-radius: 10px;
 }
 
 .watch-time-info {
   display: flex;
   justify-content: space-between;
-  font-size: 10px;
-  opacity: 0.5;
-  letter-spacing: 0.5px;
-  color: #ffffff;
+  font-size: 9.5px;
+  opacity: 0.35;
+  letter-spacing: 0.8px;
+  font-variant-numeric: tabular-nums;
 }
 
-/* HOBBY ROW (BOOKS + SPOTIFY) */
+/* ─── HOBBY ROW ─── */
 .hobby-row {
   display: flex;
-  gap: 15px;
+  gap: 12px;
   align-items: stretch;
-  margin-bottom: 30px;
+  margin-bottom: 28px;
   width: 100%;
 }
 
-/* BOOK CARD */
+/* ─── BOOK CARD ─── */
 .book-card {
-  background: rgba(17,17,17,0.6);
-  border: 1px solid #1f1f1f;
-  border-radius: 18px;
-  padding: 15px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px;
   display: flex;
-  gap: 12px;
+  gap: 14px;
   position: relative;
   cursor: pointer;
-  transition: 0.3s;
+  transition: background var(--transition), border-color var(--transition), box-shadow var(--transition), transform var(--transition);
   overflow: hidden;
-  min-height: 115px;
+  min-height: 118px;
   touch-action: pan-y;
   align-items: center;
+  box-shadow: var(--shadow-sm);
 }
 
 .book-card:hover {
-  background: #1a1a1a;
+  background: var(--surface-3);
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
 }
-  
+
 .book-img {
-  width: 60px;
-  height: 85px;
+  width: 58px;
+  height: 84px;
   object-fit: cover;
-  border-radius: 6px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  border-radius: 7px;
+  box-shadow: 4px 4px 16px rgba(0,0,0,0.6);
+  flex-shrink: 0;
+  transition: box-shadow var(--transition);
+}
+
+.book-card:hover .book-img {
+  box-shadow: 6px 6px 22px rgba(0,0,0,0.75);
 }
 
 .book-info {
@@ -335,12 +371,14 @@ a:hover{
   display: flex;
   flex-direction: column;
   justify-content: center;
+  min-width: 0;
 }
 
 .book-title {
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 13.5px;
+  font-weight: 700;
   margin-bottom: 4px;
+  line-height: 1.35;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -348,77 +386,91 @@ a:hover{
 }
 
 .book-author {
-  font-size: 11px;
-  opacity: 0.6;
-  margin-bottom: 8px;
+  font-size: 10.5px;
+  opacity: 0.5;
+  margin-bottom: 9px;
+  letter-spacing: 0.3px;
 }
 
 .book-rating {
-  color: #ffb400; 
-  font-size: 12px;
+  color: #e8a838;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 1px;
 }
 
 .swap-hint {
   position: absolute;
-  bottom: 8px;
-  right: 12px;
-  font-size: 10px;
-  opacity: 0.3;
+  bottom: 9px;
+  right: 13px;
+  font-size: 9px;
+  opacity: 0.22;
+  letter-spacing: 0.5px;
 }
 
-/* MINIMALIST DISCORD SPOTIFY CARD */
+/* ─── SPOTIFY CARD ─── */
 .spotify-card {
-  background: rgba(17,17,17,0.6);
-  border: 1px solid #1f1f1f;
-  border-radius: 18px;
-  padding: 15px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 115px;
+  min-height: 118px;
   position: relative;
-  transition: 0.3s;
-  overflow: hidden; 
-  cursor: pointer; 
+  transition: background var(--transition), border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
 }
 
 .spotify-card:hover {
-  background: #1a1a1a;
+  background: var(--surface-3);
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
 }
 
 .spotify-header {
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: 8px; 
-  font-weight: 600; 
-  letter-spacing: 0.5px;
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
   text-transform: uppercase;
-  color: #999999; 
-  margin-bottom: 8px; 
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 10px;
   white-space: nowrap;
 }
 
 .spotify-header i {
-  font-size: 10px; 
-  color: #ffffff; 
+  font-size: 10px;
+  color: rgba(255,255,255,0.6);
 }
 
 .spotify-content {
   display: flex;
-  gap: 12px;
+  gap: 11px;
   align-items: center;
   width: 100%;
-  min-width: 0; 
+  min-width: 0;
 }
 
 .spotify-img {
-  width: 50px; 
-  height: 50px;
+  width: 46px;
+  height: 46px;
   object-fit: cover;
-  border-radius: 6px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-  flex-shrink: 0; 
+  border-radius: 7px;
+  box-shadow: 3px 3px 12px rgba(0,0,0,0.5);
+  flex-shrink: 0;
+  transition: box-shadow var(--transition);
+}
+
+.spotify-card:hover .spotify-img {
+  box-shadow: 4px 4px 18px rgba(0,0,0,0.7);
 }
 
 .spotify-info {
@@ -426,121 +478,119 @@ a:hover{
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-width: 0; 
+  min-width: 0;
 }
 
 .spotify-title {
-  font-size: 12px; 
+  font-size: 12px;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
   width: 100%;
   display: block;
+  letter-spacing: 0.1px;
 }
 
 .spotify-artist {
-  font-size: 10px; 
-  opacity: 0.6;
+  font-size: 10px;
+  opacity: 0.45;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-bottom: 8px;
+  margin-bottom: 9px;
   width: 100%;
   display: block;
+  letter-spacing: 0.2px;
 }
 
-.spotify-progress-container {
-  width: 100%;
-}
+.spotify-progress-container { width: 100%; }
 
 .spotify-bar-bg {
-  height: 4px;
-  background: rgba(255, 255, 255, 0.1);
+  height: 3px;
+  background: rgba(255,255,255,0.08);
   border-radius: 10px;
   overflow: hidden;
-  margin-bottom: 4px;
+  margin-bottom: 5px;
 }
 
 .spotify-bar-fill {
   height: 100%;
-  background: #ffffff; 
-  box-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
+  background: rgba(255,255,255,0.65);
   width: 0%;
   transition: width 1s linear;
+  border-radius: 10px;
 }
 
 .spotify-time-info {
   display: flex;
   justify-content: space-between;
-  font-size: 9px;
-  opacity: 0.5;
-  font-family: monospace;
+  font-size: 8.5px;
+  opacity: 0.35;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.3px;
 }
 
-/* SPOTIFY EXPANDED MODAL (POPUP) */
+/* ─── SPOTIFY MODAL ─── */
 #spotifyModal {
   display: none;
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0,0,0,0.7);
-  backdrop-filter: blur(5px);
+  background: rgba(0,0,0,0.65);
+  backdrop-filter: blur(8px);
   z-index: 200;
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.28s ease;
 }
 
-#spotifyModal.show {
-  display: flex;
-  opacity: 1;
-}
+#spotifyModal.show { display: flex; opacity: 1; }
 
 .spotify-modal-card {
-  background: #111111;
-  border: 1px solid #1f1f1f;
-  border-radius: 18px;
-  padding: 22px;
-  width: 85%;
-  max-width: 320px; 
-  box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-  transform: scale(0.95);
-  transition: transform 0.3s ease;
+  background: #0e0e0e;
+  border: 1px solid var(--border-hover);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  width: 88%;
+  max-width: 310px;
+  box-shadow: var(--shadow-lg);
+  transform: scale(0.94) translateY(8px);
+  transition: transform 0.3s cubic-bezier(0.34,1.4,0.64,1);
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 18px;
 }
 
 #spotifyModal.show .spotify-modal-card {
-  transform: scale(1);
+  transform: scale(1) translateY(0);
 }
 
 .modal-spotify-header {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  color: #999999;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: rgba(255,255,255,0.35);
   text-transform: uppercase;
 }
 
 .modal-spotify-info-row {
   display: flex;
-  gap: 15px;
+  gap: 16px;
   align-items: center;
 }
 
 .modal-spotify-img {
-  width: 70px;
-  height: 70px;
+  width: 68px;
+  height: 68px;
   object-fit: cover;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  border-radius: 9px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
   flex-shrink: 0;
 }
 
@@ -554,18 +604,83 @@ a:hover{
 .modal-spotify-title {
   font-size: 15px;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text);
   line-height: 1.3;
-  margin-bottom: 4px;
-  white-space: normal; 
+  margin-bottom: 5px;
+  white-space: normal;
 }
 
 .modal-spotify-artist {
   font-size: 12px;
-  color: #999999;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.2px;
 }
 
-/* ===== LOADING SCREEN ===== */
+/* ─── WATCHLIST ─── */
+.watchlist { display: flex; flex-direction: column; gap: 8px; }
+
+.watchlist .folder {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  padding: 16px 20px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background var(--transition), border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.watchlist .folder:hover {
+  background: var(--surface-3);
+  border-color: var(--border-hover);
+  transform: translateX(4px);
+  box-shadow: var(--shadow-md);
+}
+
+.watchlist .folder span {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.75);
+  letter-spacing: 0.2px;
+  transition: color var(--transition);
+}
+
+.watchlist .folder:hover span {
+  color: var(--text);
+}
+
+.watchlist .folder i {
+  font-size: 12px;
+  margin-right: 14px;
+  opacity: 0.4;
+  transition: opacity var(--transition);
+  width: 14px;
+  text-align: center;
+}
+
+.watchlist .folder:hover i {
+  opacity: 0.75;
+}
+
+.watchlist a .folder::after {
+  content: '\f054';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  font-size: 9px;
+  opacity: 0.2;
+  transition: opacity var(--transition), transform var(--transition);
+}
+
+.watchlist a:hover .folder::after {
+  opacity: 0.5;
+  transform: translateX(2px);
+}
+
+/* ─── LOADING SCREEN ─── */
 #dc-loader {
   position: fixed;
   inset: 0;
@@ -576,7 +691,7 @@ a:hover{
   align-items: center;
   justify-content: center;
   gap: 0;
-  transition: opacity 0.7s ease;
+  transition: opacity 0.75s ease;
 }
 
 #dc-loader.fade-out {
@@ -595,7 +710,7 @@ a:hover{
   position: absolute;
   font-size: 22px;
   opacity: 0;
-  color: rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.1);
   animation: dc-float 4s ease-in-out infinite;
   user-select: none;
 }
@@ -612,10 +727,10 @@ a:hover{
 .dc-icon:nth-child(10) { top: 55%;  left: 15%;  animation-delay: 1.6s;  font-size: 14px; }
 
 @keyframes dc-float {
-  0%   { opacity: 0;    transform: translateY(0px)   rotate(0deg);   }
-  30%  { opacity: 1;                                                   }
-  60%  { opacity: 0.7;  transform: translateY(-12px) rotate(4deg);   }
-  100% { opacity: 0;    transform: translateY(-22px) rotate(-3deg);  }
+  0%   { opacity: 0;    transform: translateY(0px)   rotate(0deg);  }
+  30%  { opacity: 1;                                                  }
+  60%  { opacity: 0.7;  transform: translateY(-12px) rotate(4deg);  }
+  100% { opacity: 0;    transform: translateY(-22px) rotate(-3deg); }
 }
 
 .dc-center {
@@ -628,47 +743,76 @@ a:hover{
 }
 
 @keyframes dc-enter {
-  from { opacity: 0; transform: translateY(12px); }
+  from { opacity: 0; transform: translateY(14px); }
   to   { opacity: 1; transform: translateY(0);    }
 }
 
 .dc-name {
   font-family: 'Quicksand', sans-serif;
-  font-size: 22px;
+  font-size: 21px;
   font-weight: 700;
-  letter-spacing: 3px;
-  color: #ffffff;
+  letter-spacing: 4px;
+  color: var(--text);
   text-transform: uppercase;
 }
 
 .dc-line {
-  width: 28px;
+  width: 24px;
   height: 1px;
-  background: rgba(255,255,255,0.25);
-  margin: 2px 0 6px;
+  background: rgba(255,255,255,0.2);
+  margin: 3px 0 5px;
 }
 
 .dc-subtitle {
   font-family: 'Quicksand', sans-serif;
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 500;
-  letter-spacing: 2.5px;
-  color: rgba(255,255,255,0.45);
+  letter-spacing: 2.8px;
+  color: rgba(255,255,255,0.38);
   text-transform: lowercase;
   height: 16px;
   transition: opacity 0.4s ease;
 }
 
-.dc-subtitle.hidden {
-  opacity: 0;
+.dc-subtitle.hidden { opacity: 0; }
+
+/* ─── WATCHING CARD TWEAKS ─── */
+#watchingCard {
+  padding: 18px 20px;
+  min-height: 120px;
 }
-  
+
+#watchTitle {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  line-height: 1.2;
+}
+
+#watchGenre {
+  font-size: 12px;
+  opacity: 0.45;
+  letter-spacing: 0.3px;
+  margin-bottom: 10px;
+}
+
+#watchCategory {
+  font-size: 9px;
+  letter-spacing: 2.5px;
+  font-weight: 700;
+  opacity: 0.55;
+}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #222; border-radius: 4px; }
+
 </style>
-  </head>
-  <body>
+</head>
+<body>
 
 <div id="dc-loader" aria-hidden="true">
-
   <div class="dc-icons">
     <span class="dc-icon">φ</span>
     <span class="dc-icon">☕</span>
@@ -681,20 +825,18 @@ a:hover{
     <span class="dc-icon">♞</span>
     <span class="dc-icon">&lt;/&gt;</span>
   </div>
-
   <div class="dc-center">
     <div class="dc-name">Dave Christopher</div>
     <div class="dc-line"></div>
     <div class="dc-subtitle" id="dcSubtitle">philosophy &amp; code</div>
   </div>
-
 </div>
+
 <div id="spotifyModal" onclick="closeSpotifyModal(event)">
   <div class="spotify-modal-card" onclick="event.stopPropagation()">
     <div class="modal-spotify-header">
-      <i class="fab fa-spotify" style="color:#ffffff;"></i> LISTENING TO SPOTIFY
+      <i class="fab fa-spotify" style="color:rgba(255,255,255,0.6);"></i> LISTENING TO SPOTIFY
     </div>
-    
     <div class="modal-spotify-info-row">
       <img id="modalSpotifyCover" src="" class="modal-spotify-img" alt="Album Cover">
       <div class="modal-spotify-text">
@@ -702,7 +844,6 @@ a:hover{
         <div id="modalSpotifyArtist" class="modal-spotify-artist">Artist</div>
       </div>
     </div>
-
     <div class="spotify-progress-container">
       <div class="spotify-bar-bg">
         <div id="modalSpotifyProgress" class="spotify-bar-fill"></div>
@@ -718,22 +859,21 @@ a:hover{
 <div id="menuOverlay" onclick="toggleSideMenu()"></div>
 
 <div id="sideMenu">
-  <div onclick="toggleSideMenu()" style="position:absolute; top:20px; right:20px; font-size:22px; cursor:pointer; opacity:0.5; color:white;">
+  <div onclick="toggleSideMenu()" style="position:absolute; top:18px; right:18px; font-size:20px; cursor:pointer; opacity:0.4; color:white; transition:opacity 0.2s ease;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='0.4'">
     <i class="fas fa-times"></i>
   </div>
-
-  <nav style="margin-top:20px;">
-    <a href="index.html" class="menu-item active"><i class="fas fa-home"></i> Home</a>
-    <a href="aboutme.html" class="menu-item"><i class="fas fa-user"></i> About me</a>
-    <a href="quotes.html" class="menu-item"><i class="fas fa-quote-left"></i> Quotes</a>
-    <a href="favorites.html" class="menu-item"><i class="fas fa-heart"></i> Favorites</a>
-    <a href="spotify.html" class="menu-item"><i class="fab fa-spotify"></i> Spotify</a>
-    <a href="chess.html" class="menu-item"><i class="fas fa-chess-knight"></i> Chess</a>
-    <a href="letterboxd.html" class="menu-item"><i class="fas fa-film"></i> Letterboxd</a>
-    <a href="webtoon.html" class="menu-item"><i class="fas fa-mobile-screen"></i> Webtoon</a>
-    <a href="book.html" class="menu-item"><i class="fas fa-book"></i> Books</a>
-    <a href="journal.html" class="menu-item"><i class="fas fa-book-journal-whills"></i> Journal</a>
-    <a href="projects.html" class="menu-item"><i class="fas fa-code"></i> Stuff</a>
+  <nav style="margin-top:18px;">
+    <a href="index.html"       class="menu-item active"><i class="fas fa-home"></i> Home</a>
+    <a href="aboutme.html"     class="menu-item"><i class="fas fa-user"></i> About me</a>
+    <a href="quotes.html"      class="menu-item"><i class="fas fa-quote-left"></i> Quotes</a>
+    <a href="favorites.html"   class="menu-item"><i class="fas fa-heart"></i> Favorites</a>
+    <a href="spotify.html"     class="menu-item"><i class="fab fa-spotify"></i> Spotify</a>
+    <a href="chess.html"       class="menu-item"><i class="fas fa-chess-knight"></i> Chess</a>
+    <a href="letterboxd.html"  class="menu-item"><i class="fas fa-film"></i> Letterboxd</a>
+    <a href="webtoon.html"     class="menu-item"><i class="fas fa-mobile-screen"></i> Webtoon</a>
+    <a href="book.html"        class="menu-item"><i class="fas fa-book"></i> Books</a>
+    <a href="journal.html"     class="menu-item"><i class="fas fa-book-journal-whills"></i> Journal</a>
+    <a href="projects.html"    class="menu-item"><i class="fas fa-code"></i> Stuff</a>
   </nav>
 </div>
 
@@ -741,117 +881,102 @@ a:hover{
   <div class="menu-icon" onclick="toggleSideMenu()">
     <i class="fas fa-bars"></i>
   </div>
-
   <div class="profile-pic-container">
     <img src="AlbertCamus.jpg" class="profile-img" alt="Profile">
     <div id="statusDot" class="status-dot" onclick="toggleStatus()"></div>
     <div id="statusTooltip" class="status-tooltip"></div>
   </div>
-  
   <h1>Dave Christopher</h1>
 </div>
 
 <div class="content">
 
-<div id="watchingWrapper" style="margin-bottom: 25px; display: none;">
-  <h2></h2>
-  
-  <div id="watchingCard" class="card" style="margin-bottom: 0; padding: 18px; min-height: 125px;">
-    <div style="display:flex; gap:15px; align-items:center;">
-      <img id="watchImage" src="" style="width:70px; height:100px; object-fit:cover; border-radius:8px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); display: none;" />
-      
-      <div style="flex:1;">
-        <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
-          <i id="watchIcon" class="fas fa-film" style="font-size: 10px; color: #ffffff; opacity: 0.8;"></i>
-          <span id="watchCategory" style="font-size: 10px; letter-spacing: 2px; font-weight: 700; color: #ffffff; opacity: 0.8;">MOVIE</span>
-        </div>
-        
-        <div id="watchTitle" style="font-size: 18px; font-weight: 600; color: #ffffff; margin-bottom: 2px;"></div>
-        <div id="watchGenre" style="font-size: 13px; opacity: 0.6; margin-bottom: 8px;"></div>
-
-        <div class="watch-progress-container">
-          <div class="watch-bar-bg">
-            <div id="watchProgress" class="watch-bar-fill" style="width: 0%;"></div>
+  <div id="watchingWrapper" style="margin-bottom: 22px; display: none;">
+    <h2></h2>
+    <div id="watchingCard" class="card" style="margin-bottom: 0;">
+      <div style="display:flex; gap:16px; align-items:center;">
+        <img id="watchImage" src="" style="width:66px; height:96px; object-fit:cover; border-radius:9px; box-shadow:4px 4px 18px rgba(0,0,0,0.65); display:none; flex-shrink:0;" />
+        <div style="flex:1; min-width:0;">
+          <div style="display:flex; align-items:center; gap:7px; margin-bottom:5px;">
+            <i id="watchIcon" class="fas fa-film" style="font-size:9px; color:rgba(255,255,255,0.5);"></i>
+            <span id="watchCategory" style="font-size:9px; letter-spacing:2.5px; font-weight:700; color:rgba(255,255,255,0.5);">MOVIE</span>
           </div>
-          <div class="watch-time-info">
-            <span id="watchCurrent">00:00</span>
-            <span id="watchTotal">0:00</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="hobby-row">
-  
-  <div style="flex: 1.3; min-width: 0;">
-    <h2>Books I've Read</h2>
-    <div id="bookCard" class="book-card">
-      <img id="bookCover" src="download.webp" class="book-img">
-      
-      <div class="book-info">
-        <div id="bookCount" style="font-size: 9px; opacity: 0.5; margin-bottom: 2px; letter-spacing: 1px;"></div>
-        <div id="bookTitle" class="book-title">Loading...</div>
-        <div id="bookAuthor" class="book-author">Author</div>
-        <div id="bookRating" class="book-rating"></div>
-      </div>
-      <div class="swap-hint"><i class="fas fa-arrows-alt-h"></i> Swipe</div>
-    </div>
-  </div>
-
-  <div style="flex: 1; min-width: 0;">
-    <h2 style="opacity: 0; user-select: none;">Spotify</h2>
-    <div class="spotify-card" onclick="openSpotifyModal()">
-      
-      <div class="spotify-header">
-        <i class="fab fa-spotify"></i> LISTENING TO SPOTIFY
-      </div>
-      
-      <div class="spotify-content">
-        <img id="spotifyCover" src="" class="spotify-img" alt="Album Cover">
-        <div class="spotify-info">
-          <div id="spotifyTitle" class="spotify-title">Loading...</div>
-          <div id="spotifyArtist" class="spotify-artist">Artist</div>
-          <div class="spotify-progress-container">
-            <div class="spotify-bar-bg">
-              <div id="spotifyProgress" class="spotify-bar-fill"></div>
+          <div id="watchTitle"></div>
+          <div id="watchGenre"></div>
+          <div class="watch-progress-container">
+            <div class="watch-bar-bg">
+              <div id="watchProgress" class="watch-bar-fill" style="width:0%;"></div>
             </div>
-            <div class="spotify-time-info">
-              <span id="spotifyCurrent">0:00</span>
-              <span id="spotifyTotal">0:00</span>
+            <div class="watch-time-info">
+              <span id="watchCurrent">00:00</span>
+              <span id="watchTotal">0:00</span>
             </div>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 
-</div>
-  
-<div style="margin-bottom: 30px;">
-  <h2 style="padding-left: 2px;">Watchlist</h2>
-  
-  <div class="watchlist">
-    <a href="kdrama.html">
-      <div class="folder"><span><i class="fas fa-tv" style="margin-right: 12px; opacity: 0.7;"></i> K-Drama</span></div>
-    </a>
+  <div class="hobby-row">
+    <div style="flex:1.35; min-width:0;">
+      <h2>Books I've Read</h2>
+      <div id="bookCard" class="book-card">
+        <img id="bookCover" src="download.webp" class="book-img">
+        <div class="book-info">
+          <div id="bookCount" style="font-size:8.5px; opacity:0.3; margin-bottom:3px; letter-spacing:1.2px; text-transform:uppercase;"></div>
+          <div id="bookTitle" class="book-title">Loading...</div>
+          <div id="bookAuthor" class="book-author">Author</div>
+          <div id="bookRating" class="book-rating"></div>
+        </div>
+        <div class="swap-hint"><i class="fas fa-arrows-alt-h"></i> swipe</div>
+      </div>
+    </div>
 
-    <a href="kmovie.html">
-      <div class="folder"><span><i class="fas fa-film" style="margin-right: 12px; opacity: 0.7;"></i> K-Movie</span></div>
-    </a>
-
-    <a href="movie.html">
-      <div class="folder"><span><i class="fas fa-clapperboard" style="margin-right: 12px; opacity: 0.7;"></i> Movie & Series</span></div>
-    </a>
+    <div style="flex:1; min-width:0;">
+      <h2 style="opacity:0; user-select:none;">Spotify</h2>
+      <div class="spotify-card" onclick="openSpotifyModal()">
+        <div class="spotify-header">
+          <i class="fab fa-spotify"></i> LISTENING TO SPOTIFY
+        </div>
+        <div class="spotify-content">
+          <img id="spotifyCover" src="" class="spotify-img" alt="Album Cover">
+          <div class="spotify-info">
+            <div id="spotifyTitle" class="spotify-title">Loading...</div>
+            <div id="spotifyArtist" class="spotify-artist">Artist</div>
+            <div class="spotify-progress-container">
+              <div class="spotify-bar-bg">
+                <div id="spotifyProgress" class="spotify-bar-fill"></div>
+              </div>
+              <div class="spotify-time-info">
+                <span id="spotifyCurrent">0:00</span>
+                <span id="spotifyTotal">0:00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+
+  <div style="margin-bottom:28px;">
+    <h2 style="padding-left:2px;">Watchlist</h2>
+    <div class="watchlist">
+      <a href="kdrama.html">
+        <div class="folder"><span><i class="fas fa-tv"></i> K-Drama</span></div>
+      </a>
+      <a href="kmovie.html">
+        <div class="folder"><span><i class="fas fa-film"></i> K-Movie</span></div>
+      </a>
+      <a href="movie.html">
+        <div class="folder"><span><i class="fas fa-clapperboard"></i> Movie &amp; Series</span></div>
+      </a>
+    </div>
+  </div>
 
 </div>
 
 <script>
-/* ===== LOADING SCREEN SCRIPT ===== */
+/* ===== LOADING SCREEN ===== */
 (function() {
   const loader = document.getElementById("dc-loader");
 
@@ -894,26 +1019,21 @@ a:hover{
 function openSpotifyModal() {
   const modal = document.getElementById('spotifyModal');
   modal.style.display = 'flex';
-  setTimeout(() => {
-    modal.classList.add('show');
-  }, 10);
+  setTimeout(() => { modal.classList.add('show'); }, 10);
 }
 
 function closeSpotifyModal(e) {
   const modal = document.getElementById('spotifyModal');
   modal.classList.remove('show');
-  setTimeout(() => {
-    modal.style.display = 'none';
-  }, 300);
+  setTimeout(() => { modal.style.display = 'none'; }, 300);
 }
 
-/* ===== SIDE MENU SCRIPT ===== */
+/* ===== SIDE MENU ===== */
 function toggleSideMenu() {
   const menu = document.getElementById("sideMenu");
   const overlay = document.getElementById("menuOverlay");
-
   if (menu.style.right === "0px") {
-    menu.style.right = "-260px";
+    menu.style.right = "-270px";
     overlay.style.display = "none";
   } else {
     menu.style.right = "0px";
@@ -921,59 +1041,44 @@ function toggleSideMenu() {
   }
 }
 
-/* ===== FB/IG STYLE STATUS LOGIC ===== */
+/* ===== STATUS ===== */
 function toggleStatus() {
   const tooltip = document.getElementById("statusTooltip");
   tooltip.classList.toggle("show");
-  
-  setTimeout(() => {
-    tooltip.classList.remove("show");
-  }, 3000);
+  setTimeout(() => { tooltip.classList.remove("show"); }, 3000);
 }
 
-/* ===== LOOPING PERSISTENT NOW WATCHING ===== */
+/* ===== NOW WATCHING ===== */
 let watchInterval;
 
 function setWatching(title, category, genre, defaultStartSeconds, totalSeconds, imageUrl) {
   const wrapper = document.getElementById("watchingWrapper");
-  
   if (!title || title.trim() === "" || !imageUrl) {
     wrapper.style.display = "none";
     clearInterval(watchInterval);
     return;
   }
-
   wrapper.style.display = "block";
   document.getElementById("watchImage").src = imageUrl;
   document.getElementById("watchImage").style.display = "block";
   document.getElementById("watchTitle").textContent = title;
   document.getElementById("watchGenre").textContent = genre;
   document.getElementById("watchCategory").textContent = "WATCHING " + category.toUpperCase();
-  
-  clearInterval(watchInterval);
 
+  clearInterval(watchInterval);
   let savedTitle = localStorage.getItem("watchTitle");
   let now = defaultStartSeconds;
-
   if (savedTitle === title) {
     let savedTime = localStorage.getItem("watchTime");
-    if (savedTime !== null) {
-      now = parseInt(savedTime, 10);
-    }
+    if (savedTime !== null) { now = parseInt(savedTime, 10); }
   } else {
     localStorage.setItem("watchTitle", title);
     localStorage.setItem("watchTime", now);
   }
 
   function updateUI() {
-    if (now >= totalSeconds) {
-      now = 0; 
-    } else {
-      now++;
-    }
-
+    if (now >= totalSeconds) { now = 0; } else { now++; }
     localStorage.setItem("watchTime", now);
-
     const percent = (now / totalSeconds) * 100;
     document.getElementById("watchProgress").style.width = percent + "%";
     document.getElementById("watchCurrent").textContent = formatTime(now);
@@ -981,7 +1086,7 @@ function setWatching(title, category, genre, defaultStartSeconds, totalSeconds, 
   }
 
   updateUI();
-  watchInterval = setInterval(updateUI, 1000); 
+  watchInterval = setInterval(updateUI, 1000);
 }
 
 function formatTime(seconds) {
@@ -994,14 +1099,14 @@ document.addEventListener("DOMContentLoaded", function() {
   setWatching(" Taxi Driver 2", "K-DRAMA", "Crime / Action", 1000, 4900, "Taxi_Driver_2-p1.jpg");
 });
 
-/* ===== BOOKS CAROUSEL SCRIPT ===== */
+/* ===== BOOKS CAROUSEL ===== */
 const myBooks = [
-  { title: "The Myth of Sisyphus", author: "Albert Camus", cover: "download.webp", rating: 4.9, stars: "4.9/5" },
-  { title: "The Stranger", author: "Albert Camus", cover: "the_stranger.jpg", rating: 4.9, stars: "4.9/5" },
-  { title: "White Nights", author: "Fyodor Dostoevsky", cover: "white_night.jpg", rating: 4.5, stars: "4.5/5" },
-  { title: "The Metamorphosis", author: "Franz Kafka", cover: "metamorphosis.jpg", rating: 4.5, stars: "4.5/5" },
-  { title: "The Gay Science", author: "Friedrich Nietzsche", cover: "gay_science.jpg", rating: 4.7, stars: "4.7/5" },
-  { title: "Bobby Fischer Teaches Chess", author: "Bobby Fischer", cover: "bobby_fischer.jpg", rating: 4.8, stars: "4.8/5" }
+  { title: "The Myth of Sisyphus", author: "Albert Camus",       cover: "download.webp",         rating: 4.9, stars: "4.9/5" },
+  { title: "The Stranger",         author: "Albert Camus",       cover: "the_stranger.jpg",       rating: 4.9, stars: "4.9/5" },
+  { title: "White Nights",         author: "Fyodor Dostoevsky",  cover: "white_night.jpg",        rating: 4.5, stars: "4.5/5" },
+  { title: "The Metamorphosis",    author: "Franz Kafka",        cover: "metamorphosis.jpg",      rating: 4.5, stars: "4.5/5" },
+  { title: "The Gay Science",      author: "Friedrich Nietzsche",cover: "gay_science.jpg",        rating: 4.7, stars: "4.7/5" },
+  { title: "Bobby Fischer Teaches Chess", author: "Bobby Fischer",cover: "bobby_fischer.jpg",     rating: 4.8, stars: "4.8/5" }
 ];
 
 let currentBookIndex = 0;
@@ -1010,36 +1115,40 @@ let touchendX = 0;
 
 function updateBookDisplay(index) {
   const book = myBooks[index];
-  const titleEl = document.getElementById("bookTitle");
+  const titleEl  = document.getElementById("bookTitle");
   const authorEl = document.getElementById("bookAuthor");
-  const coverEl = document.getElementById("bookCover");
+  const coverEl  = document.getElementById("bookCover");
   const ratingEl = document.getElementById("bookRating");
 
-  titleEl.style.opacity = 0;
+  titleEl.style.opacity  = 0;
   authorEl.style.opacity = 0;
-  coverEl.style.opacity = 0;
+  coverEl.style.opacity  = 0;
 
   setTimeout(() => {
-    titleEl.textContent = book.title;
+    titleEl.textContent  = book.title;
     authorEl.textContent = book.author;
-    coverEl.src = book.cover;
-    
+    coverEl.src          = book.cover;
+
     let starHtml = "";
-    for(let i = 1; i <= 5; i++) {
-      if(i <= Math.floor(book.rating)) {
+    for (let i = 1; i <= 5; i++) {
+      if (i <= Math.floor(book.rating)) {
         starHtml += '<i class="fas fa-star"></i> ';
-      } else if(book.rating % 1 !== 0 && i === Math.ceil(book.rating)) {
+      } else if (book.rating % 1 !== 0 && i === Math.ceil(book.rating)) {
         starHtml += '<i class="fas fa-star-half-alt"></i> ';
       } else {
         starHtml += '<i class="far fa-star"></i> ';
       }
     }
-    starHtml += `<span style="color:white; opacity:0.6; font-size:10px; margin-left:4px;">${book.stars}</span>`;
+    starHtml += `<span style="color:rgba(255,255,255,0.4); font-size:9.5px; margin-left:4px; font-weight:600;">${book.stars}</span>`;
     ratingEl.innerHTML = starHtml;
 
-    titleEl.style.opacity = 1;
-    authorEl.style.opacity = 0.6;
-    coverEl.style.opacity = 1;
+    titleEl.style.transition  = "opacity 0.25s ease";
+    authorEl.style.transition = "opacity 0.25s ease";
+    coverEl.style.transition  = "opacity 0.25s ease";
+
+    titleEl.style.opacity  = 1;
+    authorEl.style.opacity = 0.5;
+    coverEl.style.opacity  = 1;
   }, 150);
 }
 
@@ -1056,43 +1165,42 @@ function handleGesture() {
 
 const bookCard = document.getElementById('bookCard');
 bookCard.addEventListener('touchstart', e => { touchstartX = e.changedTouches[0].screenX; });
-bookCard.addEventListener('touchend', e => { touchendX = e.changedTouches[0].screenX; handleGesture(); });
+bookCard.addEventListener('touchend',   e => { touchendX = e.changedTouches[0].screenX; handleGesture(); });
 
-/* ===== SPOTIFY DISCORD CARD SCRIPT ===== */
+/* ===== SPOTIFY ===== */
 const spotifySongs = [
-  { title: "Bags", artist: "Clairo", cover: "bags-art.jpg", duration: 260 },
-  { title: "Heaven Knows I'm Miserable Now", artist: "The Smiths", cover: "heaven_knows.jpeg", duration: 214 },
-  { title: "Maniac", artist: "Conan Gray", cover: "maniac.jpeg", duration: 185 },
-  { title: "Not Allowed", artist: "TV Girl", cover: "not_allowed.jpeg", duration: 167 },
-  { title: "Boys Will Be Bugs", artist: "Cavetown", cover: "boys_will_be_bugs.jpeg", duration: 329 },
-  { title: "I Want To Be Your Boyfriend", artist: "Hot Freaks", cover: "boyfriend.jpeg", duration: 144 },
-  { title: "Why Do You Let Me Stay Here?", artist: "She & Him", cover: "stay_here.jpeg", duration: 151 },
-  { title: "Her Majesty", artist: "The Beatles", cover: "her_majesty.jpeg", duration: 23 },
-  { title: "The Night We Met", artist: "Lord Huron", cover: "night_we_met.jpeg", duration: 208 },
-  { title: "Fourth of July", artist: "Sufjan Stevens", cover: "fourth_of_july.jpeg", duration: 279 },
-  { title: "No Surprises", artist: "Radiohead", cover: "no_surprises.jpeg", duration: 229 },
-  { title: "Show Me How", artist: "Men I Trust", cover: "show_me_how.jpeg", duration: 215 },
-  { title: "Another One", artist: "Mac DeMarco", cover: "another_one.png", duration: 160 },
-  { title: "Apocalypse", artist: "Cigarettes After Sex", cover: "apocalypse.jpeg", duration: 290 },
-  { title: "Viva la vida", artist: "Coldplay", cover: "viva_la_vida.jpeg", duration: 242 },
-  { title: "Nothing", artist: "Bruno Major", cover: "nothing.jpeg", duration: 163 }
+  { title: "Bags",                            artist: "Clairo",              cover: "bags-art.jpg",         duration: 260 },
+  { title: "Heaven Knows I'm Miserable Now",  artist: "The Smiths",          cover: "heaven_knows.jpeg",    duration: 214 },
+  { title: "Maniac",                          artist: "Conan Gray",          cover: "maniac.jpeg",          duration: 185 },
+  { title: "Not Allowed",                     artist: "TV Girl",             cover: "not_allowed.jpeg",     duration: 167 },
+  { title: "Boys Will Be Bugs",               artist: "Cavetown",            cover: "boys_will_be_bugs.jpeg",duration: 329 },
+  { title: "I Want To Be Your Boyfriend",     artist: "Hot Freaks",          cover: "boyfriend.jpeg",       duration: 144 },
+  { title: "Why Do You Let Me Stay Here?",    artist: "She & Him",           cover: "stay_here.jpeg",       duration: 151 },
+  { title: "Her Majesty",                     artist: "The Beatles",         cover: "her_majesty.jpeg",     duration: 23  },
+  { title: "The Night We Met",                artist: "Lord Huron",          cover: "night_we_met.jpeg",    duration: 208 },
+  { title: "Fourth of July",                  artist: "Sufjan Stevens",      cover: "fourth_of_july.jpeg",  duration: 279 },
+  { title: "No Surprises",                    artist: "Radiohead",           cover: "no_surprises.jpeg",    duration: 229 },
+  { title: "Show Me How",                     artist: "Men I Trust",         cover: "show_me_how.jpeg",     duration: 215 },
+  { title: "Another One",                     artist: "Mac DeMarco",         cover: "another_one.png",      duration: 160 },
+  { title: "Apocalypse",                      artist: "Cigarettes After Sex",cover: "apocalypse.jpeg",      duration: 290 },
+  { title: "Viva la vida",                    artist: "Coldplay",            cover: "viva_la_vida.jpeg",    duration: 242 },
+  { title: "Nothing",                         artist: "Bruno Major",         cover: "nothing.jpeg",         duration: 163 }
 ];
 
 document.addEventListener("DOMContentLoaded", () => {
-  updateBookDisplay(0); 
-  
-  const randomSong = spotifySongs[Math.floor(Math.random() * spotifySongs.length)];
-  
-  document.getElementById("spotifyTitle").textContent = randomSong.title;
-  document.getElementById("spotifyArtist").textContent = randomSong.artist;
-  document.getElementById("spotifyCover").src = randomSong.cover;
+  updateBookDisplay(0);
 
-  document.getElementById("modalSpotifyTitle").textContent = randomSong.title;
+  const randomSong = spotifySongs[Math.floor(Math.random() * spotifySongs.length)];
+
+  document.getElementById("spotifyTitle").textContent       = randomSong.title;
+  document.getElementById("spotifyArtist").textContent      = randomSong.artist;
+  document.getElementById("spotifyCover").src               = randomSong.cover;
+  document.getElementById("modalSpotifyTitle").textContent  = randomSong.title;
   document.getElementById("modalSpotifyArtist").textContent = randomSong.artist;
-  document.getElementById("modalSpotifyCover").src = randomSong.cover;
+  document.getElementById("modalSpotifyCover").src          = randomSong.cover;
 
   const totalSeconds = randomSong.duration;
-  let currentSeconds = Math.floor(Math.random() * (totalSeconds - 40)); 
+  let currentSeconds = Math.floor(Math.random() * (totalSeconds - 40));
   if (currentSeconds < 0) currentSeconds = 0;
 
   const formatSpotifyTime = (sec) => {
@@ -1101,43 +1209,37 @@ document.addEventListener("DOMContentLoaded", () => {
     return m + ":" + (s < 10 ? "0" : "") + s;
   };
 
-  document.getElementById("spotifyTotal").textContent = formatSpotifyTime(totalSeconds);
+  document.getElementById("spotifyTotal").textContent      = formatSpotifyTime(totalSeconds);
   document.getElementById("modalSpotifyTotal").textContent = formatSpotifyTime(totalSeconds);
 
   setInterval(() => {
-    if (currentSeconds < totalSeconds) {
-      currentSeconds++;
-    } else {
-      currentSeconds = 0; 
-    }
+    if (currentSeconds < totalSeconds) { currentSeconds++; } else { currentSeconds = 0; }
     const percent = (currentSeconds / totalSeconds) * 100;
-    
-    document.getElementById("spotifyProgress").style.width = percent + "%";
-    document.getElementById("spotifyCurrent").textContent = formatSpotifyTime(currentSeconds);
-    
+    document.getElementById("spotifyProgress").style.width      = percent + "%";
+    document.getElementById("spotifyCurrent").textContent       = formatSpotifyTime(currentSeconds);
     document.getElementById("modalSpotifyProgress").style.width = percent + "%";
-    document.getElementById("modalSpotifyCurrent").textContent = formatSpotifyTime(currentSeconds);
+    document.getElementById("modalSpotifyCurrent").textContent  = formatSpotifyTime(currentSeconds);
   }, 1000);
 
-  const daysThreshold = 3; 
+  const daysThreshold   = 3;
   const lastModifiedDate = new Date(document.lastModified);
-  const currentDate = new Date();
-  const daysSinceUpdate = (currentDate - lastModifiedDate) / (1000 * 60 * 60 * 24);
-  
-  const dotEl = document.getElementById("statusDot");
+  const currentDate      = new Date();
+  const daysSinceUpdate  = (currentDate - lastModifiedDate) / (1000 * 60 * 60 * 24);
+
+  const dotEl     = document.getElementById("statusDot");
   const tooltipEl = document.getElementById("statusTooltip");
-  
+
   if (daysSinceUpdate > daysThreshold) {
     dotEl.classList.add("dot-dead");
-    dotEl.innerHTML = '<i class="fas fa-skull"></i>';
-    tooltipEl.innerHTML = '<i class="fas fa-skull" style="color:#E41E3F;"></i> DEAD';
+    dotEl.innerHTML     = '<i class="fas fa-skull"></i>';
+    tooltipEl.innerHTML = '<i class="fas fa-skull" style="color:#f85149;"></i> DEAD';
   } else {
     dotEl.classList.add("dot-alive");
-    dotEl.innerHTML = '<i class="fas fa-heartbeat"></i>';
-    tooltipEl.innerHTML = '<i class="fas fa-heartbeat" style="color:#31A24C;"></i> ALIVE';
+    dotEl.innerHTML     = '<i class="fas fa-heartbeat"></i>';
+    tooltipEl.innerHTML = '<i class="fas fa-heartbeat" style="color:#3fb950;"></i> ALIVE';
   }
 });
 </script>
-  
+
 </body>
-  </html>
+</html>
