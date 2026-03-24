@@ -829,6 +829,14 @@ a:hover{
 <script>
 /* ===== LOADING SCREEN SCRIPT ===== */
 (function() {
+  const loader = document.getElementById("dc-loader");
+
+  // If already visited this session, skip loader instantly
+  if (sessionStorage.getItem("siteLoaded")) {
+    loader.style.display = "none";
+    return;
+  }
+
   const subtitles = [
     "philosophy & code",
     "thinking about existence",
@@ -841,7 +849,7 @@ a:hover{
   let idx = 0;
   const el = document.getElementById("dcSubtitle");
 
-  // cycle subtitles every 800ms with fade
+  // cycle subtitles every 900ms with fade
   const cycleInterval = setInterval(function() {
     el.classList.add("hidden");
     setTimeout(function() {
@@ -851,11 +859,11 @@ a:hover{
     }, 400);
   }, 900);
 
-  // after 3 seconds: fade out loader, stop cycling
+  // after 3 seconds: fade out loader, mark session, stop cycling
   setTimeout(function() {
     clearInterval(cycleInterval);
-    const loader = document.getElementById("dc-loader");
     loader.classList.add("fade-out");
+    sessionStorage.setItem("siteLoaded", "true");
     setTimeout(function() {
       loader.style.display = "none";
     }, 750);
