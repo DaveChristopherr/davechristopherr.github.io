@@ -27,7 +27,7 @@ body {
   overflow-x: hidden;
 }
 
-/* FIXED MENU ICON - MINIMALIST (Tulad sa aboutme.html) */
+/* FIXED MENU ICON - MINIMALIST */
 .menu-icon {
   position: fixed;
   top: 30px;
@@ -45,7 +45,7 @@ body {
   transform: scale(1.1);
 }
 
-/* SIDE MENU (Eksaktong kopya mula sa aboutme.html) */
+/* SIDE MENU */
 #sideMenu {
   position: fixed;
   top: 0;
@@ -60,6 +60,7 @@ body {
   box-shadow: -10px 0 30px rgba(0,0,0,0.8);
 }
 
+/* MINIMALIST MENU ITEMS */
 .menu-item {
   display: flex;
   align-items: center;
@@ -72,12 +73,6 @@ body {
   transition: 0.3s;
   text-decoration: none;
   margin-bottom: 8px;
-}
-
-.menu-item i {
-  width: 20px;
-  font-size: 18px;
-  opacity: 0.8;
 }
 
 .menu-item:hover, .menu-item.active {
@@ -159,7 +154,7 @@ h1 {
   border-bottom: 1px solid #ffffff;
 }
 
-/* CARD STYLE (Eksaktong kopya mula sa aboutme.html) */
+/* CARD STYLE */
 .card {
   background: rgba(17,17,17,0.6);
   border: 1px solid #1f1f1f;
@@ -242,7 +237,7 @@ h1 {
     <a href="favorites.html" class="menu-item"><i class="fas fa-heart"></i> Favorites</a>
     <a href="spotify.html" class="menu-item"><i class="fab fa-spotify"></i> Spotify</a>
     <a href="chess.html" class="menu-item"><i class="fas fa-chess-knight"></i> Chess</a>
-    <a href="projects.html" class="menu-item"><i class="fas fa-code"></i> Projects</a>
+    <a href="projects.html" class="menu-item"><i class="fas fa-code"></i> Stuff</a>
   </nav>
 </div>
 
@@ -443,7 +438,7 @@ h1 {
 </div> 
 
 <script>
-// Menu Toggle Script (Eksaktong logic mula sa aboutme.html)
+// Menu Toggle Script
 function toggleSideMenu() {
   const menu = document.getElementById("sideMenu");
   const overlay = document.getElementById("menuOverlay");
