@@ -138,7 +138,7 @@ h1 {
   border-bottom: 1px solid transparent;
   padding: 8px 5px; 
   font-size: 10px; 
-  font-weight: 600; 
+  font-weight: 700; 
   cursor: pointer; 
   transition: all 0.3s ease;
   text-transform: uppercase;
@@ -154,33 +154,36 @@ h1 {
   border-bottom: 1px solid #ffffff;
 }
 
-/* CARD STYLE */
+/* NO LAG CARD STYLE */
 .card {
-  background: rgba(17,17,17,0.6);
-  border: 1px solid #1f1f1f;
+  background: rgba(10, 10, 10, 0.6);
+  border: 1px solid #1a1a1a;
   border-radius: 20px;
   padding: 28px 25px;
   margin-bottom: 20px;
-  backdrop-filter: blur(10px);
-  transition: 0.3s ease;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  will-change: transform;
 }
 
 .card:hover {
+  background: rgba(255, 255, 255, 0.03);
   border-color: #333333;
+  transform: translateY(-2px);
 }
 
-/* SMOOTH QUOTE SECTIONS ANIMATION */
+/* INSTANT & SMOOTH TAB ANIMATION */
 .quote-section {
   display: none;
-  opacity: 0;
-  transform: translateY(5px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 .quote-section.active-section {
   display: block;
-  opacity: 1;
-  transform: translateY(0);
+  animation: fadeIn 0.4s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* QUOTE SPECIFIC STYLING */
@@ -256,63 +259,91 @@ h1 {
     
     <div class="card">
       <div class="quote-wrapper">
-        <p class="quote-text">"To desire someone is to trap yourself in a prison of thought. The mind clings, though the world cares nothing for your longing."</p>
+        <p class="quote-text">"There are no truly good people. Only individuals pretending to be better than they are, stumbling quietly through a world that barely notices them."</p>
         <p class="quote-author">&mdash; <span>Dave Christopher</span></p>
       </div>
     </div>
 
     <div class="card">
       <div class="quote-wrapper">
-        <p class="quote-text">"There are no good people. Only people pretending, stumbling through a world that does not notice."</p>
+        <p class="quote-text">"Do not trust too easily the people you meet. Many are only actors, playing their roles in a world that does not care whether you are deceived."</p>
         <p class="quote-author">&mdash; <span>Dave Christopher</span></p>
       </div>
     </div>
 
     <div class="card">
       <div class="quote-wrapper">
-        <p class="quote-text">"Do not believe too easily in those you meet. People are actors in a world that does not care if you are fooled."</p>
+        <p class="quote-text">"To understand the world while still young is a cruel burden to carry."</p>
         <p class="quote-author">&mdash; <span>Dave Christopher</span></p>
       </div>
     </div>
 
     <div class="card">
       <div class="quote-wrapper">
-        <p class="quote-text">"When you are young and yet understand the world, it is a cruel weight."</p>
+        <p class="quote-text">"When you overthink, the truth becomes fragile. What feels certain exists only in your mind, and often, it is wrong. The world does not correct you—it only remains."</p>
         <p class="quote-author">&mdash; <span>Dave Christopher</span></p>
       </div>
     </div>
 
     <div class="card">
       <div class="quote-wrapper">
-        <p class="quote-text">"When you overthink, what you believe to be true may only exist in your mind. Sometimes it is not true at all—this is the world, and the world has no truth."</p>
+        <p class="quote-text">"If you like someone, do not confess. The world gives no reward for honesty; it only watches."</p>
         <p class="quote-author">&mdash; <span>Dave Christopher</span></p>
       </div>
     </div>
 
     <div class="card">
       <div class="quote-wrapper">
-        <p class="quote-text">"If you ever like someone, do not confess. The world doesn’t reward honesty; it only watches silently."</p>
+        <p class="quote-text">"Do not be kind to others. Meet their cruelty with your own."</p>
         <p class="quote-author">&mdash; <span>Dave Christopher</span></p>
       </div>
     </div>
 
     <div class="card">
       <div class="quote-wrapper">
-        <p class="quote-text">"You can feel immense pity for others, yet somehow pity yourself more because you do not even know who you are."</p>
+        <p class="quote-text">"I do not hate people. It is people who cannot stand me."</p>
         <p class="quote-author">&mdash; <span>Dave Christopher</span></p>
       </div>
     </div>
 
     <div class="card">
       <div class="quote-wrapper">
-        <p class="quote-text">"Do not be kind to others. Be as cruel as they are to you."</p>
+        <p class="quote-text">"When someone wrongs you, do not retaliate. In time, they will realize their own fault."</p>
         <p class="quote-author">&mdash; <span>Dave Christopher</span></p>
       </div>
     </div>
 
     <div class="card">
       <div class="quote-wrapper">
-        <p class="quote-text">"Being a nerd is the best thing I have done in my life, for it gave me knowledge of the world that others ignore."</p>
+        <p class="quote-text">"If people do not like you, do not bother with them. It is better to be alone than with those who belittle one another."</p>
+        <p class="quote-author">&mdash; <span>Dave Christopher</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"It is better to be foolish alone than wise among the ignorant."</p>
+        <p class="quote-author">&mdash; <span>Dave Christopher</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"In these times, it feels as if ending oneself is the answer. But life’s weight is not a solution—it is a question we must face."</p>
+        <p class="quote-author">&mdash; <span>Dave Christopher</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"Me is dead."</p>
+        <p class="quote-author">&mdash; <span>Dave Christopher</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"I refuse to be happy, for every joy carries a sorrow heavier than itself."</p>
         <p class="quote-author">&mdash; <span>Dave Christopher</span></p>
       </div>
     </div>
@@ -323,15 +354,99 @@ h1 {
     
     <div class="card">
       <div class="quote-wrapper">
-        <p class="quote-text">"I think, therefore I am."</p>
-        <p class="quote-author">&mdash; <span>René Descartes</span></p>
+        <p class="quote-text">"Without music, life would be a mistake."</p>
+        <p class="quote-author">&mdash; <span>Friedrich Nietzsche</span></p>
       </div>
     </div>
 
     <div class="card">
       <div class="quote-wrapper">
-        <p class="quote-text">"Without music, life would be a mistake."</p>
+        <p class="quote-text">"How wonderful it is that nobody need wait a single moment before starting to improve the world."</p>
+        <p class="quote-author">&mdash; <span>Anne Frank</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"Man is the only creature who refuses to be what he is."</p>
+        <p class="quote-author">&mdash; <span>Albert Camus</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"May you live every day of your life."</p>
+        <p class="quote-author">&mdash; <span>Jonathan Swift</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"There is nothing either good or bad, but thinking makes it so."</p>
+        <p class="quote-author">&mdash; <span>William Shakespeare</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"Trust yourself. You know more than you think you do."</p>
+        <p class="quote-author">&mdash; <span>Benjamin Spock</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"Think left and think right and think low and think high. Oh, the thinks you can think up if only you try!"</p>
+        <p class="quote-author">&mdash; <span>Dr. Seuss</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"I cannot teach anybody anything. I can only make them think."</p>
+        <p class="quote-author">&mdash; <span>Socrates</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"Music is ... A higher revelation than all Wisdom & Philosophy."</p>
+        <p class="quote-author">&mdash; <span>Ludwig van Beethoven</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"Be kind, for everyone you meet is fighting a hard battle."</p>
+        <p class="quote-author">&mdash; <span>Socrates</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"I would believe only in a God that knows how to dance."</p>
         <p class="quote-author">&mdash; <span>Friedrich Nietzsche</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"Man is always prey to his truths. Once he has admitted them, he cannot free himself from them."</p>
+        <p class="quote-author">&mdash; <span>Albert Camus</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"Things do not change; we change."</p>
+        <p class="quote-author">&mdash; <span>Henry David Thoreau</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quote-wrapper">
+        <p class="quote-text">"I think, therefore I am."</p>
+        <p class="quote-author">&mdash; <span>René Descartes</span></p>
       </div>
     </div>
 
@@ -351,29 +466,8 @@ h1 {
 
     <div class="card">
       <div class="quote-wrapper">
-        <p class="quote-text">"To be yourself in a world that is constantly trying to make you something else is the greatest accomplishment."</p>
-        <p class="quote-author">&mdash; <span>Ralph Waldo Emerson</span></p>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="quote-wrapper">
-        <p class="quote-text">"Knowledge is power."</p>
-        <p class="quote-author">&mdash; <span>Francis Bacon</span></p>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="quote-wrapper">
-        <p class="quote-text">"Simplicity is the ultimate sophistication."</p>
-        <p class="quote-author">&mdash; <span>Leonardo da Vinci</span></p>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="quote-wrapper">
-        <p class="quote-text">"God is dead. God remains dead. And we have killed him."</p>
-        <p class="quote-author">&mdash; <span>Friedrich Nietzsche</span></p>
+        <p class="quote-text">"There is but one truly serious philosophical problem, and that is suicide."</p>
+        <p class="quote-author">&mdash; <span>Albert Camus</span></p>
       </div>
     </div>
 
@@ -386,8 +480,8 @@ h1 {
 
     <div class="card">
       <div class="quote-wrapper">
-        <p class="quote-text">"There is but one truly serious philosophical problem, and that is suicide."</p>
-        <p class="quote-author">&mdash; <span>Albert Camus</span></p>
+        <p class="quote-text">"The only thing I know is that I know nothing."</p>
+        <p class="quote-author">&mdash; <span>Socrates</span></p>
       </div>
     </div>
 
@@ -421,13 +515,6 @@ h1 {
 
     <div class="card">
       <div class="quote-wrapper">
-        <p class="quote-text">"The only thing I know is that I know nothing."</p>
-        <p class="quote-author">&mdash; <span>Socrates</span></p>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="quote-wrapper">
         <p class="quote-text">"Happiness depends upon ourselves."</p>
         <p class="quote-author">&mdash; <span>Aristotle</span></p>
       </div>
@@ -451,40 +538,27 @@ function toggleSideMenu() {
   }
 }
 
-// Smooth Tab Switcher Script
+// Instant Tab Switcher Script (Zero Lag)
 function switchTab(tabId) {
   const ownQuotes = document.getElementById('ownQuotes');
   const favQuotes = document.getElementById('favQuotes');
   const btnOwn = document.getElementById('btn-own');
   const btnFav = document.getElementById('btn-fav');
 
-  // Fade out both sections
-  ownQuotes.style.opacity = '0';
-  favQuotes.style.opacity = '0';
-  
-  // Update button active states
+  // Remove active classes
   btnOwn.classList.remove('active');
   btnFav.classList.remove('active');
+  ownQuotes.classList.remove('active-section');
+  favQuotes.classList.remove('active-section');
 
-  // Wait for fade out animation (0.3s) before switching display
-  setTimeout(() => {
-    ownQuotes.classList.remove('active-section');
-    favQuotes.classList.remove('active-section');
-
-    if(tabId === 'own') {
-      ownQuotes.classList.add('active-section');
-      btnOwn.classList.add('active');
-      setTimeout(() => {
-        ownQuotes.style.opacity = '1';
-      }, 50);
-    } else {
-      favQuotes.classList.add('active-section');
-      btnFav.classList.add('active');
-      setTimeout(() => {
-        favQuotes.style.opacity = '1';
-      }, 50);
-    }
-  }, 300); 
+  // Add active classes instantly
+  if(tabId === 'own') {
+    btnOwn.classList.add('active');
+    ownQuotes.classList.add('active-section');
+  } else {
+    btnFav.classList.add('active');
+    favQuotes.classList.add('active-section');
+  }
 }
 </script>
 
