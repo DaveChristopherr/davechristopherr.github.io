@@ -156,9 +156,9 @@ h1 {
   gap: 12px;
 }
 
-/* FAV CARD STYLING - BINALIK SA ORIGINAL COLOR PERO WALANG BLUR/LAG */
+/* FAV CARD STYLING */
 .fav-item {
-  background: rgba(10, 10, 10, 0.6); /* Original dark transparent color */
+  background: rgba(10, 10, 10, 0.6); 
   border: 1px solid #1a1a1a;
   border-radius: 16px; 
   padding: 16px 20px;
@@ -168,26 +168,26 @@ h1 {
   text-decoration: none;
   color: inherit;
   transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
-  will-change: transform; /* Helps prevent lag on hover */
+  will-change: transform; 
 }
 
 a.fav-item:hover {
-  background: rgba(255,255,255,0.03); /* Original hover color */
+  background: rgba(255,255,255,0.03); 
   border-color: #333333;
   transform: translateY(-2px);
 }
 
 div.fav-item { cursor: default; }
 div.fav-item:hover { border-color: #2a2a2a; }
-div.fav-item .fav-icon { opacity: 0.15; } /* Binalik ang original icon opacity */
+div.fav-item .fav-icon { opacity: 0.15; } 
 
 .fav-info { display: flex; flex-direction: column; }
 .fav-label { font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.5; margin-bottom: 4px; font-weight: 700; }
 .fav-value { font-size: 14px; font-weight: 600; color: #ffffff; line-height: 1.3; }
-.fav-icon { font-size: 18px; opacity: 0.3; transition: 0.2s ease; } /* Original icon opacity */
+.fav-icon { font-size: 18px; opacity: 0.3; transition: 0.2s ease; } 
 
 a.fav-item:hover .fav-icon {
-  opacity: 0.8; /* Original hover icon opacity */
+  opacity: 0.8; 
 }
 </style>
 </head>
@@ -232,8 +232,8 @@ a.fav-item:hover .fav-icon {
     <a href="fav-kactress.html" class="fav-item"><div class="fav-info"><span class="fav-label">K-Actress</span><span class="fav-value">Kim You-jung</span></div><i class="fas fa-user-astronaut fav-icon"></i></a>
     <div class="fav-item"><div class="fav-info"><span class="fav-label">Movie Genre</span><span class="fav-value">Drama / Biography</span></div><i class="fas fa-masks-theater fav-icon"></i></div>
     <div class="fav-item"><div class="fav-info"><span class="fav-label">K-Drama Genre</span><span class="fav-value">Thriller / Melodrama</span></div><i class="fas fa-couch fav-icon"></i></div>
-    <div class="fav-item"><div class="fav-info"><span class="fav-label">Director</span><span class="fav-value">Bang Woo-ri</span></div><i class="fas fa-bullhorn fav-icon"></i></div>
-    <div class="fav-item"><div class="fav-info"><span class="fav-label">Fictional Character</span><span class="fav-value">Spider-Man</span></div><i class="fas fa-spider fav-icon"></i></div>
+    <a href="fav-director.html" class="fav-item"><div class="fav-info"><span class="fav-label">Director</span><span class="fav-value">Bang Woo-ri</span></div><i class="fas fa-bullhorn fav-icon"></i></a>
+    <a href="fav-fiction.html" class="fav-item"><div class="fav-info"><span class="fav-label">Fictional Character</span><span class="fav-value">Spider-Man</span></div><i class="fas fa-spider fav-icon"></i></a>
   </div>
 
   <div class="cat-title">Music & Audio</div>
@@ -244,48 +244,48 @@ a.fav-item:hover .fav-icon {
     <a href="fav-music-album.html" class="fav-item"><div class="fav-info"><span class="fav-label">Music Album</span><span class="fav-value">Nicole</span></div><i class="fas fa-compact-disc fav-icon"></i></a>
     <a href="fav-kpop-group.html" class="fav-item"><div class="fav-info"><span class="fav-label">K-Pop Group</span><span class="fav-value">NewJeans</span></div><i class="fas fa-users-viewfinder fav-icon"></i></a>
     <a href="fav-person.html" class="fav-item"><div class="fav-info"><span class="fav-label">Favorite Person</span><span class="fav-value">Hanni Pham</span></div><i class="fas fa-star fav-icon"></i></a>
-    <div class="fav-item"><div class="fav-info"><span class="fav-label">Favorite App</span><span class="fav-value">Spotify</span></div><i class="fab fa-spotify fav-icon"></i></div>
+    <a href="fav-app.html" class="fav-item"><div class="fav-info"><span class="fav-label">Favorite App</span><span class="fav-value">Spotify</span></div><i class="fab fa-spotify fav-icon"></i></a>
   </div>
 
   <div class="cat-title">Philosophy & Mind</div>
   <div class="fav-list">
     <a href="fav-philosopher.html" class="fav-item"><div class="fav-info"><span class="fav-label">Philosopher</span><span class="fav-value">Albert Camus</span></div><i class="fas fa-brain fav-icon"></i></a>
     <a href="fav-book.html" class="fav-item"><div class="fav-info"><span class="fav-label">Book</span><span class="fav-value">The Myth of Sisyphus</span></div><i class="fas fa-book fav-icon"></i></a>
-    <div class="fav-item"><div class="fav-info"><span class="fav-label">Favorite Theory</span><span class="fav-value">Immanuel Kant's Ethics</span></div><i class="fas fa-scale-balanced fav-icon"></i></div>
-    <div class="fav-item"><div class="fav-info"><span class="fav-label">Mythological Figure</span><span class="fav-value">Sisyphus</span></div><i class="fas fa-mountain fav-icon"></i></div>
-    <div class="fav-item"><div class="fav-info"><span class="fav-label">Think About</span><span class="fav-value">Life, Meaning & Existence</span></div><i class="fas fa-lightbulb fav-icon"></i></div>
+    <a href="fav-theory.html" class="fav-item"><div class="fav-info"><span class="fav-label">Favorite Theory</span><span class="fav-value">Immanuel Kant's Ethics</span></div><i class="fas fa-scale-balanced fav-icon"></i></a>
+    <a href="fav-myth-figure.html" class="fav-item"><div class="fav-info"><span class="fav-label">Mythological Figure</span><span class="fav-value">Sisyphus</span></div><i class="fas fa-mountain fav-icon"></i></a>
+    <a href="fav-think.html" class="fav-item"><div class="fav-info"><span class="fav-label">Think About</span><span class="fav-value">Life, Meaning & Existence</span></div><i class="fas fa-lightbulb fav-icon"></i></a>
   </div>
 
   <div class="cat-title">Science, Tech & Logic</div>
   <div class="fav-list">
     <a href="fav-game.html" class="fav-item"><div class="fav-info"><span class="fav-label">Game</span><span class="fav-value">Chess</span></div><i class="fas fa-chess-knight fav-icon"></i></a>
-    <div class="fav-item"><div class="fav-info"><span class="fav-label">Hobby</span><span class="fav-value">Coding</span></div><i class="fas fa-laptop-code fav-icon"></i></div>
-    <div class="fav-item"><div class="fav-info"><span class="fav-label">Subject</span><span class="fav-value">Math & Science</span></div><i class="fas fa-flask fav-icon"></i></div>
-    <div class="fav-item"><div class="fav-info"><span class="fav-label">Genius</span><span class="fav-value">Isaac Newton</span></div><i class="fas fa-apple-whole fav-icon"></i></div>
-    <div class="fav-item"><div class="fav-info"><span class="fav-label">Scientist</span><span class="fav-value">Alan Turing</span></div><i class="fas fa-computer fav-icon"></i></div>
-    <div class="fav-item"><div class="fav-info"><span class="fav-label">Space Object</span><span class="fav-value">Black Hole</span></div><i class="fas fa-circle-dot fav-icon"></i></div>
+    <a href="fav-hobby.html" class="fav-item"><div class="fav-info"><span class="fav-label">Hobby</span><span class="fav-value">Coding</span></div><i class="fas fa-laptop-code fav-icon"></i></a>
+    <a href="fav-subject.html" class="fav-item"><div class="fav-info"><span class="fav-label">Subject</span><span class="fav-value">Math & Science</span></div><i class="fas fa-flask fav-icon"></i></a>
+    <a href="fav-genius.html" class="fav-item"><div class="fav-info"><span class="fav-label">Genius</span><span class="fav-value">Isaac Newton</span></div><i class="fas fa-apple-whole fav-icon"></i></a>
+    <a href="fav-scientist.html" class="fav-item"><div class="fav-info"><span class="fav-label">Scientist</span><span class="fav-value">Alan Turing</span></div><i class="fas fa-computer fav-icon"></i></a>
+    <a href="fav-space-object.html" class="fav-item"><div class="fav-info"><span class="fav-label">Space Object</span><span class="fav-value">Black Hole</span></div><i class="fas fa-circle-dot fav-icon"></i></a>
     <div class="fav-item"><div class="fav-info"><span class="fav-label">Night Activity</span><span class="fav-value">Coding or Watching</span></div><i class="fas fa-moon fav-icon"></i></div>
   </div>
 
   <div class="cat-title">History & Antiquity</div>
   <div class="fav-list">
-    <div class="fav-item"><div class="fav-info"><span class="fav-label">Historical Figure</span><span class="fav-value">Alexander the Great</span></div><i class="fas fa-chess-king fav-icon"></i></div>
-    <div class="fav-item"><div class="fav-info"><span class="fav-label">Historical Event</span><span class="fav-value">The Napoleonic Wars</span></div><i class="fas fa-shield-halved fav-icon"></i></div>
-    <div class="fav-item"><div class="fav-info"><span class="fav-label">Historical Era</span><span class="fav-value">Classical Greece (Socrates)</span></div><i class="fas fa-building-columns fav-icon"></i></div>
-    <div class="fav-item"><div class="fav-info"><span class="fav-label">Civilization</span><span class="fav-value">Ancient Greece</span></div><i class="fas fa-landmark-dome fav-icon"></i></div>
+    <a href="fav-historical-figure.html" class="fav-item"><div class="fav-info"><span class="fav-label">Historical Figure</span><span class="fav-value">Alexander the Great</span></div><i class="fas fa-chess-king fav-icon"></i></a>
+    <a href="fav-historical-event.html" class="fav-item"><div class="fav-info"><span class="fav-label">Historical Event</span><span class="fav-value">The Napoleonic Wars</span></div><i class="fas fa-shield-halved fav-icon"></i></a>
+    <a href="fav-historical-era.html" class="fav-item"><div class="fav-info"><span class="fav-label">Historical Era</span><span class="fav-value">Classical Greece (Socrates)</span></div><i class="fas fa-building-columns fav-icon"></i></a>
+    <a href="fav-civilization.html" class="fav-item"><div class="fav-info"><span class="fav-label">Civilization</span><span class="fav-value">Ancient Greece</span></div><i class="fas fa-landmark-dome fav-icon"></i></a>
   </div>
 
   <div class="cat-title">Nature, Taste & Lifestyle</div>
   <div class="fav-list">
-    <div class="fav-item"><div class="fav-info"><span class="fav-label">Color</span><span class="fav-value">Black / Dark Blue</span></div><i class="fas fa-palette fav-icon"></i></div>
+    <a href="fav-color.html" class="fav-item"><div class="fav-info"><span class="fav-label">Color</span><span class="fav-value">Black / Dark Blue</span></div><i class="fas fa-palette fav-icon"></i></a>
     <div class="fav-item"><div class="fav-info"><span class="fav-label">Food</span><span class="fav-value">Pizza</span></div><i class="fas fa-bowl-food fav-icon"></i></div>
     <div class="fav-item"><div class="fav-info"><span class="fav-label">Drink</span><span class="fav-value">Coffee</span></div><i class="fas fa-mug-hot fav-icon"></i></div>
-    <div class="fav-item"><div class="fav-info"><span class="fav-label">Dessert</span><span class="fav-value">Coke</span></div><i class="fas fa-bottle-water fav-icon"></i></div>
+    <a href="fav-dessert.html" class="fav-item"><div class="fav-info"><span class="fav-label">Dessert</span><span class="fav-value">Coke</span></div><i class="fas fa-bottle-water fav-icon"></i></a>
     <a href="fav-country.html" class="fav-item"><div class="fav-info"><span class="fav-label">Country</span><span class="fav-value">Sweden</span></div><i class="fas fa-globe fav-icon"></i></a>
     <div class="fav-item"><div class="fav-info"><span class="fav-label">Animal</span><span class="fav-value">Cat</span></div><i class="fas fa-cat fav-icon"></i></div>
-    <div class="fav-item"><div class="fav-info"><span class="fav-label">Season</span><span class="fav-value">Autumn</span></div><i class="fas fa-leaf fav-icon"></i></div>
-    <div class="fav-item"><div class="fav-info"><span class="fav-label">Weather</span><span class="fav-value">Heavy rain</span></div><i class="fas fa-cloud-showers-heavy fav-icon"></i></div>
-    <div class="fav-item"><div class="fav-info"><span class="fav-label">Number</span><span class="fav-value">73, 96</span></div><i class="fas fa-hashtag fav-icon"></i></div>
+    <a href="fav-season.html" class="fav-item"><div class="fav-info"><span class="fav-label">Season</span><span class="fav-value">Autumn</span></div><i class="fas fa-leaf fav-icon"></i></a>
+    <a href="fav-weather.html" class="fav-item"><div class="fav-info"><span class="fav-label">Weather</span><span class="fav-value">Heavy rain</span></div><i class="fas fa-cloud-showers-heavy fav-icon"></i></a>
+    <a href="fav-number.html" class="fav-item"><div class="fav-info"><span class="fav-label">Number</span><span class="fav-value">73, 96</span></div><i class="fas fa-hashtag fav-icon"></i></a>
   </div>
 
 </div>
