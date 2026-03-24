@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Favorite Theory - Kantian Ethics</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:'Quicksand', sans-serif;
+}
+
+body {
+  background: #000000;
+  color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* BACK BUTTON */
+.back-btn {
+  position: absolute;
+  top: 30px;
+  left: 25px;
+  font-size: 18px;
+  cursor: pointer;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  transition: 0.3s;
+  z-index: 10;
+}
+
+.back-btn:hover { color: #fff; }
+
+/* MAIN CONTENT */
+.content {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 60px;
+  padding: 20px 20px 80px;
+}
+
+/* IMAGE SECTION */
+.movie-poster-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.movie-poster {
+  width: 180px;
+  height: 240px;
+  object-fit: cover;
+  border-radius: 15px; 
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+  background: #111; 
+}
+
+.header-section {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+h1 { font-size: 26px; letter-spacing: 2px; font-weight: 600; text-transform: uppercase; color: #fff; }
+.subtitle { font-size: 12px; opacity: 0.5; letter-spacing: 3px; text-transform: uppercase; margin-top: 8px; }
+
+/* CARDS */
+.card {
+  background: rgba(17,17,17,0.6);
+  border: 1px solid #1f1f1f;
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(10px);
+  line-height: 1.8;
+}
+
+.label { 
+  font-size: 10px; 
+  font-weight: 600; 
+  letter-spacing: 2px; 
+  opacity: 0.4; 
+  text-transform: uppercase; 
+  margin-bottom: 15px; 
+  display: block;
+}
+
+.quote-box {
+  border-left: 2px solid #ffffff; 
+  padding-left: 20px;
+  margin: 25px 0;
+  font-style: italic;
+  opacity: 0.9;
+}
+
+p { font-size: 15px; opacity: 0.8; margin-bottom: 15px; }
+b { color: #fff; }
+
+</style>
+</head>
+
+<body>
+
+<a href="favorites.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+
+<div class="content">
+  <div class="movie-poster-container">
+    <img src="kant.jpg" alt="Immanuel Kant" class="movie-poster">
+  </div>
+
+  <div class="header-section">
+    <h1>Kantian Ethics</h1>
+    <div class="subtitle">The Philosophy of Duty and Reason</div>
+  </div>
+
+  <div class="card">
+    <span class="label">Why it is my favorite theory</span>
+    <p>
+      As someone who relies on observation and logic rather than faith, finding a solid foundation for morality can be complex. <b>Immanuel Kant's Ethical Theory</b> stands out to me because it is entirely grounded in pure reason.
+    </p>
+    
+    <div class="quote-box">
+      "Act only according to that maxim whereby you can, at the same time, will that it should become a universal law."
+    </div>
+
+    <p>
+      The core of his philosophy, the <b>Categorical Imperative</b>, suggests that doing the right thing isn't about the promise of a reward or the fear of divine punishment. Instead, it is about recognizing our rational duty. If an action cannot be universally applied to everyone without contradiction, then it is logically and ethically wrong.
+    </p>
+  </div>
+
+  <div class="card">
+    <span class="label">Reason Over Emotion</span>
+    <p>
+      Another profound aspect of Kant's ethics is the idea that we must treat humanity as an end in itself, and never merely as a means to an end. It demands respect for human autonomy. In a world that often feels uncertain and indifferent, choosing to do what is right simply because it is the logical and ethical duty brings a sense of grounded purpose.
+    </p>
+  </div>
+
+</div>
+
+</body>
+</html>
