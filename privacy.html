@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy - Dave Christopher</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg:          #000000;
+  --surface:     #080808;
+  --surface-2:   #0d0d0d;
+  --surface-3:   #111111;
+  --border:      #181818;
+  --border-hover:#222222;
+  --text:        #ffffff;
+  --text-muted:  rgba(255,255,255,0.45);
+  --text-dim:    rgba(255,255,255,0.22);
+  --accent:      rgba(255,255,255,0.04);
+  --radius-sm:   10px;
+  --radius-md:   14px;
+  --radius-lg:   18px;
+  --shadow-sm:   0 1px 4px rgba(0,0,0,0.6), 0 4px 16px rgba(0,0,0,0.35);
+  --shadow-md:   0 8px 32px rgba(0,0,0,0.7), 0 2px 8px rgba(0,0,0,0.5);
+  --shadow-lg:   0 24px 64px rgba(0,0,0,0.85), 0 8px 24px rgba(0,0,0,0.6);
+  --transition:  0.28s cubic-bezier(0.4,0,0.2,1);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:'Quicksand', sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+/* ─── FADE-IN ON LOAD ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+.content > * {
+  animation: fadeUp 0.6s ease both;
+}
+
+/* ─── BACK ICON ─── */
+.back-icon {
+  position: fixed;
+  top: 20px;
+  left: 22px;
+  font-size: 19px;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity var(--transition), transform var(--transition);
+  z-index: 101;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.back-icon:hover {
+  transform: translateX(-4px) scale(1.1);
+  opacity: 1;
+}
+
+/* ─── CONTENT WRAPPER ─── */
+.content {
+  width: 100%;
+  max-width: 580px;
+  margin-top: 60px;
+  padding: 28px 18px 80px;
+}
+
+.header-section {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+h1 { 
+  font-size: 24px; 
+  letter-spacing: 4px; 
+  font-weight: 700; 
+  text-transform: uppercase; 
+  margin-bottom: 8px; 
+  color: var(--text);
+}
+
+.subtitle { 
+  font-size: 10px; 
+  color: var(--text-muted); 
+  letter-spacing: 2px; 
+  text-transform: uppercase; 
+  font-weight: 600; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* ─── PRIVACY CARD STYLE ─── */
+.privacy-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 35px 30px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.privacy-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+  pointer-events: none;
+}
+
+.privacy-card h3 {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text);
+  margin-top: 30px;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 6px;
+}
+
+.privacy-card h3:first-child {
+  margin-top: 0;
+}
+
+.privacy-card p {
+  font-size: 13.5px;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
+.privacy-card ul {
+  margin-left: 20px;
+  margin-bottom: 20px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 13.5px;
+  line-height: 1.8;
+  font-weight: 500;
+}
+
+.privacy-card li {
+  margin-bottom: 8px;
+}
+
+.privacy-card li strong {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.privacy-card a {
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-color: var(--border-hover);
+  transition: all var(--transition);
+}
+
+.privacy-card a:hover {
+  text-decoration-color: var(--text);
+}
+
+/* ─── BACK TO TOP BUTTON ─── */
+.back-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: var(--surface-2);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.back-to-top:hover {
+  background: var(--surface-3);
+  color: var(--text);
+  border-color: var(--border-hover);
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+/* ─── MOBILE TOUCH TARGETS ─── */
+@media (max-width: 480px) {
+  .content {
+    padding: 24px 16px 60px;
+  }
+  .privacy-card {
+    padding: 25px 20px;
+  }
+}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="back-icon">
+  <i class="fas fa-arrow-left"></i>
+</a>
+
+<div class="content">
+  <div class="header-section">
+    <h1>PRIVACY POLICY</h1>
+    <div class="subtitle">
+      Legal & Terms
+    </div>
+  </div>
+
+  <div class="privacy-card">
+    <h3>1. Introduction</h3>
+    <p>Welcome to <strong>Dave Christopher's personal website (devxdave)</strong>. This Privacy Policy outlines how your information is handled when you visit and interact with this website. Since this is a personal portfolio and not a commercial platform, my priority is ensuring a safe, track-free, and purely informative browsing experience.</p>
+
+    <h3>2. Information Collection and Use</h3>
+    <p>I value your privacy. <strong>This website does not actively collect, store, or sell any personally identifiable information (PII)</strong> such as your name, email address, or phone number, simply because there are no account registrations or databases attached to this main portfolio.</p>
+
+    <h3>3. Local Storage & Interactive Projects</h3>
+    <p>Some of the web applications and mini-games featured in the <strong>Projects (Stuff)</strong> section (e.g., <em>Life Checklist</em>, <em>Attendance Tracker</em>) use <strong>Local Storage</strong>. This means:</p>
+    <ul>
+      <li><strong>Data stays with you:</strong> Any progress, checkboxes, or scores you achieve are saved strictly on your device's browser.</li>
+      <li><strong>No external servers:</strong> I do not have access to this data, and it is never transmitted to my personal servers or any third parties.</li>
+      <li><strong>Clearing data:</strong> You can permanently delete this data anytime by clearing your browser's cache and cookies.</li>
+    </ul>
+
+    <h3>4. External Links and Third-Party Integrations</h3>
+    <p>This website acts as a hub for my online presence and contains links to external platforms. Please note that clicking these links will direct you to third-party sites that have their own privacy policies:</p>
+    <ul>
+      <li><strong>Spotify:</strong> Embedded playlists and the "Now Listening" features redirect to Spotify.</li>
+      <li><strong>Chess.com:</strong> Chess profiles and game history links lead to Chess.com.</li>
+      <li><strong>Letterboxd & Webtoon:</strong> Movie, drama, and comic recommendations link out to their respective platforms.</li>
+      <li><strong>Social Media:</strong> Links to Reddit, GitHub, Instagram, and Facebook.</li>
+    </ul>
+    <p>I have no control over and assume no responsibility for the content, privacy policies, or practices of any third-party sites or services.</p>
+
+    <h3>5. Tracking and Analytics</h3>
+    <p>This website is hosted securely and may utilize basic, anonymous server-side analytics (such as GitHub Pages or similar hosting metrics) solely to monitor website health and general traffic (e.g., page views). No tracking cookies are injected to follow your web activity outside of this portfolio.</p>
+
+    <h3>6. Changes to this Privacy Policy</h3>
+    <p>I may update this Privacy Policy from time to time as I add new features or projects to the website. You are advised to review this page periodically for any changes.</p>
+
+    <h3>7. Contact Us</h3>
+    <p>If you have any questions about this Privacy Policy, You can contact us:</p>
+    <ul>
+      <li>By email: [devxdave1@gmail.com]</li>
+    </ul>
+  </div>
+
+</div>
+
+<button id="backToTop" class="back-to-top" onclick="scrollToTop()">
+  <i class="fas fa-arrow-up"></i>
+</button>
+
+<script>
+// Back to Top Logic
+window.onscroll = function() {
+  const backToTopBtn = document.getElementById("backToTop");
+  if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+    backToTopBtn.classList.add("visible");
+  } else {
+    backToTopBtn.classList.remove("visible");
+  }
+};
+
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+}
+</script>
+
+</body>
+</html>
