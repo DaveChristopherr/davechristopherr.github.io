@@ -1357,7 +1357,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("modalSpotifyCurrent").textContent  = formatSpotifyTime(currentSeconds);
   }, 1000);
 
-  const daysThreshold   = 3;
+  const daysThreshold   = 6;
   const lastModifiedDate = new Date(document.lastModified);
   const currentDate      = new Date();
   const daysSinceUpdate  = (currentDate - lastModifiedDate) / (1000 * 60 * 60 * 24);
